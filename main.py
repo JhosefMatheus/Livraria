@@ -1,5 +1,7 @@
 from DBHelper import DBHelper
+from tkinter import *
 
 data_base = DBHelper()
 
-print('tudo ok')
+window = Tk()
+window.title('Livraria')
