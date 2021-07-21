@@ -1,16 +1,11 @@
 import sqlite3
-from colorama import Fore, Style
 
 
 class DBHelper:
     def __init__(self):
 
-        print(Fore.GREEN + 'criando/conectando ao banco de dados...')
-
         self.__connection = sqlite3.connect('Livros.db')
         self.__cursor = self.__connection.cursor()
-
-        print(Fore.GREEN + 'criando tabelas...')
 
         self.__cursor.execute('''
         CREATE TABLE IF NOT EXISTS books (
@@ -39,29 +34,29 @@ class DBHelper:
 
         self.__connection.commit()
 
-        print(Fore.GREEN + 'processo concluído!' + Style.RESET_ALL)
-
-    def verifica_tabela_vazia(self, table):
-        return len(table) == 0
-
-    def mostrar_tabela(self, table_name):
-        data = self.__cursor.execute(f'SELECT * FROM {table_name}')
-
-        for row in data:
-            print(row)
-
     def add_valores(self, title_book, author_book, publishing_company, pages_book, owner_book):
+
         self.__cursor.execute('''
         INSERT INTO books (title_book, author_book, publishing_company_book, pages_book, owner_book)
         VALUES (?, ?, ?, ?, ?)
         ''',  (title_book, author_book, publishing_company, pages_book, owner_book))
 
-        self.__cursor.execute('''
-        INSERT INTO authors (author_name) VALUES (?)
-        ''', (author_book,))
+        autores = self.__cursor.execute('''
+        SELECT author_name FROM authors;
+        ''').fetchall()
 
-        self.__cursor.execute('''
-        INSERT INTO publishing_companys (publishing_company_name) VALUES (?)
-        ''', (publishing_company,))
+        editoras = self.__cursor.execute('''
+        SELECT publishing_company_name FROM publishing_companys;
+        ''').fetchall()
+
+        if (author_book,) not in autores:
+            self.__cursor.execute('''
+            INSERT INTO authors (author_name) VALUES (?)
+            ''', (author_book,))
+
+        if (publishing_company,) not in editoras:
+            self.__cursor.execute('''
+            INSERT INTO publishing_companys (publishing_company_name) VALUES (?)
+            ''', (publishing_company,))
 
         self.__connection.commit()
