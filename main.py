@@ -14,7 +14,6 @@ style.configure(
     'Treeview',
     background='#D3D3D3',
     foreground='black',
-    rowheight=25,
     fieldbackground='#D3D3D3'
 )
 style.map(
@@ -118,7 +117,7 @@ register_frame = LabelFrame(
     root,
     text='Adicionar Livro'
 )
-register_frame.pack(expand=True, fill='both', padx=10, pady=10, anchor=N)
+register_frame.pack(expand=True, fill=BOTH, padx=10, pady=10, anchor=N)
 
 title_book_label = Label(register_frame, text='Título')
 title_book_label.grid(row=0, column=0, padx=10, pady=10)
@@ -146,7 +145,7 @@ owner_book_entry = Entry(register_frame)
 owner_book_entry.grid(row=1, column=3, padx=10, pady=10)
 
 button_frame = LabelFrame(root, text='Comandos')
-button_frame.pack(fill='both', expand=True, pady=10, padx=10)
+button_frame.pack(fill=BOTH, expand=True, pady=10, padx=10, anchor=N)
 
 add_button = Button(button_frame, text='Adicionar Livro')
 add_button.grid(row=0, column=0, padx=10, pady=10)
