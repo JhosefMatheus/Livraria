@@ -1,4 +1,5 @@
 import sqlite3
+from tkinter.constants import END
 
 
 class DBHelper:
@@ -60,3 +61,20 @@ class DBHelper:
             ''', (publishing_company,))
 
         self.__connection.commit()
+
+    def selecionar_dado(self, title_book_entry, author_book_entry, publishing_company_entry, n_pages_entry, owner_book_entry, my_tree):
+        title_book_entry.delete(0, END)
+        author_book_entry.delete(0, END)
+        publishing_company_entry.delete(0, END)
+        n_pages_entry.delete(0, END)
+        owner_book_entry.delete(0, END)
+
+        selecionado = my_tree.focus()
+
+        values = my_tree.item(selecionado, 'values')
+
+        title_book_entry.insert(0, values[1])
+        author_book_entry.insert(0, values[2])
+        publishing_company_entry.insert(0, values[3])
+        n_pages_entry.insert(0, values[4])
+        owner_book_entry.insert(0, values[5])
