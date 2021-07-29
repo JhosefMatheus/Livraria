@@ -8,6 +8,12 @@ from ButtonActions import ButtonActions
 data_base = DBHelper()
 button_actions = ButtonActions()
 
+
+def change_table(event):
+    button_actions.change_table(
+        drop_down, table_frame, books_table, authors_table, publishing_companys_table, fields_register_frame, label_titulo, entry_titulo, label_autor, entry_autor, label_editora, entry_editora, label_n_pages, entry_n_pages, label_proprietario, entry_proprietario, button_register_frame, button_adicionar, button_cancelar)
+
+
 root = Tk()
 root.title('Livraria')
 root.geometry('500x500')
@@ -81,10 +87,33 @@ books_table.heading('proprietario', text='Proprietário(a)', anchor=W)
 books_table.tag_configure('oddrow', background='white')
 books_table.tag_configure('evenrow', background='lightblue')
 
-books = data_base.get_books()
+livros = data_base.get_books()
+for livro in livros:
+    id = livro[0]
+    titulo = livro[1]
+    autor = livro[2]
+    editora = livro[3]
+    n_paginas = livro[4]
+    proprietario = livro[5]
 
-print('Livros:')
-print(books)
+    if id % 2 == 0:
+        books_table.insert(parent='', index=END, iid=id, text='', values=(
+            id,
+            titulo,
+            autor,
+            editora,
+            n_paginas,
+            proprietario
+        ), tags='evenrow')
+    else:
+        books_table.insert(parent='', index=END, iid=id, text='', values=(
+            id,
+            titulo,
+            autor,
+            editora,
+            n_paginas,
+            proprietario
+        ), tags='oddrow')
 
 # criação da tabela autores
 authors_table = ttk.Treeview(
@@ -105,10 +134,24 @@ authors_table.heading('autor', text='Autor', anchor=W)
 authors_table.tag_configure('oddrow', background='white')
 authors_table.tag_configure('evenrow', background='lightblue')
 
-authors = data_base.get_authors()
+autores = data_base.get_authors()
 
-print('Autores:')
-print(authors)
+for autor in autores:
+    id = autor[0]
+    nome = autor[1]
+
+    if id % 2 == 0:
+        authors_table.insert(parent='', index=END, iid=id, text='', values=(
+            id,
+            nome
+        ), tags='evenrow')
+
+    else:
+        authors_table.insert(parent='', index=END, iid=id, text='', values=(
+            id,
+            nome
+        ), tags='oddrow')
+
 
 # criação da tabela editoras
 publishing_companys_table = ttk.Treeview(
@@ -129,10 +172,81 @@ publishing_companys_table.heading('editora', text='Editora', anchor=W)
 publishing_companys_table.tag_configure('oddrow', background='white')
 publishing_companys_table.tag_configure('evenrow', background='lightblue')
 
-publishing_companys = data_base.get_publishing_companys()
+editoras = data_base.get_publishing_companys()
 
-print('Editoras:')
-print(publishing_companys)
+for editora in editoras:
+    id = editora[0]
+    nome = editora[1]
+
+    if id % 2 == 0:
+        publishing_companys_table.insert(parent='', index=END, iid=id, values=(
+            id,
+            nome
+        ), tags='evenrow')
+
+    else:
+        publishing_companys_table.insert(parent='', index=END, iid=id, values=(
+            id,
+            nome
+        ), tags='oddrow')
+
+fields_register_frame = Frame(
+    table_frame
+)
+
+label_titulo = Label(
+    fields_register_frame,
+    text='Titulo'
+)
+entry_titulo = Entry(
+    fields_register_frame
+)
+
+label_autor = Label(
+    fields_register_frame,
+    text='Autor'
+)
+entry_autor = Entry(
+    fields_register_frame
+)
+
+label_editora = Label(
+    fields_register_frame,
+    text='Editora'
+)
+entry_editora = Entry(
+    fields_register_frame
+)
+
+label_n_pages = Label(
+    fields_register_frame,
+    text='Nº de Páginas'
+)
+entry_n_pages = Entry(
+    fields_register_frame
+)
+
+label_proprietario = Label(
+    fields_register_frame,
+    text='Proprietário'
+)
+entry_proprietario = Entry(
+    fields_register_frame
+)
+
+button_register_frame = Frame(
+    table_frame
+)
+
+button_adicionar = Button(
+    button_register_frame,
+    text='Adicionar'
+)
+
+button_cancelar = Button(
+    button_register_frame,
+    text='Cancelar'
+)
 
 # criação do label responsável por gerenciar os botões de comandos
 button_frame = LabelFrame(
@@ -147,11 +261,13 @@ button_frame.pack(
     anchor=S
 )
 
-add_button = Button(
+add_new = Button(
     button_frame,
-    text='Adicionar Dado'
+    text='Novo',
+    command=lambda: button_actions.adicionar(
+        table_frame, books_table, authors_table, publishing_companys_table, fields_register_frame, label_titulo, entry_titulo, label_autor, entry_autor, label_editora, entry_editora, label_n_pages, entry_n_pages, label_proprietario, entry_proprietario, button_register_frame, button_adicionar, button_cancelar)
 )
-add_button.grid(
+add_new.grid(
     row=0,
     column=0,
     padx=10,
@@ -180,53 +296,19 @@ remove_one_button.grid(
     pady=10
 )
 
-show_books_button = Button(
+drop_down = ttk.Combobox(
     button_frame,
-    text='Mostrar Livros',
-    command=lambda: button_actions.mostra_livros(
-        table_frame,
-        books_table,
-        authors_table,
-        publishing_companys_table
+    values=(
+        'Livros',
+        'Autores',
+        'Editoras'
     )
 )
-show_books_button.grid(
+drop_down.current(0)
+drop_down.bind('<<ComboboxSelected>>', change_table)
+drop_down.grid(
     row=0,
     column=3,
-    padx=10,
-    pady=10
-)
-
-show_authors_button = Button(
-    button_frame,
-    text='Mostrar Autores (Livros)',
-    command=lambda: button_actions.mostra_autores(
-        table_frame,
-        books_table,
-        authors_table,
-        publishing_companys_table
-    )
-)
-show_authors_button.grid(
-    row=0,
-    column=4,
-    padx=10,
-    pady=10
-)
-
-show_publishing_company_button = Button(
-    button_frame,
-    text='Mostar Editoras (Livros)',
-    command=lambda: button_actions.mostra_editoras(
-        table_frame,
-        books_table,
-        authors_table,
-        publishing_companys_table
-    )
-)
-show_publishing_company_button.grid(
-    row=0,
-    column=5,
     padx=10,
     pady=10
 )
