@@ -26,17 +26,36 @@ style.map(
 )
 
 # criação do frame responsável por conter as tabelas e criação das tabelas
-tree_frame = Frame(root)
-tree_frame.pack(pady=10, padx=10, expand=True, fill=BOTH, anchor=N)
+table_frame = LabelFrame(
+    root,
+    text='Livros'
+)
+table_frame.pack(
+    expand=True,
+    fill=BOTH,
+    padx=10,
+    pady=10
+)
 
 # criação do scrool lateral
-tree_scrool = Scrollbar(tree_frame)
-tree_scrool.pack(side=RIGHT, fill=Y)
+tree_scrool = Scrollbar(table_frame)
+tree_scrool.pack(
+    side=RIGHT,
+    fill=Y
+)
 
 # criação da tabela livros
 books_table = ttk.Treeview(
-    tree_frame, yscrollcommand=tree_scrool.set, selectmode='extended')
-books_table.pack(expand=True, fill=BOTH)
+    table_frame,
+    yscrollcommand=tree_scrool.set,
+    selectmode=EXTENDED
+)
+books_table.pack(
+    expand=True,
+    fill=BOTH,
+    padx=10,
+    pady=10
+)
 
 tree_scrool.config(command=books_table.yview)
 
@@ -62,9 +81,14 @@ books_table.heading('proprietario', text='Proprietário(a)', anchor=W)
 books_table.tag_configure('oddrow', background='white')
 books_table.tag_configure('evenrow', background='lightblue')
 
+books = data_base.get_books()
+
+print('Livros:')
+print(books)
+
 # criação da tabela autores
 authors_table = ttk.Treeview(
-    tree_frame,
+    table_frame,
     yscrollcommand=tree_scrool.set,
     selectmode=EXTENDED,
     columns=('id', 'autor')
@@ -78,9 +102,17 @@ authors_table.heading('#0', text='', anchor=W)
 authors_table.heading('id', text='ID', anchor=CENTER)
 authors_table.heading('autor', text='Autor', anchor=W)
 
+authors_table.tag_configure('oddrow', background='white')
+authors_table.tag_configure('evenrow', background='lightblue')
+
+authors = data_base.get_authors()
+
+print('Autores:')
+print(authors)
+
 # criação da tabela editoras
 publishing_companys_table = ttk.Treeview(
-    tree_frame,
+    table_frame,
     yscrollcommand=tree_scrool.set,
     selectmode=EXTENDED,
     columns=('id', 'editora')
@@ -94,63 +126,109 @@ publishing_companys_table.heading('#0', text='', anchor=W)
 publishing_companys_table.heading('id', text='ID', anchor=CENTER)
 publishing_companys_table.heading('editora', text='Editora', anchor=W)
 
-# criação do frame responsável por adicionar ou editar registros
-data_frame = LabelFrame(
-    root,
-    text='Adicionar/Editar Livro'
-)
-data_frame.pack(expand=True, fill=BOTH, padx=10, pady=10, anchor=N)
+publishing_companys_table.tag_configure('oddrow', background='white')
+publishing_companys_table.tag_configure('evenrow', background='lightblue')
 
-# criação dos labels e entradas responsáveis por adicionar ou editar registros
-title_book_label = Label(data_frame, text='Título')
-title_book_label.grid(row=0, column=0, padx=10, pady=10)
-title_book_entry = Entry(data_frame)
-title_book_entry.grid(row=0, column=1, padx=10, pady=10)
+publishing_companys = data_base.get_publishing_companys()
 
-author_book_label = Label(data_frame, text='Autor')
-author_book_label.grid(row=0, column=2, padx=10, pady=10)
-author_book_entry = Entry(data_frame)
-author_book_entry.grid(row=0, column=3, padx=10, pady=10)
-
-publishing_company_label = Label(data_frame, text='Editora')
-publishing_company_label.grid(row=0, column=4, padx=10, pady=10)
-publishing_company_entry = Entry(data_frame)
-publishing_company_entry.grid(row=0, column=5, padx=10, pady=10)
-
-n_pages_label = Label(data_frame, text='Número de páginas')
-n_pages_label.grid(row=1, column=0, padx=10, pady=10)
-n_pages_entry = Entry(data_frame)
-n_pages_entry.grid(row=1, column=1, padx=10, pady=10)
-
-owner_book_label = Label(data_frame, text='Proprietário')
-owner_book_label.grid(row=1, column=2, padx=10, pady=10)
-owner_book_entry = Entry(data_frame)
-owner_book_entry.grid(row=1, column=3, padx=10, pady=10)
+print('Editoras:')
+print(publishing_companys)
 
 # criação do label responsável por gerenciar os botões de comandos
-button_frame = LabelFrame(root, text='Comandos')
-button_frame.pack(fill=BOTH, expand=True, pady=10, padx=10, anchor=N)
+button_frame = LabelFrame(
+    root,
+    text='Comandos'
+)
+button_frame.pack(
+    fill=X,
+    expand=False,
+    pady=10,
+    padx=10,
+    anchor=S
+)
 
-add_button = Button(button_frame, text='Adicionar Dado')
-add_button.grid(row=0, column=0, padx=10, pady=10)
+add_button = Button(
+    button_frame,
+    text='Adicionar Dado'
+)
+add_button.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10
+)
 
-update_button = Button(button_frame, text='Atualizar Dado Selecionado')
-update_button.grid(row=0, column=1, padx=10, pady=10)
+update_button = Button(
+    button_frame,
+    text='Atualizar Dado Selecionado'
+)
+update_button.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10
+)
 
-remove_one_button = Button(button_frame, text='Deletar Dado Selecionado', command=lambda: data_base.selecionar_dado(
-    title_book_entry, author_book_entry, publishing_company_entry, n_pages_entry, owner_book_entry, books_table))
-remove_one_button.grid(row=0, column=2, padx=10, pady=10)
+remove_one_button = Button(
+    button_frame,
+    text='Deletar Dado Selecionado'
+)
+remove_one_button.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10
+)
 
-show_books_button = Button(button_frame, text='Mostrar Livros', command=lambda: button_actions.mostra_livros(
-    books_table, authors_table, publishing_companys_table, tree_scrool, data_frame, title_book_label, title_book_entry, author_book_label, author_book_entry, publishing_company_label, publishing_company_entry, n_pages_label, n_pages_entry, owner_book_label, owner_book_entry))
-show_books_button.grid(row=0, column=3, padx=10, pady=10)
+show_books_button = Button(
+    button_frame,
+    text='Mostrar Livros',
+    command=lambda: button_actions.mostra_livros(
+        table_frame,
+        books_table,
+        authors_table,
+        publishing_companys_table
+    )
+)
+show_books_button.grid(
+    row=0,
+    column=3,
+    padx=10,
+    pady=10
+)
 
-show_authors_button = Button(button_frame, text='Mostrar Autores (Livros)', command=lambda: button_actions.mostra_autores(
-    books_table, authors_table, publishing_companys_table, tree_scrool, data_frame, title_book_label, title_book_entry, author_book_label, author_book_entry, publishing_company_label, publishing_company_entry, n_pages_label, n_pages_entry, owner_book_label, owner_book_entry))
-show_authors_button.grid(row=0, column=4, padx=10, pady=10)
+show_authors_button = Button(
+    button_frame,
+    text='Mostrar Autores (Livros)',
+    command=lambda: button_actions.mostra_autores(
+        table_frame,
+        books_table,
+        authors_table,
+        publishing_companys_table
+    )
+)
+show_authors_button.grid(
+    row=0,
+    column=4,
+    padx=10,
+    pady=10
+)
 
 show_publishing_company_button = Button(
-    button_frame, text='Mostar Editoras (Livros)', command=lambda: button_actions.mostra_editoras(books_table, authors_table, publishing_companys_table, tree_scrool, data_frame, title_book_label, title_book_entry, author_book_label, author_book_entry, publishing_company_label, publishing_company_entry, n_pages_label, n_pages_entry, owner_book_label, owner_book_entry))
-show_publishing_company_button.grid(row=0, column=5, padx=10, pady=10)
+    button_frame,
+    text='Mostar Editoras (Livros)',
+    command=lambda: button_actions.mostra_editoras(
+        table_frame,
+        books_table,
+        authors_table,
+        publishing_companys_table
+    )
+)
+show_publishing_company_button.grid(
+    row=0,
+    column=5,
+    padx=10,
+    pady=10
+)
 
 root.mainloop()

@@ -62,19 +62,11 @@ class DBHelper:
 
         self.__connection.commit()
 
-    def selecionar_dado(self, title_book_entry, author_book_entry, publishing_company_entry, n_pages_entry, owner_book_entry, my_tree):
-        title_book_entry.delete(0, END)
-        author_book_entry.delete(0, END)
-        publishing_company_entry.delete(0, END)
-        n_pages_entry.delete(0, END)
-        owner_book_entry.delete(0, END)
+    def get_books(self):
+        return self.__cursor.execute('SELECT * FROM books ORDER BY id_book').fetchall()
 
-        selecionado = my_tree.focus()
+    def get_authors(self):
+        return self.__cursor.execute('SELECT * FROM authors ORDER BY id_author').fetchall()
 
-        values = my_tree.item(selecionado, 'values')
-
-        title_book_entry.insert(0, values[1])
-        author_book_entry.insert(0, values[2])
-        publishing_company_entry.insert(0, values[3])
-        n_pages_entry.insert(0, values[4])
-        owner_book_entry.insert(0, values[5])
+    def get_publishing_companys(self):
+        return self.__cursor.execute('SELECT * FROM publishing_companys ORDER BY publishing_company_id').fetchall()
