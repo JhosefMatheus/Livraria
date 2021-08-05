@@ -11,7 +11,12 @@ button_actions = ButtonActions()
 
 def change_table(event):
     button_actions.change_table(
-        drop_down, register_frame, button_register_frame, table_frame, tabela_livros, tabela_autores, tabela_editoras)
+        drop_down, livro_register_frame, button_register_frame, table_frame, tabela_livros, tabela_autores, tabela_editoras)
+
+
+def change_register_frame(event):
+    button_actions.change_register_frame(
+        drop_down_register, table_frame, livro_register_frame, autor_register_frame, editora_register_frame, button_register_frame)
 
 
 root = Tk()
@@ -190,69 +195,105 @@ for editora in editoras:
             nome
         ), tags='oddrow')
 
-# frame responsável pela tela de registro
-register_frame = Frame(
+# frame responsável pela tela de registro dos livros
+livro_register_frame = Frame(
     table_frame
 )
 
-register_frame.columnconfigure(1, weight=1)
+livro_register_frame.columnconfigure(1, weight=1)
 
 titulo_label = Label(
-    register_frame,
+    livro_register_frame,
     text='Titulo'
 )
 titulo_label.grid(row=0, column=0, padx=10, pady=10)
 
 titulo_entry = Entry(
-    register_frame
+    livro_register_frame
 )
 titulo_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
 autor_label = Label(
-    register_frame,
+    livro_register_frame,
     text='Autor'
 )
 autor_label.grid(row=1, column=0, padx=10, pady=10)
 
 autor_entry = Entry(
-    register_frame
+    livro_register_frame
 )
 autor_entry.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
 
 editora_label = Label(
-    register_frame,
+    livro_register_frame,
     text='Editora'
 )
 editora_label.grid(row=2, column=0, padx=10, pady=10)
 
 editora_entry = Entry(
-    register_frame
+    livro_register_frame
 )
 editora_entry.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
 
 n_pages_label = Label(
-    register_frame,
+    livro_register_frame,
     text='Nº Páginas'
 )
 n_pages_label.grid(row=3, column=0, padx=10, pady=10)
 
 n_pages_entry = Entry(
-    register_frame
+    livro_register_frame
 )
 n_pages_entry.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
 
 proprietario_label = Label(
-    register_frame,
+    livro_register_frame,
     text='Nº Páginas'
 )
 proprietario_label.grid(row=4, column=0, padx=10, pady=10)
 
 proprietario_entry = Entry(
-    register_frame
+    livro_register_frame
 )
 proprietario_entry.grid(row=4, column=1, padx=10, pady=10, sticky=EW)
 
-# comandos do register_frame
+# frame responsável pela tela de registro dos autores
+autor_register_frame = Frame(
+    table_frame
+)
+
+autor_register_frame.columnconfigure(1, weight=1)
+
+nome_autor_label = Label(
+    autor_register_frame,
+    text='Autor'
+)
+nome_autor_label.grid(row=0, column=0, padx=10, pady=10)
+
+nome_autor_entry = Entry(
+    autor_register_frame
+)
+nome_autor_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+
+# frame responsável pela tela de registro das editoras
+editora_register_frame = Label(
+    table_frame
+)
+
+editora_register_frame.columnconfigure(1, weight=1)
+
+nome_editora_label = Label(
+    editora_register_frame,
+    text='Editora'
+)
+nome_editora_label.grid(row=0, column=0, padx=10, pady=10)
+
+nome_editora_entry = Entry(
+    editora_register_frame
+)
+nome_editora_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+
+# comandos do livro_register_frame
 button_register_frame = Frame(
     table_frame
 )
@@ -272,7 +313,7 @@ button_cancel = Button(
     text='Cancelar',
     relief=GROOVE,
     command=lambda: button_actions.cancel_register_click(
-        table_frame, register_frame, button_register_frame, tabela_livros)
+        table_frame, drop_down_register, livro_register_frame, autor_register_frame, editora_register_frame, button_register_frame, tabela_livros)
 )
 button_cancel.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -285,6 +326,7 @@ drop_down_register = ttk.Combobox(
     )
 )
 drop_down_register.current(0)
+drop_down_register.bind('<<ComboboxSelected>>', change_register_frame)
 drop_down_register.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
 
 # criação do label responsável por gerenciar os botões de comandos
@@ -305,7 +347,7 @@ add_new = Button(
     text='Novo',
     relief=GROOVE,
     command=lambda: button_actions.add_click(
-        table_frame, tabela_livros, tabela_autores, tabela_editoras, register_frame, button_register_frame)
+        table_frame, tabela_livros, tabela_autores, tabela_editoras, livro_register_frame, button_register_frame)
 )
 add_new.grid(
     row=0,
