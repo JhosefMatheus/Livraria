@@ -92,7 +92,7 @@ tabela_livros.heading('proprietario', text='Proprietário(a)', anchor=W)
 tabela_livros.tag_configure('oddrow', background='white')
 tabela_livros.tag_configure('evenrow', background='lightblue')
 
-livros = data_base.get_books()
+livros = data_base.get_livros()
 for livro in livros:
     id = livro[0]
     titulo = livro[1]
@@ -139,7 +139,7 @@ tabela_autores.heading('autor', text='Autor', anchor=W)
 tabela_autores.tag_configure('oddrow', background='white')
 tabela_autores.tag_configure('evenrow', background='lightblue')
 
-autores = data_base.get_authors()
+autores = data_base.get_authores()
 
 for autor in autores:
     id = autor[0]
@@ -177,7 +177,7 @@ tabela_editoras.heading('editora', text='Editora', anchor=W)
 tabela_editoras.tag_configure('oddrow', background='white')
 tabela_editoras.tag_configure('evenrow', background='lightblue')
 
-editoras = data_base.get_publishing_companys()
+editoras = data_base.get_editoras()
 
 for editora in editoras:
     id = editora[0]
@@ -304,7 +304,8 @@ button_register_frame.columnconfigure(2, weight=1)
 button_add = Button(
     button_register_frame,
     text='Adicionar',
-    relief=GROOVE
+    relief=GROOVE,
+    command=''
 )
 button_add.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 

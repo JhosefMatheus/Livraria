@@ -1,8 +1,10 @@
 from tkinter.constants import BOTH, S, N, X
+from DBHelper import DBHelper
 
 
 class ButtonActions:
     def __init__(self):
+        self.__data_base = DBHelper()
         pass
 
     def change_table(self, drop_down, livro_register_frame, button_register_frame, table_frame, tabela_livros, tabela_autores, tabela_editoras):
@@ -92,6 +94,8 @@ class ButtonActions:
             pady=10
         )
 
+        drop_down_register.current(0)
+
     def change_register_frame(self, drop_down_register, table_frame, livro_register_frame, autor_register_frame, editora_register_frame, button_register_frame):
         button_register_frame.pack_forget()
 
@@ -144,3 +148,20 @@ class ButtonActions:
             pady=10,
             anchor=S
         )
+
+    def add_register_click(self, drop_down_register, titulo_entry, autor_entry, editora_entry, n_pages_entry, proprietario_entry, nome_autor_entry, nome_editora_entry):
+        if drop_down_register.get() == 'Livro':
+            titulo = titulo_entry.get()
+            autor = autor_entry.get()
+            editora = editora_entry.get()
+            n_pages = n_pages_entry.get()
+            proprietario = proprietario_entry.get()
+
+            self.__data_base.add_livro(
+                titulo, autor, editora, n_pages, proprietario)
+
+        elif drop_down_register.get() == 'Autor':
+            pass
+
+        elif drop_down_register.get() == 'Editora':
+            pass
