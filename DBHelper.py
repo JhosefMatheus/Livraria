@@ -11,7 +11,7 @@ class DBHelper:
         self.__cursor.execute('''
         CREATE TABLE IF NOT EXISTS livros (
             id_livro INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            titulo_book TEXT NOT NULL,
+            titulo_livro TEXT NOT NULL,
             autor_livro TEXT NOT NULL,
             editora_livro TEXT NOT NULL,
             paginas_livro INTEGER NOT NULL,
@@ -47,7 +47,7 @@ class DBHelper:
     def add_livro(self, titulo_livro, autor_livro, editora, paginas_livro, proprietario_livro):
 
         self.__cursor.execute('''
-        INSERT INTO books (titulo_livro, autor_livro, editora_livro, paginas_livro, proprietario_livro)
+        INSERT INTO livros (titulo_livro, autor_livro, editora_livro, paginas_livro, proprietario_livro)
         VALUES (?, ?, ?, ?, ?)
         ''',  (titulo_livro, autor_livro, editora, paginas_livro, proprietario_livro))
 

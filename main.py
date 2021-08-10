@@ -2,21 +2,180 @@
 from DBHelper import DBHelper
 from tkinter import *
 from tkinter import ttk
-from ButtonActions import ButtonActions
 
 # inicialização do estilo e variáveis principais
 data_base = DBHelper()
-button_actions = ButtonActions()
 
 
-def change_table(event):
-    button_actions.change_table(
-        drop_down, livro_register_frame, button_register_frame, table_frame, tabela_livros, tabela_autores, tabela_editoras)
+def mudar_tabela(event):
+    livro_register_frame.pack_forget()
+    autor_register_frame.pack_forget()
+    editora_register_frame.pack_forget()
+    button_register_frame.pack_forget()
+
+    if drop_down.get() == 'Livros':
+        tabela_autores.pack_forget()
+        tabela_editoras.pack_forget()
+
+        table_frame['text'] = 'Livros'
+
+        tabela_livros.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+    elif drop_down.get() == 'Autores':
+        tabela_livros.pack_forget()
+        tabela_editoras.pack_forget()
+
+        table_frame['text'] = 'Autores'
+
+        tabela_autores.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+    elif drop_down.get() == 'Editoras':
+        tabela_livros.pack_forget()
+        tabela_autores.pack_forget()
+
+        table_frame['text'] = 'Editoras'
+
+        tabela_editoras.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
 
 
-def change_register_frame(event):
-    button_actions.change_register_frame(
-        drop_down_register, table_frame, livro_register_frame, autor_register_frame, editora_register_frame, button_register_frame)
+def adicionar_novo():
+    table_frame['text'] = 'Novo Livro'
+
+    tabela_livros.pack_forget()
+    tabela_autores.pack_forget()
+    tabela_editoras.pack_forget()
+
+    livro_register_frame.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        anchor=N
+    )
+
+    button_register_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10,
+        anchor=S
+    )
+
+
+def cancelar_registro():
+    table_frame['text'] = 'Livros'
+
+    if drop_down_register.get() == 'Livro':
+        livro_register_frame.pack_forget()
+
+    elif drop_down_register.get() == 'Autor':
+        autor_register_frame.pack_forget()
+
+    elif drop_down_register.get() == 'Editora':
+        editora_register_frame.pack_forget()
+
+    button_register_frame.pack_forget()
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    drop_down_register.current(0)
+
+
+def mudar_tela_registro(event):
+    button_register_frame.pack_forget()
+
+    if drop_down_register.get() == 'Livro':
+        table_frame['text'] = 'Novo Livro'
+
+        autor_register_frame.pack_forget()
+        editora_register_frame.pack_forget()
+
+        livro_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    elif drop_down_register.get() == 'Autor':
+        table_frame['text'] = 'Novo Autor'
+
+        livro_register_frame.pack_forget()
+        editora_register_frame.pack_forget()
+
+        autor_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    elif drop_down_register.get() == 'Editora':
+        table_frame['text'] = 'Nova Editora'
+
+        livro_register_frame.pack_forget()
+        autor_register_frame.pack_forget()
+
+        editora_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    button_register_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10,
+        anchor=S
+    )
+
+
+def adicionar_registro():
+    if drop_down_register.get() == 'Livro':
+        titulo = titulo_entry.get()
+        autor = autor_entry.get()
+        editora = editora_entry.get()
+        n_pages = n_pages_entry.get()
+        proprietario = proprietario_entry.get()
+
+        data_base.add_livro(titulo, autor, editora, n_pages, proprietario)
+
+    elif drop_down_register.get() == 'Autor':
+        autor = nome_autor_entry.get()
+
+        data_base.add_autor(autor)
+
+    elif drop_down_register.get() == 'Editora':
+        editora = nome_editora_entry.get()
+
+        data_base.add_editora(editora)
+
+    cancelar_registro()
 
 
 root = Tk()
@@ -248,7 +407,7 @@ n_pages_entry.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
 
 proprietario_label = Label(
     livro_register_frame,
-    text='Nº Páginas'
+    text='Proprietário'
 )
 proprietario_label.grid(row=4, column=0, padx=10, pady=10)
 
@@ -305,7 +464,7 @@ button_add = Button(
     button_register_frame,
     text='Adicionar',
     relief=GROOVE,
-    command=''
+    command=lambda: adicionar_registro()
 )
 button_add.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
@@ -313,8 +472,7 @@ button_cancel = Button(
     button_register_frame,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: button_actions.cancel_register_click(
-        table_frame, drop_down_register, livro_register_frame, autor_register_frame, editora_register_frame, button_register_frame, tabela_livros)
+    command=lambda: cancelar_registro()
 )
 button_cancel.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -327,7 +485,7 @@ drop_down_register = ttk.Combobox(
     )
 )
 drop_down_register.current(0)
-drop_down_register.bind('<<ComboboxSelected>>', change_register_frame)
+drop_down_register.bind('<<ComboboxSelected>>', mudar_tela_registro)
 drop_down_register.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
 
 # criação do label responsável por gerenciar os botões de comandos
@@ -347,9 +505,9 @@ add_new = Button(
     button_frame,
     text='Novo',
     relief=GROOVE,
-    command=lambda: button_actions.add_click(
-        table_frame, tabela_livros, tabela_autores, tabela_editoras, livro_register_frame, button_register_frame)
+    command=lambda: adicionar_novo()
 )
+
 add_new.grid(
     row=0,
     column=0,
@@ -366,7 +524,7 @@ drop_down = ttk.Combobox(
     )
 )
 drop_down.current(0)
-drop_down.bind('<<ComboboxSelected>>', change_table)
+drop_down.bind('<<ComboboxSelected>>', mudar_tabela)
 drop_down.grid(
     row=0,
     column=1,
