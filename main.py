@@ -78,6 +78,11 @@ def mudar_tabela(event):
     editora_register_frame.pack_forget()
     button_register_frame.pack_forget()
     editar_excluir_livro.pack_forget()
+    botoes_editar_excluir_livro.pack_forget()
+    editar_excluir_autor.pack_forget()
+    botoes_editar_excluir_autor.pack_forget()
+    editar_excluir_editora.pack_forget()
+    botoes_editar_excluir_editora.pack_forget()
 
     if drop_down.get() == 'Livros':
         tabela_autores.pack_forget()
@@ -125,6 +130,12 @@ def adicionar_novo():
     tabela_livros.pack_forget()
     tabela_autores.pack_forget()
     tabela_editoras.pack_forget()
+    editar_excluir_livro.pack_forget()
+    botoes_editar_excluir_livro.pack_forget()
+    editar_excluir_autor.pack_forget()
+    botoes_editar_excluir_autor.pack_forget()
+    editar_excluir_editora.pack_forget()
+    botoes_editar_excluir_editora.pack_forget()
 
     livro_register_frame.pack(
         expand=True,
@@ -223,21 +234,21 @@ def mudar_tela_registro(event):
 
 def adicionar_registro():
     if drop_down_register.get() == 'Livro':
-        titulo = titulo_entry.get()
-        autor = autor_entry.get()
-        editora = editora_entry.get()
-        n_pages = n_pages_entry.get()
-        proprietario = proprietario_entry.get()
+        titulo = titulo_entry_registro_livro.get()
+        autor = autor_entry_registro_livro.get()
+        editora = editora_entry_registro_livro.get()
+        n_pages = n_pages_entry_registro_livro.get()
+        proprietario = proprietario_entry_registro_livro.get()
 
         data_base.add_livro(titulo, autor, editora, n_pages, proprietario)
 
     elif drop_down_register.get() == 'Autor':
-        autor = autor_entry.get()
+        autor = autor_entry_registro_autor.get()
 
         data_base.add_autor(autor)
 
     elif drop_down_register.get() == 'Editora':
-        editora = editora_entry.get()
+        editora = editora_entry_registro_editora.get()
 
         data_base.add_editora(editora)
 
@@ -257,6 +268,58 @@ def selecionar_livro(event):
         padx=10,
         pady=10,
         anchor=N
+    )
+
+    botoes_editar_excluir_livro.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10,
+        anchor=S
+    )
+
+
+def selecionar_autor(event):
+    table_frame['text'] = 'Editar/Excluir Autor'
+
+    tabela_autores.pack_forget()
+
+    editar_excluir_autor.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        anchor=N
+    )
+
+    botoes_editar_excluir_autor.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10,
+        anchor=S
+    )
+
+
+def selecionar_editora(event):
+    table_frame['text'] = 'Editar/Excluir Editora'
+
+    tabela_editoras.pack_forget()
+
+    editar_excluir_editora.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        anchor=N
+    )
+
+    botoes_editar_excluir_editora.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10,
+        anchor=S
     )
 
 
@@ -354,6 +417,8 @@ tabela_autores.heading('autor', text='Autor', anchor=W)
 tabela_autores.tag_configure('oddrow', background='white')
 tabela_autores.tag_configure('evenrow', background='lightblue')
 
+tabela_autores.bind('<ButtonRelease-1>', selecionar_autor)
+
 # criação da tabela editoras
 tabela_editoras = ttk.Treeview(
     table_frame,
@@ -373,6 +438,8 @@ tabela_editoras.heading('editora', text='Editora', anchor=W)
 tabela_editoras.tag_configure('oddrow', background='white')
 tabela_editoras.tag_configure('evenrow', background='lightblue')
 
+tabela_editoras.bind('<ButtonRelease-1>', selecionar_editora)
+
 carrega_tabelas()
 
 # frame responsável pela tela de registro dos livros
@@ -382,60 +449,61 @@ livro_register_frame = Frame(
 
 livro_register_frame.columnconfigure(1, weight=1)
 
-titulo_label = Label(
+titulo_label_registro_livro = Label(
     livro_register_frame,
     text='Titulo'
 )
-titulo_label.grid(row=0, column=0, padx=10, pady=10)
+titulo_label_registro_livro.grid(row=0, column=0, padx=10, pady=10)
 
-titulo_entry = Entry(
+titulo_entry_registro_livro = Entry(
     livro_register_frame
 )
-titulo_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+titulo_entry_registro_livro.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
-autor_label = Label(
+autor_label_registro_livro = Label(
     livro_register_frame,
     text='Autor'
 )
-autor_label.grid(row=1, column=0, padx=10, pady=10)
+autor_label_registro_livro.grid(row=1, column=0, padx=10, pady=10)
 
-autor_entry = Entry(
+autor_entry_registro_livro = Entry(
     livro_register_frame
 )
-autor_entry.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
+autor_entry_registro_livro.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
 
-editora_label = Label(
+editora_label_registro_livro = Label(
     livro_register_frame,
     text='Editora'
 )
-editora_label.grid(row=2, column=0, padx=10, pady=10)
+editora_label_registro_livro.grid(row=2, column=0, padx=10, pady=10)
 
-editora_entry = Entry(
+editora_entry_registro_livro = Entry(
     livro_register_frame
 )
-editora_entry.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
+editora_entry_registro_livro.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
 
-n_pages_label = Label(
+n_pages_label_registro_livro = Label(
     livro_register_frame,
     text='Nº Páginas'
 )
-n_pages_label.grid(row=3, column=0, padx=10, pady=10)
+n_pages_label_registro_livro.grid(row=3, column=0, padx=10, pady=10)
 
-n_pages_entry = Entry(
+n_pages_entry_registro_livro = Entry(
     livro_register_frame
 )
-n_pages_entry.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
+n_pages_entry_registro_livro.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
 
-proprietario_label = Label(
+proprietario_label_registro_livro = Label(
     livro_register_frame,
     text='Proprietário'
 )
-proprietario_label.grid(row=4, column=0, padx=10, pady=10)
+proprietario_label_registro_livro.grid(row=4, column=0, padx=10, pady=10)
 
-proprietario_entry = Entry(
+proprietario_entry_registro_livro = Entry(
     livro_register_frame
 )
-proprietario_entry.grid(row=4, column=1, padx=10, pady=10, sticky=EW)
+proprietario_entry_registro_livro.grid(
+    row=4, column=1, padx=10, pady=10, sticky=EW)
 
 # frame responsável pela tela de registro dos autores
 autor_register_frame = Frame(
@@ -444,16 +512,16 @@ autor_register_frame = Frame(
 
 autor_register_frame.columnconfigure(1, weight=1)
 
-autor_label = Label(
+autor_label_registro_autor = Label(
     autor_register_frame,
     text='Autor'
 )
-autor_label.grid(row=0, column=0, padx=10, pady=10)
+autor_label_registro_autor.grid(row=0, column=0, padx=10, pady=10)
 
-autor_entry = Entry(
+autor_entry_registro_autor = Entry(
     autor_register_frame
 )
-autor_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+autor_entry_registro_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
 # frame responsável pela tela de registro das editoras
 editora_register_frame = Label(
@@ -462,16 +530,17 @@ editora_register_frame = Label(
 
 editora_register_frame.columnconfigure(1, weight=1)
 
-editora_label = Label(
+editora_label_registro_editora = Label(
     editora_register_frame,
     text='Editora'
 )
-editora_label.grid(row=0, column=0, padx=10, pady=10)
+editora_label_registro_editora.grid(row=0, column=0, padx=10, pady=10)
 
-editora_entry = Entry(
+editora_entry_registro_editora = Entry(
     editora_register_frame
 )
-editora_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+editora_entry_registro_editora.grid(
+    row=0, column=1, padx=10, pady=10, sticky=EW)
 
 # comandos do livro_register_frame
 button_register_frame = Frame(
@@ -516,60 +585,190 @@ editar_excluir_livro = Frame(
 
 editar_excluir_livro.columnconfigure(1, weight=1)
 
-titulo_label = Label(
+titulo_label_editar_excluir_livro = Label(
     editar_excluir_livro,
     text='Titulo'
 )
-titulo_label.grid(row=0, column=0, padx=10, pady=10)
+titulo_label_editar_excluir_livro.grid(row=0, column=0, padx=10, pady=10)
 
-titulo_entry = Entry(
+titulo_entry_editar_excluir_livro = Entry(
     editar_excluir_livro
 )
-titulo_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+titulo_entry_editar_excluir_livro.grid(
+    row=0, column=1, padx=10, pady=10, sticky=EW)
 
-autor_label = Label(
+autor_label_editar_excluir_livro = Label(
     editar_excluir_livro,
     text='Autor'
 )
-autor_label.grid(row=1, column=0, padx=10, pady=10)
+autor_label_editar_excluir_livro.grid(row=1, column=0, padx=10, pady=10)
 
-autor_entry = Entry(
+autor_entry_editar_excluir_livro = Entry(
     editar_excluir_livro
 )
-autor_entry.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
+autor_entry_editar_excluir_livro.grid(
+    row=1, column=1, padx=10, pady=10, sticky=EW)
 
-editora_label = Label(
+editora_label_editar_excluir_livro = Label(
     editar_excluir_livro,
     text='Editora'
 )
-editora_label.grid(row=2, column=0, padx=10, pady=10)
+editora_label_editar_excluir_livro.grid(row=2, column=0, padx=10, pady=10)
 
-editora_entry = Entry(
+editora_entry_editar_excluir_livro = Entry(
     editar_excluir_livro
 )
-editora_entry.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
+editora_entry_editar_excluir_livro.grid(
+    row=2, column=1, padx=10, pady=10, sticky=EW)
 
-n_pages_label = Label(
+n_pages_label_editar_excluir_livro = Label(
     editar_excluir_livro,
     text='Nº Páginas'
 )
-n_pages_label.grid(row=3, column=0, padx=10, pady=10)
+n_pages_label_editar_excluir_livro.grid(row=3, column=0, padx=10, pady=10)
 
-n_pages_entry = Entry(
+n_pages_entry_editar_excluir_livro = Entry(
     editar_excluir_livro
 )
-n_pages_entry.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
+n_pages_entry_editar_excluir_livro.grid(
+    row=3, column=1, padx=10, pady=10, sticky=EW)
 
-proprietario_label = Label(
+proprietario_label_editar_excluir_livro = Label(
     editar_excluir_livro,
     text='Proprietário'
 )
-proprietario_label.grid(row=4, column=0, padx=10, pady=10)
+proprietario_label_editar_excluir_livro.grid(row=4, column=0, padx=10, pady=10)
 
-proprietario_entry = Entry(
+proprietario_entry_editar_excluir_livro = Entry(
     editar_excluir_livro
 )
-proprietario_entry.grid(row=4, column=1, padx=10, pady=10, sticky=EW)
+proprietario_entry_editar_excluir_livro.grid(
+    row=4, column=1, padx=10, pady=10, sticky=EW)
+
+botoes_editar_excluir_livro = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_livro.columnconfigure(0, weight=1)
+botoes_editar_excluir_livro.columnconfigure(1, weight=1)
+botoes_editar_excluir_livro.columnconfigure(2, weight=1)
+
+botao_editar_livro = Button(
+    botoes_editar_excluir_livro,
+    text='Editar',
+    relief=GROOVE,
+)
+botao_editar_livro.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
+
+botao_excluir_livro = Button(
+    botoes_editar_excluir_livro,
+    text='Excluir',
+    relief=GROOVE
+)
+botao_excluir_livro.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+
+botao_cancelar_edicao_livro = Button(
+    botoes_editar_excluir_livro,
+    text='Cancelar',
+    relief=GROOVE
+)
+botao_cancelar_edicao_livro.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
+
+editar_excluir_autor = Frame(
+    table_frame
+)
+
+editar_excluir_autor.columnconfigure(1, weight=1)
+
+autor_label_editar_excluir_autor = Label(
+    editar_excluir_autor,
+    text='Autor'
+)
+autor_label_editar_excluir_autor.grid(row=0, column=0, padx=10, pady=10)
+
+autor_entry_editar_excluir_autor = Entry(
+    editar_excluir_autor
+)
+autor_entry_editar_excluir_autor.grid(
+    row=0, column=1, padx=10, pady=10, sticky=EW)
+
+botoes_editar_excluir_autor = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_autor.columnconfigure(0, weight=1)
+botoes_editar_excluir_autor.columnconfigure(1, weight=1)
+botoes_editar_excluir_autor.columnconfigure(2, weight=1)
+
+botao_editar_autor = Button(
+    botoes_editar_excluir_autor,
+    text='Editar',
+    relief=GROOVE
+)
+botao_editar_autor.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
+
+botao_excluir_autor = Button(
+    botoes_editar_excluir_autor,
+    text='Excluir',
+    relief=GROOVE
+)
+botao_excluir_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+
+botao_cancelar_edicao_autor = Button(
+    botoes_editar_excluir_autor,
+    text='Cancelar',
+    relief=GROOVE
+)
+botao_cancelar_edicao_autor.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
+
+editar_excluir_editora = Frame(
+    table_frame
+)
+
+editar_excluir_editora.columnconfigure(1, weight=1)
+
+editora_label_editar_excluir_editora = Label(
+    editar_excluir_editora,
+    text='Editora'
+)
+editora_label_editar_excluir_editora.grid(row=0, column=0, padx=10, pady=10)
+
+editora_entry_editar_excluir_editora = Entry(
+    editar_excluir_editora
+)
+editora_entry_editar_excluir_editora.grid(
+    row=0, column=1, padx=10, pady=10, sticky=EW)
+
+botoes_editar_excluir_editora = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_editora.columnconfigure(0, weight=1)
+botoes_editar_excluir_editora.columnconfigure(1, weight=1)
+botoes_editar_excluir_editora.columnconfigure(2, weight=1)
+
+botao_editar_editora = Button(
+    botoes_editar_excluir_editora,
+    text='Editar',
+    relief=GROOVE
+)
+botao_editar_editora.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
+
+botao_excluir_editora = Button(
+    botoes_editar_excluir_editora,
+    text='Excluir',
+    relief=GROOVE
+)
+botao_excluir_editora.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+
+botao_cancelar_edicao_editora = Button(
+    botoes_editar_excluir_editora,
+    text='Cancelar',
+    relief=GROOVE
+)
+botao_cancelar_edicao_editora.grid(
+    row=0, column=2, padx=10, pady=10, sticky=EW)
+
 
 # criação do label frame responsável por gerenciar os botões de comandos
 button_frame = LabelFrame(
