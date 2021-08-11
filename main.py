@@ -7,11 +7,77 @@ from tkinter import ttk
 data_base = DBHelper()
 
 
+def carrega_tabelas():
+    livros = data_base.get_livros()
+    autores = data_base.get_autores()
+    editoras = data_base.get_editoras()
+
+    for livro in tabela_livros.get_children():
+        tabela_livros.delete(livro)
+
+    for autor in tabela_autores.get_children():
+        tabela_autores.delete(autor)
+
+    for editora in tabela_editoras.get_children():
+        tabela_editoras.delete(editora)
+
+    count = 0
+
+    for livro in livros:
+        id = livro[0]
+        titulo = livro[1]
+        autor = livro[2]
+        editora = livro[3]
+        n_paginas = livro[4]
+        proprietario = livro[5]
+
+        if count % 2 == 0:
+
+            tabela_livros.insert('', END, values=(
+                id, titulo, autor, editora, n_paginas, proprietario), tags=('evenrow',))
+
+        else:
+            tabela_livros.insert('', END, values=(
+                id, titulo, autor, editora, n_paginas, proprietario), tags=('oddrow',))
+
+        count += 1
+
+    count = 0
+
+    for autor in autores:
+        id = autor[0]
+        nome = autor[1]
+
+        if count % 2 == 0:
+            tabela_autores.insert('', END, values=(
+                id, nome), tags=('evenrow',))
+        else:
+            tabela_autores.insert('', END, values=(id, nome), tags=('oddrow',))
+
+        count += 1
+
+    count = 0
+
+    for editora in editoras:
+        id = editora[0]
+        nome = editora[1]
+
+        if count % 2 == 0:
+            tabela_editoras.insert(
+                '', END, values=(id, nome), tags=('evenrow'))
+        else:
+            tabela_editoras.insert(
+                '', END, values=(id, nome), tags=('oddrow',))
+
+        count += 1
+
+
 def mudar_tabela(event):
     livro_register_frame.pack_forget()
     autor_register_frame.pack_forget()
     editora_register_frame.pack_forget()
     button_register_frame.pack_forget()
+    editar_excluir_livro.pack_forget()
 
     if drop_down.get() == 'Livros':
         tabela_autores.pack_forget()
@@ -166,16 +232,32 @@ def adicionar_registro():
         data_base.add_livro(titulo, autor, editora, n_pages, proprietario)
 
     elif drop_down_register.get() == 'Autor':
-        autor = nome_autor_entry.get()
+        autor = autor_entry.get()
 
         data_base.add_autor(autor)
 
     elif drop_down_register.get() == 'Editora':
-        editora = nome_editora_entry.get()
+        editora = editora_entry.get()
 
         data_base.add_editora(editora)
 
+    carrega_tabelas()
+
     cancelar_registro()
+
+
+def selecionar_livro(event):
+    table_frame['text'] = 'Editar/Excluir Livro'
+
+    tabela_livros.pack_forget()
+
+    editar_excluir_livro.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        anchor=N
+    )
 
 
 root = Tk()
@@ -186,7 +268,7 @@ style = ttk.Style()
 style.theme_use('default')
 style.configure(
     'Treeview',
-    background='#D3D3D3',
+    background='white',
     foreground='black',
     fieldbackground='#D3D3D3'
 )
@@ -251,33 +333,7 @@ tabela_livros.heading('proprietario', text='Proprietário(a)', anchor=W)
 tabela_livros.tag_configure('oddrow', background='white')
 tabela_livros.tag_configure('evenrow', background='lightblue')
 
-livros = data_base.get_livros()
-for livro in livros:
-    id = livro[0]
-    titulo = livro[1]
-    autor = livro[2]
-    editora = livro[3]
-    n_paginas = livro[4]
-    proprietario = livro[5]
-
-    if id % 2 == 0:
-        tabela_livros.insert(parent='', index=END, iid=id, text='', values=(
-            id,
-            titulo,
-            autor,
-            editora,
-            n_paginas,
-            proprietario
-        ), tags='evenrow')
-    else:
-        tabela_livros.insert(parent='', index=END, iid=id, text='', values=(
-            id,
-            titulo,
-            autor,
-            editora,
-            n_paginas,
-            proprietario
-        ), tags='oddrow')
+tabela_livros.bind('<ButtonRelease-1>', selecionar_livro)
 
 # criação da tabela autores
 tabela_autores = ttk.Treeview(
@@ -298,25 +354,6 @@ tabela_autores.heading('autor', text='Autor', anchor=W)
 tabela_autores.tag_configure('oddrow', background='white')
 tabela_autores.tag_configure('evenrow', background='lightblue')
 
-autores = data_base.get_authores()
-
-for autor in autores:
-    id = autor[0]
-    nome = autor[1]
-
-    if id % 2 == 0:
-        tabela_autores.insert(parent='', index=END, iid=id, text='', values=(
-            id,
-            nome
-        ), tags='evenrow')
-
-    else:
-        tabela_autores.insert(parent='', index=END, iid=id, text='', values=(
-            id,
-            nome
-        ), tags='oddrow')
-
-
 # criação da tabela editoras
 tabela_editoras = ttk.Treeview(
     table_frame,
@@ -336,23 +373,7 @@ tabela_editoras.heading('editora', text='Editora', anchor=W)
 tabela_editoras.tag_configure('oddrow', background='white')
 tabela_editoras.tag_configure('evenrow', background='lightblue')
 
-editoras = data_base.get_editoras()
-
-for editora in editoras:
-    id = editora[0]
-    nome = editora[1]
-
-    if id % 2 == 0:
-        tabela_editoras.insert(parent='', index=END, iid=id, values=(
-            id,
-            nome
-        ), tags='evenrow')
-
-    else:
-        tabela_editoras.insert(parent='', index=END, iid=id, values=(
-            id,
-            nome
-        ), tags='oddrow')
+carrega_tabelas()
 
 # frame responsável pela tela de registro dos livros
 livro_register_frame = Frame(
@@ -423,16 +444,16 @@ autor_register_frame = Frame(
 
 autor_register_frame.columnconfigure(1, weight=1)
 
-nome_autor_label = Label(
+autor_label = Label(
     autor_register_frame,
     text='Autor'
 )
-nome_autor_label.grid(row=0, column=0, padx=10, pady=10)
+autor_label.grid(row=0, column=0, padx=10, pady=10)
 
-nome_autor_entry = Entry(
+autor_entry = Entry(
     autor_register_frame
 )
-nome_autor_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+autor_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
 # frame responsável pela tela de registro das editoras
 editora_register_frame = Label(
@@ -441,16 +462,16 @@ editora_register_frame = Label(
 
 editora_register_frame.columnconfigure(1, weight=1)
 
-nome_editora_label = Label(
+editora_label = Label(
     editora_register_frame,
     text='Editora'
 )
-nome_editora_label.grid(row=0, column=0, padx=10, pady=10)
+editora_label.grid(row=0, column=0, padx=10, pady=10)
 
-nome_editora_entry = Entry(
+editora_entry = Entry(
     editora_register_frame
 )
-nome_editora_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+editora_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
 # comandos do livro_register_frame
 button_register_frame = Frame(
@@ -488,7 +509,69 @@ drop_down_register.current(0)
 drop_down_register.bind('<<ComboboxSelected>>', mudar_tela_registro)
 drop_down_register.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
 
-# criação do label responsável por gerenciar os botões de comandos
+# criação do frame responsável por editar/excluir um livro
+editar_excluir_livro = Frame(
+    table_frame
+)
+
+editar_excluir_livro.columnconfigure(1, weight=1)
+
+titulo_label = Label(
+    editar_excluir_livro,
+    text='Titulo'
+)
+titulo_label.grid(row=0, column=0, padx=10, pady=10)
+
+titulo_entry = Entry(
+    editar_excluir_livro
+)
+titulo_entry.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+
+autor_label = Label(
+    editar_excluir_livro,
+    text='Autor'
+)
+autor_label.grid(row=1, column=0, padx=10, pady=10)
+
+autor_entry = Entry(
+    editar_excluir_livro
+)
+autor_entry.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
+
+editora_label = Label(
+    editar_excluir_livro,
+    text='Editora'
+)
+editora_label.grid(row=2, column=0, padx=10, pady=10)
+
+editora_entry = Entry(
+    editar_excluir_livro
+)
+editora_entry.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
+
+n_pages_label = Label(
+    editar_excluir_livro,
+    text='Nº Páginas'
+)
+n_pages_label.grid(row=3, column=0, padx=10, pady=10)
+
+n_pages_entry = Entry(
+    editar_excluir_livro
+)
+n_pages_entry.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
+
+proprietario_label = Label(
+    editar_excluir_livro,
+    text='Proprietário'
+)
+proprietario_label.grid(row=4, column=0, padx=10, pady=10)
+
+proprietario_entry = Entry(
+    editar_excluir_livro
+)
+proprietario_entry.grid(row=4, column=1, padx=10, pady=10, sticky=EW)
+
+# criação do label frame responsável por gerenciar os botões de comandos
 button_frame = LabelFrame(
     root,
     text='Comandos',

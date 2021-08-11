@@ -38,7 +38,7 @@ class DBHelper:
     def get_livros(self):
         return self.__cursor.execute('SELECT * FROM livros ORDER BY id_livro').fetchall()
 
-    def get_authores(self):
+    def get_autores(self):
         return self.__cursor.execute('SELECT * FROM autores ORDER BY id_autor').fetchall()
 
     def get_editoras(self):
