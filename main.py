@@ -262,6 +262,12 @@ def selecionar_livro(event):
 
     tabela_livros.pack_forget()
 
+    titulo_entry_editar_excluir_livro.delete(0, END)
+    autor_entry_editar_excluir_livro.delete(0, END)
+    editora_entry_editar_excluir_livro.delete(0, END)
+    n_pages_entry_editar_excluir_livro.delete(0, END)
+    proprietario_entry_editar_excluir_livro.delete(0, END)
+
     editar_excluir_livro.pack(
         expand=True,
         fill=BOTH,
@@ -278,11 +284,21 @@ def selecionar_livro(event):
         anchor=S
     )
 
+    livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
+
+    titulo_entry_editar_excluir_livro.insert(0, livro_selecionado[1])
+    autor_entry_editar_excluir_livro.insert(0, livro_selecionado[2])
+    editora_entry_editar_excluir_livro.insert(0, livro_selecionado[3])
+    n_pages_entry_editar_excluir_livro.insert(0, livro_selecionado[4])
+    proprietario_entry_editar_excluir_livro.insert(0, livro_selecionado[5])
+
 
 def selecionar_autor(event):
     table_frame['text'] = 'Editar/Excluir Autor'
 
     tabela_autores.pack_forget()
+
+    autor_entry_editar_excluir_autor.delete(0, END)
 
     editar_excluir_autor.pack(
         expand=True,
@@ -300,11 +316,17 @@ def selecionar_autor(event):
         anchor=S
     )
 
+    autor_selecionado = tabela_autores.item(tabela_autores.focus())['values']
+
+    autor_entry_editar_excluir_autor.insert(0, autor_selecionado[1])
+
 
 def selecionar_editora(event):
     table_frame['text'] = 'Editar/Excluir Editora'
 
     tabela_editoras.pack_forget()
+
+    editora_entry_editar_excluir_editora.delete(0, END)
 
     editar_excluir_editora.pack(
         expand=True,
@@ -320,6 +342,134 @@ def selecionar_editora(event):
         padx=10,
         pady=10,
         anchor=S
+    )
+
+    editora_selecionada = tabela_editoras.item(
+        tabela_editoras.focus())['values']
+
+    editora_entry_editar_excluir_editora.insert(0, editora_selecionada[1])
+
+
+def editar_livro():
+    livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
+
+    id_livro = livro_selecionado[0]
+    titulo = livro_selecionado[1]
+    autor = livro_selecionado[2]
+    editora = livro_selecionado[3]
+    n_pages = livro_selecionado[4]
+    proprietario = livro_selecionado[5]
+
+    data_base.editar_livro(id_livro, titulo, autor,
+                           editora, n_pages, proprietario)
+
+    carrega_tabelas()
+
+    editar_excluir_livro.pack_forget()
+
+    botoes_editar_excluir_livro.pack_forget()
+
+    table_frame['text'] = 'Livros'
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+
+def cancelar_edicao_livro():
+    editar_excluir_livro.pack_forget()
+    botoes_editar_excluir_livro.pack_forget()
+
+    table_frame['text'] = 'Livros'
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+
+def excluir_registro():
+    pass
+
+
+def editar_autor():
+    autor_selecionado = tabela_autores.item(tabela_autores.focus())['values']
+
+    id_autor = autor_selecionado[0]
+    nome_autor = autor_selecionado[1]
+
+    data_base.editar_autor(id_autor, nome_autor)
+
+    carrega_tabelas()
+
+    editar_excluir_autor.pack_forget()
+
+    botoes_editar_excluir_autor.pack_forget()
+
+    table_frame['text'] = 'Livros'
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+
+def cancelar_edicao_autor():
+    editar_excluir_autor.pack_forget()
+    botoes_editar_excluir_autor.pack_forget()
+
+    table_frame['text'] = 'Livros'
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+
+def editar_editora():
+    editora_selecionada = tabela_editoras.item(
+        tabela_editoras.focus())['values']
+
+    id_editora = editora_selecionada[0]
+    nome_editora = editora_selecionada[1]
+
+    data_base.editar_editora(id_editora, nome_editora)
+
+    carrega_tabelas()
+
+    editar_excluir_editora.pack_forget()
+    botoes_editar_excluir_editora.pack_forget()
+
+    table_frame['text'] = 'Livros'
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+
+def cancelar_edicao_editora():
+    editar_excluir_editora.pack_forget()
+    botoes_editar_excluir_editora.pack_forget()
+
+    table_frame['text'] = 'Livros'
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
     )
 
 
@@ -657,6 +807,7 @@ botao_editar_livro = Button(
     botoes_editar_excluir_livro,
     text='Editar',
     relief=GROOVE,
+    command=lambda: editar_livro()
 )
 botao_editar_livro.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
@@ -670,7 +821,8 @@ botao_excluir_livro.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 botao_cancelar_edicao_livro = Button(
     botoes_editar_excluir_livro,
     text='Cancelar',
-    relief=GROOVE
+    relief=GROOVE,
+    command=lambda: cancelar_edicao_livro()
 )
 botao_cancelar_edicao_livro.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
 
@@ -703,7 +855,8 @@ botoes_editar_excluir_autor.columnconfigure(2, weight=1)
 botao_editar_autor = Button(
     botoes_editar_excluir_autor,
     text='Editar',
-    relief=GROOVE
+    relief=GROOVE,
+    command=lambda: editar_autor()
 )
 botao_editar_autor.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
@@ -717,7 +870,8 @@ botao_excluir_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 botao_cancelar_edicao_autor = Button(
     botoes_editar_excluir_autor,
     text='Cancelar',
-    relief=GROOVE
+    relief=GROOVE,
+    command=lambda: cancelar_edicao_autor()
 )
 botao_cancelar_edicao_autor.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
 
@@ -750,7 +904,8 @@ botoes_editar_excluir_editora.columnconfigure(2, weight=1)
 botao_editar_editora = Button(
     botoes_editar_excluir_editora,
     text='Editar',
-    relief=GROOVE
+    relief=GROOVE,
+    command=lambda: editar_editora()
 )
 botao_editar_editora.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
@@ -764,7 +919,8 @@ botao_excluir_editora.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 botao_cancelar_edicao_editora = Button(
     botoes_editar_excluir_editora,
     text='Cancelar',
-    relief=GROOVE
+    relief=GROOVE,
+    command=lambda: cancelar_edicao_editora()
 )
 botao_cancelar_edicao_editora.grid(
     row=0, column=2, padx=10, pady=10, sticky=EW)

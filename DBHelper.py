@@ -82,3 +82,31 @@ class DBHelper:
             'INSERT INTO editoras (nome_editora) VALUES (?)', (nome_editora,))
 
         self.__connection.commit()
+
+    def editar_livro(self, id_livro, titulo, autor, editora, n_pages, proprietario):
+        self.__cursor.execute('''
+        update livros
+        set titulo_livro = ?, autor_livro = ?, editora_livro = ?,
+            paginas_livro = ?, proprietario_livro = ?
+        where id_livro = ?
+        ''', (titulo, autor, editora, n_pages, proprietario, id_livro))
+
+        self.__connection.commit()
+
+    def editar_autor(self, id_autor, autor):
+        self.__cursor.execute('''
+        UPDATE autores
+        SET nome_autor = ?
+        WHERE id_autor = ?
+        ''', (autor, id_autor))
+
+        self.__connection.commit()
+
+    def editar_editora(self, id_editora, editora):
+        self.__cursor.execute('''
+        UPDATE editoras
+        SET nome_editora = ?
+        WHERE id_editora = ?
+        ''', (editora, id_editora))
+
+        self.__connection.commit()
