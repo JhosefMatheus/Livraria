@@ -1,16 +1,97 @@
 # imports
-from DBHelper import DBHelper
+import csv
+import pandas as pd
 from tkinter import *
 from tkinter import ttk
 
 # inicialização do estilo e variáveis principais
-data_base = DBHelper()
+
+
+def get_livros():
+    with open('livros.csv', 'r', encoding='UTF-8', errors='ignore') as csv_file:
+        livros = csv.reader(csv_file)
+
+        next(livros)
+
+        return [row for row in livros if row]
+
+
+def get_autores():
+    with open('autores.csv', 'r', encoding='UTF-8', errors='ignore') as csv_file:
+        autores = csv.reader(csv_file)
+
+        next(autores)
+
+        return [row for row in autores if row]
+
+
+def get_editoras():
+    with open('editoras.csv', 'r', encoding='UTF-8', errors='ignore') as csv_file:
+        editoras = csv.reader(csv_file)
+
+        next(editoras)
+
+        return [row for row in editoras if row]
+
+
+def add_livro(titulo, autor, editora, n_paginas, proprietario):
+    with open('livros.csv', 'a', encoding='UTF-8', errors='ignore') as csv_file:
+        writer = csv.writer(csv_file)
+
+        id_livro = int(open('ultimo_id_livros.txt', 'r').readline()) + 1
+        dados = [id_livro, titulo, autor, editora, n_paginas, proprietario]
+
+        writer.writerow(dados)
+
+        f = open('ultimo_id_livros.txt', 'w')
+        f.truncate()
+        f.write(str(id_livro))
+
+    with open('autores.csv', 'r+', encoding='UTF-8', errors='ignore') as csv_file:
+        autores = [x[1] for x in csv.reader(csv_file) if x]
+
+        if autor not in autores:
+            add_autor(autor)
+
+    with open('editoras.csv', 'r+', encoding='UTF-8', errors='ignore') as csv_file:
+        editoras = [x[1] for x in csv.reader(csv_file) if x]
+
+        if editora not in editoras:
+            add_editora(editora)
+
+
+def add_autor(autor):
+    with open('autores.csv', 'a', encoding='UTF-8', errors='ignore') as csv_file:
+        writer = csv.writer(csv_file)
+
+        id_autor = int(open('ultimo_id_autores.txt', 'r').readline()) + 1
+        dados = [id_autor, autor]
+
+        writer.writerow(dados)
+
+        f = open('ultimo_id_autores.txt', 'w')
+        f.truncate()
+        f.write(str(id_autor))
+
+
+def add_editora(editora):
+    with open('editoras.csv', 'a', encoding='UTF-8', errors='ignore') as csv_file:
+        writer = csv.writer(csv_file)
+
+        id_editora = int(open('ultimo_id_editoras.txt', 'r').readline()) + 1
+        dados = [id_editora, editora]
+
+        writer.writerow(dados)
+
+        f = open('ultimo_id_editoras.txt', 'w')
+        f.truncate()
+        f.write(str(id_editora))
 
 
 def carrega_tabelas():
-    livros = data_base.get_livros()
-    autores = data_base.get_autores()
-    editoras = data_base.get_editoras()
+    livros = get_livros()
+    autores = get_autores()
+    editoras = get_editoras()
 
     for livro in tabela_livros.get_children():
         tabela_livros.delete(livro)
@@ -160,11 +241,21 @@ def cancelar_registro():
     if drop_down_register.get() == 'Livro':
         livro_register_frame.pack_forget()
 
+        titulo_entry_registro_livro.delete(0, END)
+        autor_entry_registro_livro.delete(0, END)
+        editora_entry_registro_livro.delete(0, END)
+        n_pages_entry_registro_livro.delete(0, END)
+        proprietario_entry_registro_livro.delete(0, END)
+
     elif drop_down_register.get() == 'Autor':
         autor_register_frame.pack_forget()
 
+        autor_entry_registro_autor.delete(0, END)
+
     elif drop_down_register.get() == 'Editora':
         editora_register_frame.pack_forget()
+
+        editora_entry_registro_editora.delete(0, END)
 
     button_register_frame.pack_forget()
 
@@ -240,17 +331,27 @@ def adicionar_registro():
         n_pages = n_pages_entry_registro_livro.get()
         proprietario = proprietario_entry_registro_livro.get()
 
-        data_base.add_livro(titulo, autor, editora, n_pages, proprietario)
+        add_livro(titulo, autor, editora, n_pages, proprietario)
+
+        titulo_entry_registro_livro.delete(0, END)
+        autor_entry_registro_livro.delete(0, END)
+        editora_entry_registro_livro.delete(0, END)
+        n_pages_entry_registro_livro.delete(0, END)
+        proprietario_entry_registro_livro.delete(0, END)
 
     elif drop_down_register.get() == 'Autor':
         autor = autor_entry_registro_autor.get()
 
-        data_base.add_autor(autor)
+        add_autor(autor)
+
+        autor_entry_registro_autor.delete(0, END)
 
     elif drop_down_register.get() == 'Editora':
         editora = editora_entry_registro_editora.get()
 
-        data_base.add_editora(editora)
+        add_editora(editora)
+
+        editora_entry_registro_editora.delete(0, END)
 
     carrega_tabelas()
 
@@ -354,29 +455,20 @@ def editar_livro():
     livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
 
     id_livro = livro_selecionado[0]
-    titulo = livro_selecionado[1]
-    autor = livro_selecionado[2]
-    editora = livro_selecionado[3]
-    n_pages = livro_selecionado[4]
-    proprietario = livro_selecionado[5]
 
-    data_base.editar_livro(id_livro, titulo, autor,
-                           editora, n_pages, proprietario)
+    df = pd.read_csv('livros.csv')
+
+    df.loc[id_livro - 1, 'titulo'] = titulo_entry_editar_excluir_livro.get()
+    df.loc[id_livro - 1, 'autor'] = autor_entry_editar_excluir_livro.get()
+    df.loc[id_livro - 1, 'editora'] = editora_entry_editar_excluir_livro.get()
+    df.loc[id_livro - 1, 'n_paginas'] = n_pages_entry_editar_excluir_livro.get()
+    df.loc[id_livro - 1, 'proprietario'] = proprietario_entry_editar_excluir_livro.get()
+
+    df.to_csv('livros.csv', index=False)
+
+    cancelar_edicao_livro()
 
     carrega_tabelas()
-
-    editar_excluir_livro.pack_forget()
-
-    botoes_editar_excluir_livro.pack_forget()
-
-    table_frame['text'] = 'Livros'
-
-    tabela_livros.pack(
-        expand=True,
-        fill=BOTH,
-        padx=10,
-        pady=10
-    )
 
 
 def cancelar_edicao_livro():
@@ -393,7 +485,7 @@ def cancelar_edicao_livro():
     )
 
 
-def excluir_registro():
+def excluir_livro():
     pass
 
 
@@ -401,24 +493,16 @@ def editar_autor():
     autor_selecionado = tabela_autores.item(tabela_autores.focus())['values']
 
     id_autor = autor_selecionado[0]
-    nome_autor = autor_selecionado[1]
 
-    data_base.editar_autor(id_autor, nome_autor)
+    df = pd.read_csv('autores.csv')
+
+    df.loc[id_autor - 1, 'autor'] = autor_entry_editar_excluir_autor.get()
+
+    df.to_csv('autores.csv', index=False)
+
+    cancelar_edicao_autor()
 
     carrega_tabelas()
-
-    editar_excluir_autor.pack_forget()
-
-    botoes_editar_excluir_autor.pack_forget()
-
-    table_frame['text'] = 'Livros'
-
-    tabela_livros.pack(
-        expand=True,
-        fill=BOTH,
-        padx=10,
-        pady=10
-    )
 
 
 def cancelar_edicao_autor():
@@ -440,23 +524,16 @@ def editar_editora():
         tabela_editoras.focus())['values']
 
     id_editora = editora_selecionada[0]
-    nome_editora = editora_selecionada[1]
 
-    data_base.editar_editora(id_editora, nome_editora)
+    df = pd.read_csv('editoras.csv')
+
+    df.loc[id_editora - 1, 'editora'] = editora_entry_editar_excluir_editora.get()
+
+    df.to_csv('editoras.csv', index=False)
+
+    cancelar_edicao_editora()
 
     carrega_tabelas()
-
-    editar_excluir_editora.pack_forget()
-    botoes_editar_excluir_editora.pack_forget()
-
-    table_frame['text'] = 'Livros'
-
-    tabela_livros.pack(
-        expand=True,
-        fill=BOTH,
-        padx=10,
-        pady=10
-    )
 
 
 def cancelar_edicao_editora():
