@@ -2,6 +2,7 @@
 import csv
 import pandas as pd
 from tkinter import *
+from tkinter import messagebox
 from tkinter import ttk
 
 # inicialização do estilo e variáveis principais
@@ -325,140 +326,170 @@ def mudar_tela_registro(event):
 
 def adicionar_registro():
     if drop_down_register.get() == 'Livro':
-        titulo = titulo_entry_registro_livro.get()
-        autor = autor_entry_registro_livro.get()
-        editora = editora_entry_registro_livro.get()
-        n_pages = n_pages_entry_registro_livro.get()
-        proprietario = proprietario_entry_registro_livro.get()
+        titulo = titulo_entry_registro_livro.get().strip()
+        autor = autor_entry_registro_livro.get().strip()
+        editora = editora_entry_registro_livro.get().strip()
+        n_pages = n_pages_entry_registro_livro.get().strip()
+        proprietario = proprietario_entry_registro_livro.get().strip()
 
-        add_livro(titulo, autor, editora, n_pages, proprietario)
+        if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_pages) == 0 or len(proprietario) == 0 or not n_pages.isdigit():
+            messagebox.showinfo('Valores inválidos',
+                                'Algum dos valores digitados está inválido!')
+        else:
+            add_livro(titulo, autor, editora, n_pages, proprietario)
 
-        titulo_entry_registro_livro.delete(0, END)
-        autor_entry_registro_livro.delete(0, END)
-        editora_entry_registro_livro.delete(0, END)
-        n_pages_entry_registro_livro.delete(0, END)
-        proprietario_entry_registro_livro.delete(0, END)
+            titulo_entry_registro_livro.delete(0, END)
+            autor_entry_registro_livro.delete(0, END)
+            editora_entry_registro_livro.delete(0, END)
+            n_pages_entry_registro_livro.delete(0, END)
+            proprietario_entry_registro_livro.delete(0, END)
+
+            carrega_tabelas()
+            cancelar_registro()
 
     elif drop_down_register.get() == 'Autor':
-        autor = autor_entry_registro_autor.get()
+        autor = autor_entry_registro_autor.get().strip()
 
-        add_autor(autor)
+        if len(autor) == 0:
+            messagebox.showinfo('Valor inválido', 'Valor digitado inválido')
+        else:
+            add_autor(autor)
 
-        autor_entry_registro_autor.delete(0, END)
+            autor_entry_registro_autor.delete(0, END)
+
+            carrega_tabelas()
+            cancelar_registro()
 
     elif drop_down_register.get() == 'Editora':
-        editora = editora_entry_registro_editora.get()
+        editora = editora_entry_registro_editora.get().strip()
 
-        add_editora(editora)
+        if len(editora) == 0:
+            messagebox.showinfo('Valor inválido', 'Valor digitado inválido')
+        else:
+            add_editora(editora)
 
-        editora_entry_registro_editora.delete(0, END)
+            editora_entry_registro_editora.delete(0, END)
 
-    carrega_tabelas()
-
-    cancelar_registro()
+            carrega_tabelas()
+            cancelar_registro()
 
 
 def selecionar_livro(event):
-    table_frame['text'] = 'Editar/Excluir Livro'
+    try:
+        livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
 
-    tabela_livros.pack_forget()
+        titulo_entry_editar_excluir_livro.delete(0, END)
+        autor_entry_editar_excluir_livro.delete(0, END)
+        editora_entry_editar_excluir_livro.delete(0, END)
+        n_pages_entry_editar_excluir_livro.delete(0, END)
+        proprietario_entry_editar_excluir_livro.delete(0, END)
 
-    titulo_entry_editar_excluir_livro.delete(0, END)
-    autor_entry_editar_excluir_livro.delete(0, END)
-    editora_entry_editar_excluir_livro.delete(0, END)
-    n_pages_entry_editar_excluir_livro.delete(0, END)
-    proprietario_entry_editar_excluir_livro.delete(0, END)
+        titulo_entry_editar_excluir_livro.insert(0, livro_selecionado[1])
+        autor_entry_editar_excluir_livro.insert(0, livro_selecionado[2])
+        editora_entry_editar_excluir_livro.insert(0, livro_selecionado[3])
+        n_pages_entry_editar_excluir_livro.insert(0, livro_selecionado[4])
+        proprietario_entry_editar_excluir_livro.insert(0, livro_selecionado[5])
 
-    editar_excluir_livro.pack(
-        expand=True,
-        fill=BOTH,
-        padx=10,
-        pady=10,
-        anchor=N
-    )
+        tabela_livros.pack_forget()
 
-    botoes_editar_excluir_livro.pack(
-        expand=False,
-        fill=X,
-        padx=10,
-        pady=10,
-        anchor=S
-    )
+        table_frame['text'] = 'Editar/Excluir Livro'
 
-    livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
+        editar_excluir_livro.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
 
-    titulo_entry_editar_excluir_livro.insert(0, livro_selecionado[1])
-    autor_entry_editar_excluir_livro.insert(0, livro_selecionado[2])
-    editora_entry_editar_excluir_livro.insert(0, livro_selecionado[3])
-    n_pages_entry_editar_excluir_livro.insert(0, livro_selecionado[4])
-    proprietario_entry_editar_excluir_livro.insert(0, livro_selecionado[5])
+        botoes_editar_excluir_livro.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10,
+            anchor=S
+        )
+
+    except IndexError as e:
+        messagebox.showinfo('Livro selecionado inválido',
+                            'Por favor clique em algum livro da tabela')
 
 
 def selecionar_autor(event):
-    table_frame['text'] = 'Editar/Excluir Autor'
+    try:
+        autor_selecionado = tabela_autores.item(
+            tabela_autores.focus())['values']
 
-    tabela_autores.pack_forget()
+        autor_entry_editar_excluir_autor.delete(0, END)
 
-    autor_entry_editar_excluir_autor.delete(0, END)
+        autor_entry_editar_excluir_autor.insert(0, autor_selecionado[1])
 
-    editar_excluir_autor.pack(
-        expand=True,
-        fill=BOTH,
-        padx=10,
-        pady=10,
-        anchor=N
-    )
+        tabela_autores.pack_forget()
 
-    botoes_editar_excluir_autor.pack(
-        expand=False,
-        fill=X,
-        padx=10,
-        pady=10,
-        anchor=S
-    )
+        table_frame['text'] = 'Editar/Excluir Autor'
 
-    autor_selecionado = tabela_autores.item(tabela_autores.focus())['values']
+        editar_excluir_autor.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
 
-    autor_entry_editar_excluir_autor.insert(0, autor_selecionado[1])
+        botoes_editar_excluir_autor.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10,
+            anchor=S
+        )
+    except IndexError as e:
+        messagebox.showinfo('Autor selecionado inválido',
+                            'Por favor clique em algum autor da tabela')
 
 
 def selecionar_editora(event):
-    table_frame['text'] = 'Editar/Excluir Editora'
+    try:
+        editora_selecionada = tabela_editoras.item(
+            tabela_editoras.focus())['values']
 
-    tabela_editoras.pack_forget()
+        editora_entry_editar_excluir_editora.delete(0, END)
 
-    editora_entry_editar_excluir_editora.delete(0, END)
+        editora_entry_editar_excluir_editora.insert(0, editora_selecionada[1])
 
-    editar_excluir_editora.pack(
-        expand=True,
-        fill=BOTH,
-        padx=10,
-        pady=10,
-        anchor=N
-    )
+        tabela_editoras.pack_forget()
 
-    botoes_editar_excluir_editora.pack(
-        expand=False,
-        fill=X,
-        padx=10,
-        pady=10,
-        anchor=S
-    )
+        table_frame['text'] = 'Editar/Excluir Editora'
 
-    editora_selecionada = tabela_editoras.item(
-        tabela_editoras.focus())['values']
+        editar_excluir_editora.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
 
-    editora_entry_editar_excluir_editora.insert(0, editora_selecionada[1])
+        botoes_editar_excluir_editora.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10,
+            anchor=S
+        )
+
+    except IndexError as e:
+        messagebox.showinfo('Editora selecionada inválida',
+                            'Por favor clique em alguma editora da tabela')
 
 
 def editar_livro():
     livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
 
-    titulo = titulo_entry_editar_excluir_livro.get()
-    autor = autor_entry_editar_excluir_livro.get()
-    editora = editora_entry_editar_excluir_livro.get()
-    n_paginas = n_pages_entry_editar_excluir_livro.get()
-    proprietario = proprietario_entry_editar_excluir_livro.get()
+    titulo = titulo_entry_editar_excluir_livro.get().strip()
+    autor = autor_entry_editar_excluir_livro.get().strip()
+    editora = editora_entry_editar_excluir_livro.get().strip()
+    n_paginas = n_pages_entry_editar_excluir_livro.get().strip()
+    proprietario = proprietario_entry_editar_excluir_livro.get().strip()
 
     id_livro_selecionado = livro_selecionado[0]
     autor_livro_selecionado = livro_selecionado[2]
@@ -468,52 +499,69 @@ def editar_livro():
     df_autores = pd.read_csv('autores.csv')
     df_editoras = pd.read_csv('editoras.csv')
 
-    df_livros.loc[id_livro_selecionado - 1,
-                  'titulo'] = titulo
-    df_livros.loc[id_livro_selecionado - 1,
-                  'autor'] = autor
-    df_livros.loc[id_livro_selecionado - 1,
-                  'editora'] = editora
-    df_livros.loc[id_livro_selecionado - 1,
-                  'n_paginas'] = n_paginas
-    df_livros.loc[id_livro_selecionado - 1,
-                  'proprietario'] = proprietario
+    if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_paginas) == 0 or len(proprietario) == 0 or not n_paginas.isdigit():
+        messagebox.showinfo(
+            'Valores inválidos', 'Algum dos valores digitados é um valor inválido ou está em branco')
 
-    df_livros.to_csv('livros.csv', index=False)
+    else:
 
-    autores = list(df_livros.loc[df_livros['autor']
-                                 == autor_livro_selecionado].autor)
-    editoras = list(
-        df_livros.loc[df_livros['editora'] == editora_livro_selecionado].editora)
+        df_livros.loc[id_livro_selecionado - 1,
+                      'titulo'] = titulo
+        df_livros.loc[id_livro_selecionado - 1,
+                      'autor'] = autor
+        df_livros.loc[id_livro_selecionado - 1,
+                      'editora'] = editora
+        df_livros.loc[id_livro_selecionado - 1,
+                      'n_paginas'] = n_paginas
+        df_livros.loc[id_livro_selecionado - 1,
+                      'proprietario'] = proprietario
 
-    if autor_livro_selecionado not in autores:
-        df_autores = df_autores[df_autores.autor != autor_livro_selecionado]
+        df_livros.to_csv('livros.csv', index=False)
 
-    if editora_livro_selecionado not in editoras:
-        df_editoras = df_editoras[df_editoras.editora !=
-                                  editora_livro_selecionado]
+        autores = list(df_livros.loc[df_livros['autor']
+                                     == autor_livro_selecionado].autor)
+        editoras = list(
+            df_livros.loc[df_livros['editora'] == editora_livro_selecionado].editora)
 
-    df_autores.to_csv('autores.csv', index=False)
-    df_editoras.to_csv('editoras.csv', index=False)
+        if autor_livro_selecionado not in autores:
+            df_autores = df_autores[df_autores.autor !=
+                                    autor_livro_selecionado]
 
-    with open('autores.csv', 'r+') as csv_file:
-        autores = [x[1] for x in csv.reader(csv_file) if x]
+        if editora_livro_selecionado not in editoras:
+            df_editoras = df_editoras[df_editoras.editora !=
+                                      editora_livro_selecionado]
 
-        if autor not in autores:
-            add_autor(autor)
+        df_autores.to_csv('autores.csv', index=False)
+        df_editoras.to_csv('editoras.csv', index=False)
 
-    with open('editoras.csv', 'r+') as csv_file:
-        editoras = [x[1] for x in csv.reader(csv_file) if x]
+        with open('autores.csv', 'r+') as csv_file:
+            autores = [x[1] for x in csv.reader(csv_file) if x]
 
-        if editora not in editoras:
-            add_editora(editora)
+            if autor not in autores:
+                add_autor(autor)
 
-    cancelar_edicao_livro()
+        with open('editoras.csv', 'r+') as csv_file:
+            editoras = [x[1] for x in csv.reader(csv_file) if x]
 
-    carrega_tabelas()
+            if editora not in editoras:
+                add_editora(editora)
+
+        cancelar_edicao_livro()
+
+        carrega_tabelas()
 
 
 def cancelar_edicao_livro():
+    tabela_livros.selection_remove(tabela_livros.focus())
+
+    tabela_livros.focus('')
+
+    titulo_entry_editar_excluir_livro.delete(0, END)
+    autor_entry_editar_excluir_livro.delete(0, END)
+    editora_entry_editar_excluir_livro.delete(0, END)
+    n_pages_entry_editar_excluir_livro.delete(0, END)
+    proprietario_entry_editar_excluir_livro.delete(0, END)
+
     editar_excluir_livro.pack_forget()
     botoes_editar_excluir_livro.pack_forget()
 
@@ -569,19 +617,24 @@ def editar_autor():
     df_livros = pd.read_csv('livros.csv')
     df_autores = pd.read_csv('autores.csv')
 
-    df_autores.loc[id_autor - 1,
-                   'autor'] = autor_entry_editar_excluir_autor.get()
+    if len(autor_entry_editar_excluir_autor.get().strip()) == 0:
+        messagebox.showinfo(
+            'Valor inválido', 'O valor digitado para nome do autor está em branco')
+    else:
 
-    df_autores.to_csv('autores.csv', index=False)
+        df_autores.loc[id_autor - 1,
+                       'autor'] = autor_entry_editar_excluir_autor.get()
 
-    df_livros.loc[df_livros['autor'] == nome_autor,
-                  'autor'] = autor_entry_editar_excluir_autor.get()
+        df_autores.to_csv('autores.csv', index=False)
 
-    df_livros.to_csv('livros.csv', index=False)
+        df_livros.loc[df_livros['autor'] == nome_autor,
+                      'autor'] = autor_entry_editar_excluir_autor.get()
 
-    cancelar_edicao_autor()
+        df_livros.to_csv('livros.csv', index=False)
 
-    carrega_tabelas()
+        cancelar_edicao_autor()
+
+        carrega_tabelas()
 
 
 def excluir_autor():
@@ -605,6 +658,12 @@ def excluir_autor():
 
 
 def cancelar_edicao_autor():
+    tabela_autores.selection_remove(tabela_autores.focus())
+
+    tabela_autores.focus('')
+
+    autor_entry_editar_excluir_autor.delete(0, END)
+
     editar_excluir_autor.pack_forget()
     botoes_editar_excluir_autor.pack_forget()
 
@@ -625,19 +684,25 @@ def editar_editora():
     df_livros = pd.read_csv('livros.csv')
     df_editoras = pd.read_csv('editoras.csv')
 
-    df_editoras.loc[id_editora - 1,
-                    'editora'] = editora_entry_editar_excluir_editora.get()
+    if len(editora_entry_editar_excluir_editora.get().strip()) == 0:
+        messagebox.showinfo(
+            'Valor inválido', 'Valores digitado está em branco')
 
-    df_editoras.to_csv('editoras.csv', index=False)
+    else:
 
-    df_livros.loc[df_livros['editora'] == nome_editora,
-                  'editora'] = editora_entry_editar_excluir_editora.get()
+        df_editoras.loc[id_editora - 1,
+                        'editora'] = editora_entry_editar_excluir_editora.get()
 
-    df_livros.to_csv('livros.csv', index=False)
+        df_editoras.to_csv('editoras.csv', index=False)
 
-    cancelar_edicao_editora()
+        df_livros.loc[df_livros['editora'] == nome_editora,
+                      'editora'] = editora_entry_editar_excluir_editora.get()
 
-    carrega_tabelas()
+        df_livros.to_csv('livros.csv', index=False)
+
+        cancelar_edicao_editora()
+
+        carrega_tabelas()
 
 
 def excluir_editora():
@@ -660,6 +725,12 @@ def excluir_editora():
 
 
 def cancelar_edicao_editora():
+    tabela_editoras.selection_remove(tabela_editoras.focus())
+
+    tabela_editoras.focus('')
+
+    editora_entry_editar_excluir_editora.delete(0, END)
+
     editar_excluir_editora.pack_forget()
     botoes_editar_excluir_editora.pack_forget()
 
@@ -920,9 +991,10 @@ drop_down_register = ttk.Combobox(
     button_register_frame,
     values=(
         'Livro',
-        'Editora',
-        'Autor'
-    )
+        'Autor',
+        'Editora'
+    ),
+    state='readonly'
 )
 drop_down_register.current(0)
 drop_down_register.bind('<<ComboboxSelected>>', mudar_tela_registro)
@@ -1162,7 +1234,8 @@ drop_down = ttk.Combobox(
         'Livros',
         'Autores',
         'Editoras'
-    )
+    ),
+    state='readonly'
 )
 drop_down.current(0)
 drop_down.bind('<<ComboboxSelected>>', mudar_tabela)
