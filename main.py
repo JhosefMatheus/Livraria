@@ -35,7 +35,7 @@ def get_editoras():
 
 
 def add_livro(titulo, autor, editora, n_paginas, proprietario):
-    with open('livros.csv', 'a', encoding='UTF-8', errors='ignore') as csv_file:
+    with open('livros.csv', 'a') as csv_file:
         writer = csv.writer(csv_file)
 
         id_livro = int(open('ultimo_id_livros.txt', 'r').readline()) + 1
@@ -47,13 +47,13 @@ def add_livro(titulo, autor, editora, n_paginas, proprietario):
         f.truncate()
         f.write(str(id_livro))
 
-    with open('autores.csv', 'r+', encoding='UTF-8', errors='ignore') as csv_file:
+    with open('autores.csv', 'r+') as csv_file:
         autores = [x[1] for x in csv.reader(csv_file) if x]
 
         if autor not in autores:
             add_autor(autor)
 
-    with open('editoras.csv', 'r+', encoding='UTF-8', errors='ignore') as csv_file:
+    with open('editoras.csv', 'r+') as csv_file:
         editoras = [x[1] for x in csv.reader(csv_file) if x]
 
         if editora not in editoras:
@@ -61,7 +61,7 @@ def add_livro(titulo, autor, editora, n_paginas, proprietario):
 
 
 def add_autor(autor):
-    with open('autores.csv', 'a', encoding='UTF-8', errors='ignore') as csv_file:
+    with open('autores.csv', 'a') as csv_file:
         writer = csv.writer(csv_file)
 
         id_autor = int(open('ultimo_id_autores.txt', 'r').readline()) + 1
@@ -75,7 +75,7 @@ def add_autor(autor):
 
 
 def add_editora(editora):
-    with open('editoras.csv', 'a', encoding='UTF-8', errors='ignore') as csv_file:
+    with open('editoras.csv', 'a') as csv_file:
         writer = csv.writer(csv_file)
 
         id_editora = int(open('ultimo_id_editoras.txt', 'r').readline()) + 1
@@ -454,17 +454,59 @@ def selecionar_editora(event):
 def editar_livro():
     livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
 
-    id_livro = livro_selecionado[0]
+    titulo = titulo_entry_editar_excluir_livro.get()
+    autor = autor_entry_editar_excluir_livro.get()
+    editora = editora_entry_editar_excluir_livro.get()
+    n_paginas = n_pages_entry_editar_excluir_livro.get()
+    proprietario = proprietario_entry_editar_excluir_livro.get()
 
-    df = pd.read_csv('livros.csv')
+    id_livro_selecionado = livro_selecionado[0]
+    autor_livro_selecionado = livro_selecionado[2]
+    editora_livro_selecionado = livro_selecionado[3]
 
-    df.loc[id_livro - 1, 'titulo'] = titulo_entry_editar_excluir_livro.get()
-    df.loc[id_livro - 1, 'autor'] = autor_entry_editar_excluir_livro.get()
-    df.loc[id_livro - 1, 'editora'] = editora_entry_editar_excluir_livro.get()
-    df.loc[id_livro - 1, 'n_paginas'] = n_pages_entry_editar_excluir_livro.get()
-    df.loc[id_livro - 1, 'proprietario'] = proprietario_entry_editar_excluir_livro.get()
+    df_livros = pd.read_csv('livros.csv')
+    df_autores = pd.read_csv('autores.csv')
+    df_editoras = pd.read_csv('editoras.csv')
 
-    df.to_csv('livros.csv', index=False)
+    df_livros.loc[id_livro_selecionado - 1,
+                  'titulo'] = titulo
+    df_livros.loc[id_livro_selecionado - 1,
+                  'autor'] = autor
+    df_livros.loc[id_livro_selecionado - 1,
+                  'editora'] = editora
+    df_livros.loc[id_livro_selecionado - 1,
+                  'n_paginas'] = n_paginas
+    df_livros.loc[id_livro_selecionado - 1,
+                  'proprietario'] = proprietario
+
+    df_livros.to_csv('livros.csv', index=False)
+
+    autores = list(df_livros.loc[df_livros['autor']
+                                 == autor_livro_selecionado].autor)
+    editoras = list(
+        df_livros.loc[df_livros['editora'] == editora_livro_selecionado].editora)
+
+    if autor_livro_selecionado not in autores:
+        df_autores = df_autores[df_autores.autor != autor_livro_selecionado]
+
+    if editora_livro_selecionado not in editoras:
+        df_editoras = df_editoras[df_editoras.editora !=
+                                  editora_livro_selecionado]
+
+    df_autores.to_csv('autores.csv', index=False)
+    df_editoras.to_csv('editoras.csv', index=False)
+
+    with open('autores.csv', 'r+') as csv_file:
+        autores = [x[1] for x in csv.reader(csv_file) if x]
+
+        if autor not in autores:
+            add_autor(autor)
+
+    with open('editoras.csv', 'r+') as csv_file:
+        editoras = [x[1] for x in csv.reader(csv_file) if x]
+
+        if editora not in editoras:
+            add_editora(editora)
 
     cancelar_edicao_livro()
 
@@ -486,19 +528,76 @@ def cancelar_edicao_livro():
 
 
 def excluir_livro():
-    pass
+    livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
+
+    id_livro = livro_selecionado[0]
+    autor_livro = livro_selecionado[2]
+    editora_livro = livro_selecionado[3]
+
+    df_livros = pd.read_csv('livros.csv')
+    df_autores = pd.read_csv('autores.csv')
+    df_editoras = pd.read_csv('editoras.csv')
+
+    df_livros.drop(id_livro - 1, axis=0, inplace=True)
+
+    df_livros.to_csv('livros.csv', index=False)
+
+    autores = list(df_livros.loc[df_livros['autor']
+                                 == autor_livro].autor)
+    editoras = list(
+        df_livros.loc[df_livros['editora'] == editora_livro].editora)
+
+    if autor_livro not in autores:
+        df_autores = df_autores[df_autores.autor != autor_livro]
+
+    if editora_livro not in editoras:
+        df_editoras = df_editoras[df_editoras.editora !=
+                                  editora_livro]
+
+    df_autores.to_csv('autores.csv', index=False)
+    df_editoras.to_csv('editoras.csv', index=False)
+
+    cancelar_edicao_livro()
+
+    carrega_tabelas()
 
 
 def editar_autor():
-    autor_selecionado = tabela_autores.item(tabela_autores.focus())['values']
+    id_autor, nome_autor = tabela_autores.item(
+        tabela_autores.focus())['values']
 
-    id_autor = autor_selecionado[0]
+    df_livros = pd.read_csv('livros.csv')
+    df_autores = pd.read_csv('autores.csv')
 
-    df = pd.read_csv('autores.csv')
+    df_autores.loc[id_autor - 1,
+                   'autor'] = autor_entry_editar_excluir_autor.get()
 
-    df.loc[id_autor - 1, 'autor'] = autor_entry_editar_excluir_autor.get()
+    df_autores.to_csv('autores.csv', index=False)
 
-    df.to_csv('autores.csv', index=False)
+    df_livros.loc[df_livros['autor'] == nome_autor,
+                  'autor'] = autor_entry_editar_excluir_autor.get()
+
+    df_livros.to_csv('livros.csv', index=False)
+
+    cancelar_edicao_autor()
+
+    carrega_tabelas()
+
+
+def excluir_autor():
+    id_autor, nome_autor = tabela_autores.item(
+        tabela_autores.focus())['values']
+
+    df_livros = pd.read_csv('livros.csv')
+    df_autores = pd.read_csv('autores.csv')
+
+    df_autores.drop(id_autor - 1, axis=0, inplace=True)
+    df_autores.to_csv('autores.csv', index=False)
+
+    df_livros.loc[df_livros['autor'] ==
+                  nome_autor, 'autor'] = 'Desconhecido(a)'
+
+    df_livros.to_csv('livros.csv', index=False)
 
     cancelar_edicao_autor()
 
@@ -520,16 +619,40 @@ def cancelar_edicao_autor():
 
 
 def editar_editora():
-    editora_selecionada = tabela_editoras.item(
+    id_editora, nome_editora = tabela_editoras.item(
         tabela_editoras.focus())['values']
 
-    id_editora = editora_selecionada[0]
+    df_livros = pd.read_csv('livros.csv')
+    df_editoras = pd.read_csv('editoras.csv')
 
-    df = pd.read_csv('editoras.csv')
+    df_editoras.loc[id_editora - 1,
+                    'editora'] = editora_entry_editar_excluir_editora.get()
 
-    df.loc[id_editora - 1, 'editora'] = editora_entry_editar_excluir_editora.get()
+    df_editoras.to_csv('editoras.csv', index=False)
 
-    df.to_csv('editoras.csv', index=False)
+    df_livros.loc[df_livros['editora'] == nome_editora,
+                  'editora'] = editora_entry_editar_excluir_editora.get()
+
+    df_livros.to_csv('livros.csv', index=False)
+
+    cancelar_edicao_editora()
+
+    carrega_tabelas()
+
+
+def excluir_editora():
+    id_editora, nome_editora = tabela_editoras.item(
+        tabela_editoras.focus())['values']
+
+    df_livros = pd.read_csv('livros.csv')
+    df_editoras = pd.read_csv('editoras.csv')
+
+    df_editoras.drop(id_editora - 1, axis=0, inplace=True)
+    df_editoras.to_csv('editoras.csv', index=False)
+
+    df_livros.loc[df_livros['editora'] ==
+                  nome_editora, 'editora'] = 'Desconhecida'
+    df_livros.to_csv('livros.csv', index=False)
 
     cancelar_edicao_editora()
 
@@ -891,7 +1014,8 @@ botao_editar_livro.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 botao_excluir_livro = Button(
     botoes_editar_excluir_livro,
     text='Excluir',
-    relief=GROOVE
+    relief=GROOVE,
+    command=lambda: excluir_livro()
 )
 botao_excluir_livro.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -940,7 +1064,8 @@ botao_editar_autor.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 botao_excluir_autor = Button(
     botoes_editar_excluir_autor,
     text='Excluir',
-    relief=GROOVE
+    relief=GROOVE,
+    command=lambda: excluir_autor()
 )
 botao_excluir_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -989,7 +1114,8 @@ botao_editar_editora.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 botao_excluir_editora = Button(
     botoes_editar_excluir_editora,
     text='Excluir',
-    relief=GROOVE
+    relief=GROOVE,
+    command=lambda: excluir_editora()
 )
 botao_excluir_editora.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
