@@ -754,7 +754,8 @@ style.configure(
     'Treeview',
     background='white',
     foreground='black',
-    fieldbackground='#D3D3D3'
+    fieldbackground='#D3D3D3',
+    font='Arial 12'
 )
 style.map(
     'Treeview',
@@ -764,7 +765,8 @@ style.map(
 # criação do frame responsável por conter as tabelas e criação das tabelas
 table_frame = LabelFrame(
     root,
-    text='Livros'
+    text='Livros',
+    font='Arial 12'
 )
 table_frame.pack(
     expand=True,
@@ -872,80 +874,92 @@ livro_register_frame.columnconfigure(1, weight=1)
 
 titulo_label_registro_livro = Label(
     livro_register_frame,
-    text='Titulo'
+    text='Titulo',
+    font='Arial 12'
 )
 titulo_label_registro_livro.grid(row=0, column=0, padx=10, pady=10)
 
 titulo_entry_registro_livro = Entry(
-    livro_register_frame
+    livro_register_frame,
+    font='Arial 12'
 )
 titulo_entry_registro_livro.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
 autor_label_registro_livro = Label(
     livro_register_frame,
-    text='Autor'
+    text='Autor',
+    font='Arial 12'
 )
 autor_label_registro_livro.grid(row=1, column=0, padx=10, pady=10)
 
 autor_entry_registro_livro = Entry(
-    livro_register_frame
+    livro_register_frame,
+    font='Arial 12'
 )
 autor_entry_registro_livro.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
 
 editora_label_registro_livro = Label(
     livro_register_frame,
-    text='Editora'
+    text='Editora',
+    font='Arial 12'
 )
 editora_label_registro_livro.grid(row=2, column=0, padx=10, pady=10)
 
 editora_entry_registro_livro = Entry(
-    livro_register_frame
+    livro_register_frame,
+    font='Arial 12'
 )
 editora_entry_registro_livro.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
 
 n_pages_label_registro_livro = Label(
     livro_register_frame,
-    text='Nº Páginas'
+    text='Nº Páginas',
+    font='Arial 12'
 )
 n_pages_label_registro_livro.grid(row=3, column=0, padx=10, pady=10)
 
 n_pages_entry_registro_livro = Entry(
-    livro_register_frame
+    livro_register_frame,
+    font='Arial 12'
 )
 n_pages_entry_registro_livro.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
 
 proprietario_label_registro_livro = Label(
     livro_register_frame,
-    text='Proprietário'
+    text='Proprietário',
+    font='Arial'
 )
 proprietario_label_registro_livro.grid(row=4, column=0, padx=10, pady=10)
 
 proprietario_entry_registro_livro = Entry(
-    livro_register_frame
+    livro_register_frame,
+    font='Arial 12'
 )
 proprietario_entry_registro_livro.grid(
     row=4, column=1, padx=10, pady=10, sticky=EW)
 
 # frame responsável pela tela de registro dos autores
 autor_register_frame = Frame(
-    table_frame
+    table_frame,
 )
 
 autor_register_frame.columnconfigure(1, weight=1)
 
 autor_label_registro_autor = Label(
     autor_register_frame,
-    text='Autor'
+    text='Autor',
+    font='Arial 12'
 )
 autor_label_registro_autor.grid(row=0, column=0, padx=10, pady=10)
 
 autor_entry_registro_autor = Entry(
-    autor_register_frame
+    autor_register_frame,
+    font='Arial 12'
 )
 autor_entry_registro_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
 # frame responsável pela tela de registro das editoras
-editora_register_frame = Label(
+editora_register_frame = Frame(
     table_frame
 )
 
@@ -953,12 +967,14 @@ editora_register_frame.columnconfigure(1, weight=1)
 
 editora_label_registro_editora = Label(
     editora_register_frame,
-    text='Editora'
+    text='Editora',
+    font='Arial 12'
 )
 editora_label_registro_editora.grid(row=0, column=0, padx=10, pady=10)
 
 editora_entry_registro_editora = Entry(
-    editora_register_frame
+    editora_register_frame,
+    font='Arial 12'
 )
 editora_entry_registro_editora.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -975,7 +991,8 @@ button_add = Button(
     button_register_frame,
     text='Adicionar',
     relief=GROOVE,
-    command=lambda: adicionar_registro()
+    command=lambda: adicionar_registro(),
+    font='Arial 12'
 )
 button_add.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
@@ -983,7 +1000,8 @@ button_cancel = Button(
     button_register_frame,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: cancelar_registro()
+    command=lambda: cancelar_registro(),
+    font='Arial 12'
 )
 button_cancel.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -994,7 +1012,8 @@ drop_down_register = ttk.Combobox(
         'Autor',
         'Editora'
     ),
-    state='readonly'
+    state='readonly',
+    font='Arial 12'
 )
 drop_down_register.current(0)
 drop_down_register.bind('<<ComboboxSelected>>', mudar_tela_registro)
@@ -1009,60 +1028,70 @@ editar_excluir_livro.columnconfigure(1, weight=1)
 
 titulo_label_editar_excluir_livro = Label(
     editar_excluir_livro,
-    text='Titulo'
+    text='Titulo',
+    font='Arial 12'
 )
 titulo_label_editar_excluir_livro.grid(row=0, column=0, padx=10, pady=10)
 
 titulo_entry_editar_excluir_livro = Entry(
-    editar_excluir_livro
+    editar_excluir_livro,
+    font='Arial 12'
 )
 titulo_entry_editar_excluir_livro.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
 
 autor_label_editar_excluir_livro = Label(
     editar_excluir_livro,
-    text='Autor'
+    text='Autor',
+    font='Arial 12'
 )
 autor_label_editar_excluir_livro.grid(row=1, column=0, padx=10, pady=10)
 
 autor_entry_editar_excluir_livro = Entry(
-    editar_excluir_livro
+    editar_excluir_livro,
+    font='Arial 12'
 )
 autor_entry_editar_excluir_livro.grid(
     row=1, column=1, padx=10, pady=10, sticky=EW)
 
 editora_label_editar_excluir_livro = Label(
     editar_excluir_livro,
-    text='Editora'
+    text='Editora',
+    font='Arial 12'
 )
 editora_label_editar_excluir_livro.grid(row=2, column=0, padx=10, pady=10)
 
 editora_entry_editar_excluir_livro = Entry(
-    editar_excluir_livro
+    editar_excluir_livro,
+    font='Arial 12'
 )
 editora_entry_editar_excluir_livro.grid(
     row=2, column=1, padx=10, pady=10, sticky=EW)
 
 n_pages_label_editar_excluir_livro = Label(
     editar_excluir_livro,
-    text='Nº Páginas'
+    text='Nº Páginas',
+    font='Arial 12'
 )
 n_pages_label_editar_excluir_livro.grid(row=3, column=0, padx=10, pady=10)
 
 n_pages_entry_editar_excluir_livro = Entry(
-    editar_excluir_livro
+    editar_excluir_livro,
+    font='Arial 12'
 )
 n_pages_entry_editar_excluir_livro.grid(
     row=3, column=1, padx=10, pady=10, sticky=EW)
 
 proprietario_label_editar_excluir_livro = Label(
     editar_excluir_livro,
-    text='Proprietário'
+    text='Proprietário',
+    font='Arial 12'
 )
 proprietario_label_editar_excluir_livro.grid(row=4, column=0, padx=10, pady=10)
 
 proprietario_entry_editar_excluir_livro = Entry(
-    editar_excluir_livro
+    editar_excluir_livro,
+    font='Arial 12'
 )
 proprietario_entry_editar_excluir_livro.grid(
     row=4, column=1, padx=10, pady=10, sticky=EW)
@@ -1079,7 +1108,8 @@ botao_editar_livro = Button(
     botoes_editar_excluir_livro,
     text='Editar',
     relief=GROOVE,
-    command=lambda: editar_livro()
+    command=lambda: editar_livro(),
+    font='Arial 12'
 )
 botao_editar_livro.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
@@ -1087,7 +1117,8 @@ botao_excluir_livro = Button(
     botoes_editar_excluir_livro,
     text='Excluir',
     relief=GROOVE,
-    command=lambda: excluir_livro()
+    command=lambda: excluir_livro(),
+    font='Arial 12'
 )
 botao_excluir_livro.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -1095,7 +1126,8 @@ botao_cancelar_edicao_livro = Button(
     botoes_editar_excluir_livro,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: cancelar_edicao_livro()
+    command=lambda: cancelar_edicao_livro(),
+    font='Arial 12'
 )
 botao_cancelar_edicao_livro.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
 
@@ -1107,12 +1139,14 @@ editar_excluir_autor.columnconfigure(1, weight=1)
 
 autor_label_editar_excluir_autor = Label(
     editar_excluir_autor,
-    text='Autor'
+    text='Autor',
+    font='Arial 12'
 )
 autor_label_editar_excluir_autor.grid(row=0, column=0, padx=10, pady=10)
 
 autor_entry_editar_excluir_autor = Entry(
-    editar_excluir_autor
+    editar_excluir_autor,
+    font='Arial 12'
 )
 autor_entry_editar_excluir_autor.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -1129,7 +1163,8 @@ botao_editar_autor = Button(
     botoes_editar_excluir_autor,
     text='Editar',
     relief=GROOVE,
-    command=lambda: editar_autor()
+    command=lambda: editar_autor(),
+    font='Arial 12'
 )
 botao_editar_autor.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
@@ -1137,7 +1172,8 @@ botao_excluir_autor = Button(
     botoes_editar_excluir_autor,
     text='Excluir',
     relief=GROOVE,
-    command=lambda: excluir_autor()
+    command=lambda: excluir_autor(),
+    font='Arial 12'
 )
 botao_excluir_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -1145,7 +1181,8 @@ botao_cancelar_edicao_autor = Button(
     botoes_editar_excluir_autor,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: cancelar_edicao_autor()
+    command=lambda: cancelar_edicao_autor(),
+    font='Arial 12'
 )
 botao_cancelar_edicao_autor.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
 
@@ -1157,12 +1194,14 @@ editar_excluir_editora.columnconfigure(1, weight=1)
 
 editora_label_editar_excluir_editora = Label(
     editar_excluir_editora,
-    text='Editora'
+    text='Editora',
+    font='Arial 12'
 )
 editora_label_editar_excluir_editora.grid(row=0, column=0, padx=10, pady=10)
 
 editora_entry_editar_excluir_editora = Entry(
-    editar_excluir_editora
+    editar_excluir_editora,
+    font='Arial 12'
 )
 editora_entry_editar_excluir_editora.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -1179,7 +1218,8 @@ botao_editar_editora = Button(
     botoes_editar_excluir_editora,
     text='Editar',
     relief=GROOVE,
-    command=lambda: editar_editora()
+    command=lambda: editar_editora(),
+    font='Arial 12'
 )
 botao_editar_editora.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
@@ -1187,7 +1227,8 @@ botao_excluir_editora = Button(
     botoes_editar_excluir_editora,
     text='Excluir',
     relief=GROOVE,
-    command=lambda: excluir_editora()
+    command=lambda: excluir_editora(),
+    font='Arial 12'
 )
 botao_excluir_editora.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -1195,7 +1236,8 @@ botao_cancelar_edicao_editora = Button(
     botoes_editar_excluir_editora,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: cancelar_edicao_editora()
+    command=lambda: cancelar_edicao_editora(),
+    font='Arial 12'
 )
 botao_cancelar_edicao_editora.grid(
     row=0, column=2, padx=10, pady=10, sticky=EW)
@@ -1205,6 +1247,7 @@ botao_cancelar_edicao_editora.grid(
 button_frame = LabelFrame(
     root,
     text='Comandos',
+    font='Arial 12'
 )
 button_frame.pack(
     fill=X,
@@ -1218,7 +1261,8 @@ add_new = Button(
     button_frame,
     text='Novo',
     relief=GROOVE,
-    command=lambda: adicionar_novo()
+    command=lambda: adicionar_novo(),
+    font='Arial 12'
 )
 
 add_new.grid(
@@ -1235,7 +1279,8 @@ drop_down = ttk.Combobox(
         'Autores',
         'Editoras'
     ),
-    state='readonly'
+    state='readonly',
+    font='Arial 12'
 )
 drop_down.current(0)
 drop_down.bind('<<ComboboxSelected>>', mudar_tabela)
