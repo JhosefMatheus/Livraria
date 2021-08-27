@@ -1,16 +1,21 @@
 import mysql.connector
+import numpy as np
 
 
 class DBHelper:
     def __init__(self):
-        self.data_base = mysql.connector.connect(
+        '''
+        O construtor é responsável por fazer a conexão com o banco de dados e criar as tabelas
+        livros, autores e editoras.
+        '''
+        self.connection = mysql.connector.connect(
             host='localhost',
             user='root',
             passwd='',
-            database='livraria_db'
+            database='livraria_menan'
         )
 
-        self.cursor = self.data_base.cursor()
+        self.cursor = self.connection.cursor()
 
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS livros (
@@ -38,18 +43,32 @@ class DBHelper:
         ''')
 
     def get_livros(self):
+        '''
+        Retorna todos os registros presentes na tabela livros.
+        '''
         self.cursor.execute('SELECT * FROM livros ORDER BY id')
         return self.cursor.fetchall()
 
     def get_autores(self):
+        '''
+        Retorna todos os registros presentes na tabela autores.
+        '''
         self.cursor.execute('SELECT * FROM autores ORDER BY id')
         return self.cursor.fetchall()
 
     def get_editoras(self):
+        '''
+        Retorna todos os registros presentes na tabela editoras.
+        '''
         self.cursor.execute('SELECT * FROM editoras ORDER BY id')
         return self.cursor.fetchall()
 
     def add_livro(self, titulo, autor, editora, n_paginas, proprietario):
+        '''
+        Adiciona um novo registro na tabela livro, e seu respectivo autor e editora nas respectivas
+        tabelas. Caso o autor do livro em questão já esteja registrado na tabela autores, ele não
+        adicionado. O mesmo vale para a editora.
+        '''
         sql = 'INSERT INTO livros (titulo, autor, editora, paginas, proprietario) VALUES (%s, %s, %s, %s, %s)'
         values = (titulo, autor, editora, n_paginas, proprietario)
 
@@ -67,25 +86,36 @@ class DBHelper:
         if (editora,) not in editoras:
             self.add_editora(editora)
 
-        self.data_base.commit()
+        self.connection.commit()
 
     def add_autor(self, autor):
+        '''
+        Adiciona um novo registro autor na tabela autores.
+        '''
         sql = 'INSERT INTO autores (autor) VALUES (%s)'
         values = (autor,)
 
         self.cursor.execute(sql, values)
 
-        self.data_base.commit()
+        self.connection.commit()
 
     def add_editora(self, editora):
+        '''
+        Adiciona um novo registro editora na tabela editoras.
+        '''
         sql = 'INSERT INTO editoras (editora) VALUES (%s)'
         values = (editora,)
 
         self.cursor.execute(sql, values)
 
-        self.data_base.commit()
+        self.connection.commit()
 
     def editar_livro(self, titulo, autor, editora, paginas, proprietario, id, autor_livro_selecionado, editora_livro_selecionado):
+        '''
+        Atualiza todos os campos de um registro livro. Caso o novo autor não esteja na tabela autores, ele será adicionado.
+        Caso o antigo autor não esteja mais presente em nenhum livro o mesmo será excluído da tabela autores. O mesmo vale para
+        as editoras.
+        '''
         sql = 'UPDATE livros SET titulo = %s, autor = %s, editora = %s, paginas = %s, proprietario = %s WHERE id = %s'
         values = (titulo, autor, editora, paginas, proprietario, id)
 
@@ -121,9 +151,13 @@ class DBHelper:
         if (editora,) not in editoras:
             self.add_editora(editora)
 
-        self.data_base.commit()
+        self.connection.commit()
 
     def excluir_livro(self, id_livro, autor_livro, editora_livro):
+        '''
+        Deleta um registro do tipo livro da tabela livros. Se o autor do livro em questão for o último ele
+        também será excluído da tabela de autores. O mesmo vale para as editoras.
+        '''
         sql = 'DELETE FROM livros WHERE id = %s'
         values = (id_livro,)
 
@@ -147,22 +181,45 @@ class DBHelper:
 
             self.cursor.execute(sql, values)
 
-        self.data_base.commit()
+        self.connection.commit()
 
     def editar_autor(self, id_autor_selecionado, nome_autor_selecionado, novo_autor):
-        sql = 'UPDATE autores SET autor = %s WHERE id = %s'
-        values = (novo_autor, id_autor_selecionado)
+        '''
+        Edita o nome do autor selecionado. Qualquer livro que tenha como autor o mesmo nome do
+        autor selecionado também sofrerá alteração. Caso o nome do autor já exista ele será 
+        excluído para evitar valores duplicados.
+        '''
 
-        self.cursor.execute(sql, values)
+        self.cursor.execute('SELECT autor FROM autores')
+        autores = self.cursor.fetchall()
+
+        print(autores)
+        print((novo_autor,) not in autores)
+
+        if (novo_autor,) not in autores:
+            sql = 'UPDATE autores SET autor = %s WHERE id = %s'
+            values = (novo_autor, id_autor_selecionado)
+
+            self.cursor.execute(sql, values)
+
+        else:
+            sql = 'DELETE FROM autores WHERE autor = %s'
+            values = (nome_autor_selecionado,)
+
+            self.cursor.execute(sql, values)
 
         sql = 'UPDATE livros SET autor = %s WHERE autor = %s'
         values = (novo_autor, nome_autor_selecionado)
 
         self.cursor.execute(sql, values)
 
-        self.data_base.commit()
+        self.connection.commit()
 
     def excluir_autor(self, id_autor, nome_autor):
+        '''
+        Exclui o autor selecionado. Caso o autor em questão exista em qualquer registro da tabela
+        livros, o campo autor desses registros será trocado por "Desconhecido(a)".
+        '''
         sql = 'DELETE FROM autores WHERE id = %s'
         values = (id_autor,)
 
@@ -173,9 +230,29 @@ class DBHelper:
 
         self.cursor.execute(sql, values)
 
-        self.data_base.commit()
+        self.connection.commit()
 
     def editar_editora(self, id_editora_selecionada, nome_editora_selecionada, nova_editora):
+        '''
+        Edita o nome da editora selecionada. Qualquer livro que tenha como editora o mesmo nome da
+        editora selecionada também sofrerá alteração. Caso o nome da editora já exista ele será 
+        excluído para evitar valores duplicados.
+        '''
+        self.cursor.execute('SELECT editora FROM editoras')
+        editoras = self.cursor.fetchall()
+
+        if (nova_editora,) not in editoras:
+            sql = 'UPDATE editoras SET editora = %s WHERE id = %s'
+            values = (nova_editora, id_editora_selecionada)
+
+            self.cursor.execute(sql, values)
+
+        else:
+            sql = 'DELETE FROM editoras WHERE editora = %s'
+            values = (nome_editora_selecionada,)
+
+            self.cursor.execute(sql, values)
+
         sql = 'UPDATE editoras SET editora = %s WHERE id = %s'
         values = (nova_editora, id_editora_selecionada)
 
@@ -186,9 +263,13 @@ class DBHelper:
 
         self.cursor.execute(sql, values)
 
-        self.data_base.commit()
+        self.connection.commit()
 
     def excluir_editora(self, id_editora, nome_editora):
+        '''
+        Exclui a editora selecionada. Caso a editora em questão exista em qualquer registro da tabela
+        livros, o campo editora desses registros será trocado por "Desconhecida".
+        '''
         sql = 'DELETE FROM editoras WHERE id = %s'
         values = (id_editora,)
 
@@ -199,4 +280,12 @@ class DBHelper:
 
         self.cursor.execute(sql, values)
 
-        self.data_base.commit()
+        self.connection.commit()
+
+    def nome_autores(self):
+        self.cursor.execute('SELECT autor FROM autores')
+        return list(np.array(self.cursor.fetchall()).flatten())
+
+    def nome_editoras(self):
+        self.cursor.execute('SELECT editora FROM editoras')
+        return list(np.array(self.cursor.fetchall()).flatten())

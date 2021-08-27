@@ -1,4 +1,5 @@
 # imports
+from ttkwidgets.autocomplete import AutocompleteCombobox
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
@@ -8,6 +9,10 @@ data_base = DBHelper()
 
 
 def carrega_tabelas():
+    '''
+    Função responsável por carregar a treeview tabela_livros, tabela_autores, tabela_editoras
+    sempre que alguma alteração é feita em uma dessas tabelas.
+    '''
     livros = data_base.get_livros()
     autores = data_base.get_autores()
     editoras = data_base.get_editoras()
@@ -73,6 +78,9 @@ def carrega_tabelas():
 
 
 def mudar_tabela(event):
+    '''
+    Função responsável por alterar a tabela que está sendo exibida para o usuário no momento
+    '''
     livro_register_frame.pack_forget()
     autor_register_frame.pack_forget()
     editora_register_frame.pack_forget()
@@ -125,6 +133,10 @@ def mudar_tabela(event):
 
 
 def adicionar_novo():
+    '''
+    Função responsável por carregar a tela de registro. Está função sempre carrega a tela de registro
+    do livro.
+    '''
     table_frame['text'] = 'Novo Livro'
 
     tabela_livros.pack_forget()
@@ -155,6 +167,10 @@ def adicionar_novo():
 
 
 def cancelar_registro():
+    '''
+    Esta funçõa cancela a tela de registro em questão e apaga todos os valores presentes
+    em seus campos de registro.
+    '''
     table_frame['text'] = 'Livros'
 
     if drop_down_register.get() == 'Livro':
@@ -189,6 +205,9 @@ def cancelar_registro():
 
 
 def mudar_tela_registro(event):
+    '''
+    Esta função muda entre as telas de registro (livro, autor, editora)
+    '''
     button_register_frame.pack_forget()
 
     if drop_down_register.get() == 'Livro':
@@ -243,6 +262,12 @@ def mudar_tela_registro(event):
 
 
 def adicionar_registro():
+    '''
+    Esta função é responsável por inserir os valores digitados nos campos de registro da tela
+    de registro em questão nas suas devidas tabelas. Caso qualquer dos valores seja um valor
+    nulo (valor em branco) ou um valor que não condiza com o seu campo, esta função exibe uma
+    mensagem de erro dizendo que algum dos valores digitados está inválido.
+    '''
     if drop_down_register.get() == 'Livro':
         titulo = titulo_entry_registro_livro.get().strip()
         autor = autor_entry_registro_livro.get().strip()
@@ -288,11 +313,21 @@ def adicionar_registro():
 
             editora_entry_registro_editora.delete(0, END)
 
+            autor_entry_registro_livro['completevalues'] = data_base.nome_autores(
+            )
+            editora_entry_registro_livro['completevalues'] = data_base.nome_editoras(
+            )
+
             carrega_tabelas()
             cancelar_registro()
 
 
 def selecionar_livro(event):
+    '''
+    Esta função é responsável por abrir a tela de edição/exclusão do livro selecionado em
+    questão. Caso o usuário clique em qualquer local da tabela que não seja um livro uma
+    mensagem será exibida informando que o usuário não clicou em nenhum livro.
+    '''
     try:
         livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
 
@@ -334,6 +369,11 @@ def selecionar_livro(event):
 
 
 def selecionar_autor(event):
+    '''
+    Esta função é responsável por abrir a tela de edição/exclusão do autor selecionado em
+    questão. Caso o usuário clique em qualquer local da tabela que não seja um autor uma
+    mensagem será exibida informando que o usuário não clicou em nenhum autor.
+    '''
     try:
         autor_selecionado = tabela_autores.item(
             tabela_autores.focus())['values']
@@ -367,6 +407,11 @@ def selecionar_autor(event):
 
 
 def selecionar_editora(event):
+    '''
+    Esta função é responsável por abrir a tela de edição/exclusão da editora selecionado em
+    questão. Caso o usuário clique em qualquer local da tabela que não seja uma editora uma
+    mensagem será exibida informando que o usuário não clicou em nenhuma editora.
+    '''
     try:
         editora_selecionada = tabela_editoras.item(
             tabela_editoras.focus())['values']
@@ -401,6 +446,12 @@ def selecionar_editora(event):
 
 
 def editar_livro():
+    '''
+    Esta função é responsável por pegar os valores digitados na tela de edição/exclusão do livro
+    em questão e fazer o processo de edição do mesmo. Caso algum dos valores digitados for um valor
+    nulo (em branco) ou um valor que não corresponda ao seu tipo o usuário receberá uma mensagem de
+    erro informando que algum dos valores não foi digitado corretamente.
+    '''
     livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
 
     titulo = titulo_entry_editar_excluir_livro.get().strip()
@@ -422,12 +473,20 @@ def editar_livro():
         data_base.editar_livro(titulo, autor, editora,
                                n_paginas, proprietario, id_livro_selecionado, autor_livro_selecionado, editora_livro_selecionado)
 
+        autor_entry_registro_livro['values'] = data_base.nome_autores()
+        editora_entry_registro_livro['values'] = data_base.nome_editoras(
+        )
+
         cancelar_edicao_livro()
 
         carrega_tabelas()
 
 
 def cancelar_edicao_livro():
+    '''
+    Esta função fecha a tela de edição, limpa todos os campos da mesma e retira o livro selecionado
+    do foco do programa.
+    '''
     tabela_livros.selection_remove(tabela_livros.focus())
 
     tabela_livros.focus('')
@@ -452,6 +511,9 @@ def cancelar_edicao_livro():
 
 
 def excluir_livro():
+    '''
+    Esta função exclui o livro selecionado.
+    '''
     livro_selecionado = tabela_livros.item(tabela_livros.focus())['values']
 
     id_livro = livro_selecionado[0]
@@ -460,12 +522,21 @@ def excluir_livro():
 
     data_base.excluir_livro(id_livro, autor_livro, editora_livro)
 
+    autor_entry_registro_livro['values'] = data_base.nome_autores()
+    editora_entry_registro_livro['values'] = data_base.nome_editoras()
+
     cancelar_edicao_livro()
 
     carrega_tabelas()
 
 
 def editar_autor():
+    '''
+    Esta função é responsável por pegar os valores digitados na tela de edição/exclusão do autor
+    em questão e fazer o processo de edição do mesmo. Caso algum dos valores digitados for um valor
+    nulo (em branco) ou um valor que não corresponda ao seu tipo o usuário receberá uma mensagem de
+    erro informando que algum dos valores não foi digitado corretamente.
+    '''
     id_autor_selecionado, nome_autor_selecionado = tabela_autores.item(
         tabela_autores.focus())['values']
 
@@ -478,16 +549,23 @@ def editar_autor():
         data_base.editar_autor(id_autor_selecionado,
                                nome_autor_selecionado, novo_autor)
 
+        autor_entry_registro_livro['values'] = data_base.nome_autores()
+
         cancelar_edicao_autor()
 
         carrega_tabelas()
 
 
 def excluir_autor():
+    '''
+    Esta função o exclui o autor selecionado.
+    '''
     id_autor, nome_autor = tabela_autores.item(
         tabela_autores.focus())['values']
 
     data_base.excluir_autor(id_autor, nome_autor)
+
+    autor_entry_registro_livro['values'] = data_base.nome_autores()
 
     cancelar_edicao_autor()
 
@@ -495,6 +573,10 @@ def excluir_autor():
 
 
 def cancelar_edicao_autor():
+    '''
+    Esta função fecha a tela de edição, limpa todos os campos da mesma e retira o autor selecionado
+    do foco do programa.
+    '''
     tabela_autores.selection_remove(tabela_autores.focus())
 
     tabela_autores.focus('')
@@ -515,6 +597,12 @@ def cancelar_edicao_autor():
 
 
 def editar_editora():
+    '''
+    Esta função é responsável por pegar os valores digitados na tela de edição/exclusão da editora
+    em questão e fazer o processo de edição do mesmo. Caso algum dos valores digitados for um valor
+    nulo (em branco) ou um valor que não corresponda ao seu tipo o usuário receberá uma mensagem de
+    erro informando que algum dos valores não foi digitado corretamente.
+    '''
     id_editora_selecionada, nome_editora_selecionada = tabela_editoras.item(
         tabela_editoras.focus())['values']
 
@@ -528,16 +616,23 @@ def editar_editora():
         data_base.editar_editora(
             id_editora_selecionada, nome_editora_selecionada, nova_editora)
 
+        editora_entry_registro_livro['values'] = data_base.nome_editoras()
+
         cancelar_edicao_editora()
 
         carrega_tabelas()
 
 
 def excluir_editora():
+    '''
+    Esta função é responsável por excluir a editora selecionada.
+    '''
     id_editora, nome_editora = tabela_editoras.item(
         tabela_editoras.focus())['values']
 
     data_base.excluir_editora(id_editora, nome_editora)
+
+    editora_entry_registro_livro['values'] = data_base.nome_editoras()
 
     cancelar_edicao_editora()
 
@@ -545,6 +640,10 @@ def excluir_editora():
 
 
 def cancelar_edicao_editora():
+    '''
+    Esta função fecha a tela de edição, limpa todos os campos da mesma e retira a editora selecionada
+    do foco do programa.
+    '''
     tabela_editoras.selection_remove(tabela_editoras.focus())
 
     tabela_editoras.focus('')
@@ -712,9 +811,10 @@ autor_label_registro_livro = Label(
 )
 autor_label_registro_livro.grid(row=1, column=0, padx=10, pady=10)
 
-autor_entry_registro_livro = Entry(
+autor_entry_registro_livro = AutocompleteCombobox(
     livro_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=data_base.nome_autores()
 )
 autor_entry_registro_livro.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
 
@@ -725,9 +825,10 @@ editora_label_registro_livro = Label(
 )
 editora_label_registro_livro.grid(row=2, column=0, padx=10, pady=10)
 
-editora_entry_registro_livro = Entry(
+editora_entry_registro_livro = AutocompleteCombobox(
     livro_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=data_base.nome_editoras()
 )
 editora_entry_registro_livro.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
 
