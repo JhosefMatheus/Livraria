@@ -287,6 +287,8 @@ def adicionar_registro():
             n_pages_entry_registro_livro.delete(0, END)
             proprietario_entry_registro_livro.delete(0, END)
 
+            atualiza_auto_completar()
+
             carrega_tabelas()
             cancelar_registro()
 
@@ -299,6 +301,8 @@ def adicionar_registro():
             data_base.add_autor(autor)
 
             autor_entry_registro_autor.delete(0, END)
+
+            atualiza_auto_completar()
 
             carrega_tabelas()
             cancelar_registro()
@@ -313,10 +317,7 @@ def adicionar_registro():
 
             editora_entry_registro_editora.delete(0, END)
 
-            autor_entry_registro_livro['completevalues'] = data_base.nome_autores(
-            )
-            editora_entry_registro_livro['completevalues'] = data_base.nome_editoras(
-            )
+            atualiza_auto_completar()
 
             carrega_tabelas()
             cancelar_registro()
@@ -364,8 +365,7 @@ def selecionar_livro(event):
         )
 
     except IndexError as e:
-        messagebox.showinfo('Livro selecionado inválido',
-                            'Por favor clique em algum livro da tabela')
+        pass
 
 
 def selecionar_autor(event):
@@ -402,8 +402,7 @@ def selecionar_autor(event):
             anchor=S
         )
     except IndexError as e:
-        messagebox.showinfo('Autor selecionado inválido',
-                            'Por favor clique em algum autor da tabela')
+        pass
 
 
 def selecionar_editora(event):
@@ -441,8 +440,7 @@ def selecionar_editora(event):
         )
 
     except IndexError as e:
-        messagebox.showinfo('Editora selecionada inválida',
-                            'Por favor clique em alguma editora da tabela')
+        pass
 
 
 def editar_livro():
@@ -473,9 +471,7 @@ def editar_livro():
         data_base.editar_livro(titulo, autor, editora,
                                n_paginas, proprietario, id_livro_selecionado, autor_livro_selecionado, editora_livro_selecionado)
 
-        autor_entry_registro_livro['values'] = data_base.nome_autores()
-        editora_entry_registro_livro['values'] = data_base.nome_editoras(
-        )
+        atualiza_auto_completar()
 
         cancelar_edicao_livro()
 
@@ -522,8 +518,7 @@ def excluir_livro():
 
     data_base.excluir_livro(id_livro, autor_livro, editora_livro)
 
-    autor_entry_registro_livro['values'] = data_base.nome_autores()
-    editora_entry_registro_livro['values'] = data_base.nome_editoras()
+    atualiza_auto_completar()
 
     cancelar_edicao_livro()
 
@@ -549,7 +544,7 @@ def editar_autor():
         data_base.editar_autor(id_autor_selecionado,
                                nome_autor_selecionado, novo_autor)
 
-        autor_entry_registro_livro['values'] = data_base.nome_autores()
+        atualiza_auto_completar()
 
         cancelar_edicao_autor()
 
@@ -565,7 +560,7 @@ def excluir_autor():
 
     data_base.excluir_autor(id_autor, nome_autor)
 
-    autor_entry_registro_livro['values'] = data_base.nome_autores()
+    atualiza_auto_completar()
 
     cancelar_edicao_autor()
 
@@ -616,7 +611,7 @@ def editar_editora():
         data_base.editar_editora(
             id_editora_selecionada, nome_editora_selecionada, nova_editora)
 
-        editora_entry_registro_livro['values'] = data_base.nome_editoras()
+        atualiza_auto_completar()
 
         cancelar_edicao_editora()
 
@@ -632,7 +627,7 @@ def excluir_editora():
 
     data_base.excluir_editora(id_editora, nome_editora)
 
-    editora_entry_registro_livro['values'] = data_base.nome_editoras()
+    atualiza_auto_completar()
 
     cancelar_edicao_editora()
 
@@ -660,6 +655,20 @@ def cancelar_edicao_editora():
         fill=BOTH,
         padx=10,
         pady=10
+    )
+
+
+def atualiza_auto_completar():
+    autor_entry_registro_livro['completevalues'] = data_base.nome_autores()
+    autor_entry_editar_excluir_livro['completevalues'] = data_base.nome_autores(
+    )
+    autor_entry_editar_excluir_autor['completevalues'] = data_base.nome_autores(
+    )
+
+    editora_entry_registro_livro['completevalues'] = data_base.nome_editoras()
+    editora_entry_editar_excluir_livro['completevalues'] = data_base.nome_editoras(
+    )
+    editora_entry_editar_excluir_editora['completevalues'] = data_base.nome_editoras(
     )
 
 
@@ -968,9 +977,10 @@ autor_label_editar_excluir_livro = Label(
 )
 autor_label_editar_excluir_livro.grid(row=1, column=0, padx=10, pady=10)
 
-autor_entry_editar_excluir_livro = Entry(
+autor_entry_editar_excluir_livro = AutocompleteCombobox(
     editar_excluir_livro,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=data_base.nome_autores()
 )
 autor_entry_editar_excluir_livro.grid(
     row=1, column=1, padx=10, pady=10, sticky=EW)
@@ -982,9 +992,10 @@ editora_label_editar_excluir_livro = Label(
 )
 editora_label_editar_excluir_livro.grid(row=2, column=0, padx=10, pady=10)
 
-editora_entry_editar_excluir_livro = Entry(
+editora_entry_editar_excluir_livro = AutocompleteCombobox(
     editar_excluir_livro,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=data_base.nome_editoras()
 )
 editora_entry_editar_excluir_livro.grid(
     row=2, column=1, padx=10, pady=10, sticky=EW)
@@ -1065,9 +1076,10 @@ autor_label_editar_excluir_autor = Label(
 )
 autor_label_editar_excluir_autor.grid(row=0, column=0, padx=10, pady=10)
 
-autor_entry_editar_excluir_autor = Entry(
+autor_entry_editar_excluir_autor = AutocompleteCombobox(
     editar_excluir_autor,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=data_base.nome_autores()
 )
 autor_entry_editar_excluir_autor.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -1120,9 +1132,10 @@ editora_label_editar_excluir_editora = Label(
 )
 editora_label_editar_excluir_editora.grid(row=0, column=0, padx=10, pady=10)
 
-editora_entry_editar_excluir_editora = Entry(
+editora_entry_editar_excluir_editora = AutocompleteCombobox(
     editar_excluir_editora,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=data_base.nome_editoras()
 )
 editora_entry_editar_excluir_editora.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
