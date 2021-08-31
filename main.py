@@ -92,6 +92,15 @@ def mudar_tabela(event):
     editar_excluir_editora.pack_forget()
     botoes_editar_excluir_editora.pack_forget()
 
+    carrega_tabelas()
+
+    pesquisa.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
     if drop_down.get() == 'Livros':
         tabela_autores.pack_forget()
         tabela_editoras.pack_forget()
@@ -139,6 +148,8 @@ def adicionar_novo():
     '''
     table_frame['text'] = 'Novo Livro'
 
+    pesquisa.pack_forget()
+
     tabela_livros.pack_forget()
     tabela_autores.pack_forget()
     tabela_editoras.pack_forget()
@@ -171,7 +182,8 @@ def cancelar_registro():
     Esta funçõa cancela a tela de registro em questão e apaga todos os valores presentes
     em seus campos de registro.
     '''
-    table_frame['text'] = 'Livros'
+    table_frame.pack_forget()
+    button_frame.pack_forget()
 
     if drop_down_register.get() == 'Livro':
         livro_register_frame.pack_forget()
@@ -194,11 +206,33 @@ def cancelar_registro():
 
     button_register_frame.pack_forget()
 
+    pesquisa.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10,
+    )
+
+    table_frame.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
     tabela_livros.pack(
         expand=True,
         fill=BOTH,
         padx=10,
         pady=10
+    )
+
+    button_frame.pack(
+        fill=X,
+        expand=False,
+        pady=10,
+        padx=10,
+        anchor=S
     )
 
     drop_down_register.current(0)
@@ -344,6 +378,8 @@ def selecionar_livro(event):
         n_pages_entry_editar_excluir_livro.insert(0, livro_selecionado[4])
         proprietario_entry_editar_excluir_livro.insert(0, livro_selecionado[5])
 
+        pesquisa.pack_forget()
+
         tabela_livros.pack_forget()
 
         table_frame['text'] = 'Editar/Excluir Livro'
@@ -382,6 +418,8 @@ def selecionar_autor(event):
 
         autor_entry_editar_excluir_autor.insert(0, autor_selecionado[1])
 
+        pesquisa.pack_forget()
+
         tabela_autores.pack_forget()
 
         table_frame['text'] = 'Editar/Excluir Autor'
@@ -418,6 +456,8 @@ def selecionar_editora(event):
         editora_entry_editar_excluir_editora.delete(0, END)
 
         editora_entry_editar_excluir_editora.insert(0, editora_selecionada[1])
+
+        pesquisa.pack_forget()
 
         tabela_editoras.pack_forget()
 
@@ -496,11 +536,35 @@ def cancelar_edicao_livro():
     editar_excluir_livro.pack_forget()
     botoes_editar_excluir_livro.pack_forget()
 
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
     table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
 
     tabela_livros.pack(
         expand=True,
         fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
         padx=10,
         pady=10
     )
@@ -581,11 +645,35 @@ def cancelar_edicao_autor():
     editar_excluir_autor.pack_forget()
     botoes_editar_excluir_autor.pack_forget()
 
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
     table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
 
     tabela_livros.pack(
         expand=True,
         fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
         padx=10,
         pady=10
     )
@@ -648,7 +736,24 @@ def cancelar_edicao_editora():
     editar_excluir_editora.pack_forget()
     botoes_editar_excluir_editora.pack_forget()
 
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
     table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
 
     tabela_livros.pack(
         expand=True,
@@ -657,8 +762,18 @@ def cancelar_edicao_editora():
         pady=10
     )
 
+    button_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
 
 def atualiza_auto_completar():
+    '''
+    Esta função atualiza todos os campos de auto-completar presentes no programa.
+    '''
     autor_entry_registro_livro['completevalues'] = data_base.nome_autores()
     autor_entry_editar_excluir_livro['completevalues'] = data_base.nome_autores(
     )
@@ -671,10 +786,126 @@ def atualiza_auto_completar():
     editora_entry_editar_excluir_editora['completevalues'] = data_base.nome_editoras(
     )
 
+    entrada_pesquisa['complete_values'] = data_base.nome_autores()
+    entrada_pesquisa['complete_values'] = data_base.nome_editoras()
+    entrada_pesquisa['complete_values'] = data_base.titulo_livros()
+
+
+def muda_opcao_pesquisa(e):
+    '''
+    Muda os valores de auto completar do programa de acordo com a opção escolhida.
+    '''
+    if opcao_pesquisa.get() == 'Livro':
+        entrada_pesquisa['completevalues'] = data_base.titulo_livros()
+
+    elif opcao_pesquisa.get() == 'Autor':
+        entrada_pesquisa['completevalues'] = data_base.nome_autores()
+
+    elif opcao_pesquisa.get() == 'Editora':
+        entrada_pesquisa['completevalues'] = data_base.nome_editoras()
+
+
+def pesquisar_livros():
+    '''
+    Exibe na tabela livros o resultado da pesquisa feita de acordo com o dado de entrada e a opção
+    de pesquisa.
+    '''
+    livros = data_base.pesquisar_livro(
+        opcao_pesquisa.get(), entrada_pesquisa.get())
+
+    for livro in tabela_livros.get_children():
+        tabela_livros.delete(livro)
+
+    count = 0
+
+    for livro in livros:
+        id = livro[0]
+        titulo = livro[1]
+        autor = livro[2]
+        editora = livro[3]
+        n_paginas = livro[4]
+        proprietario = livro[5]
+
+        if count % 2 == 0:
+
+            tabela_livros.insert('', END, values=(
+                id, titulo, autor, editora, n_paginas, proprietario), tags=('evenrow',))
+
+        else:
+            tabela_livros.insert('', END, values=(
+                id, titulo, autor, editora, n_paginas, proprietario), tags=('oddrow',))
+
+        count += 1
+
 
 root = Tk()
 root.title('Livraria')
 root.geometry('500x500')
+
+pesquisa = LabelFrame(
+    root,
+    text='Pesquisar Livro',
+    font='Arial 12'
+)
+
+pesquisa.columnconfigure(0, weight=0)
+pesquisa.columnconfigure(1, weight=2)
+pesquisa.columnconfigure(2, weight=0)
+
+pesquisa.pack(
+    expand=False,
+    fill=X,
+    padx=10,
+    pady=10
+)
+
+opcao_pesquisa = ttk.Combobox(
+    pesquisa,
+    values=(
+        'Livro',
+        'Autor',
+        'Editora'
+    ),
+    state='readonly',
+    font='Arial 12'
+)
+opcao_pesquisa.current(0)
+opcao_pesquisa.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
+opcao_pesquisa.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+entrada_pesquisa = AutocompleteCombobox(
+    pesquisa,
+    font='Arial 12',
+    completevalues=data_base.titulo_livros()
+)
+entrada_pesquisa.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar = Button(
+    pesquisa,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=lambda: pesquisar_livros()
+)
+botao_pesquisar.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
 
 style = ttk.Style()
 style.theme_use('default')

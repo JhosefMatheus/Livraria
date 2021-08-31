@@ -283,9 +283,52 @@ class DBHelper:
         self.connection.commit()
 
     def nome_autores(self):
+        '''
+        Esta função retorna uma lista dos nomes de todos os autores presentes na base de dados.
+        '''
         self.cursor.execute('SELECT autor FROM autores')
         return list(np.array(self.cursor.fetchall()).flatten())
 
     def nome_editoras(self):
+        '''
+        Esta função retorna uma lista dos nomes de todas as editoras presentes na base de dados.
+        '''
         self.cursor.execute('SELECT editora FROM editoras')
         return list(np.array(self.cursor.fetchall()).flatten())
+
+    def titulo_livros(self):
+        '''
+        Esta função retorna uma lista de valores únicos de todos os títulos de livros presentes
+        na base de dados.
+        '''
+        self.cursor.execute('SELECT titulo FROM livros')
+        return list(set(np.array(self.cursor.fetchall()).flatten()))
+
+    def pesquisar_livro(self, opcao, entrada):
+        '''
+        Esta função retorna o resultado da pesquisa feita de acordo com a coluna desejada (titulo, 
+        autor, editora).
+        '''
+        if opcao == 'Livro':
+            sql = 'SELECT * FROM livros WHERE titulo = %s'
+            values = (entrada,)
+
+            self.cursor.execute(sql, values)
+
+            return self.cursor.fetchall()
+
+        elif opcao == 'Autor':
+            sql = 'SELECT * FROM livros WHERE autor = %s'
+            values = (entrada,)
+
+            self.cursor.execute(sql, values)
+
+            return self.cursor.fetchall()
+
+        elif opcao == 'Editora':
+            sql = 'SELECT * FROM livros WHERE editora = %s'
+            values = (entrada,)
+
+            self.cursor.execute(sql, values)
+
+            return self.cursor.fetchall()
