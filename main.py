@@ -94,18 +94,31 @@ def mudar_tabela(event):
 
     carrega_tabelas()
 
-    pesquisa.pack(
-        expand=False,
-        fill=X,
-        padx=10,
-        pady=10
-    )
+    table_frame.pack_forget()
+    button_frame.pack_forget()
 
     if drop_down.get() == 'Livros':
+        pesquisa_autor.pack_forget()
+        pesquisa_editora.pack_forget()
+
+        pesquisa_livro.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
         tabela_autores.pack_forget()
         tabela_editoras.pack_forget()
 
         table_frame['text'] = 'Livros'
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
 
         tabela_livros.pack(
             expand=True,
@@ -114,7 +127,31 @@ def mudar_tabela(event):
             pady=10
         )
 
+        button_frame.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
     elif drop_down.get() == 'Autores':
+        pesquisa_livro.pack_forget()
+        pesquisa_editora.pack_forget()
+
+        pesquisa_autor.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+        )
+
         tabela_livros.pack_forget()
         tabela_editoras.pack_forget()
 
@@ -127,15 +164,46 @@ def mudar_tabela(event):
             pady=10
         )
 
+        button_frame.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
     elif drop_down.get() == 'Editoras':
+        pesquisa_livro.pack_forget()
+        pesquisa_autor.pack_forget()
+
+        pesquisa_editora.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
         tabela_livros.pack_forget()
         tabela_autores.pack_forget()
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
 
         table_frame['text'] = 'Editoras'
 
         tabela_editoras.pack(
             expand=True,
             fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        button_frame.pack(
+            expand=False,
+            fill=X,
             padx=10,
             pady=10
         )
@@ -148,7 +216,13 @@ def adicionar_novo():
     '''
     table_frame['text'] = 'Novo Livro'
 
-    pesquisa.pack_forget()
+    pesquisa_livro.pack_forget()
+    pesquisa_autor.pack_forget()
+    pesquisa_editora.pack_forget()
+
+    entrada_pesquisa_livro.delete(0, END)
+    entrada_pesquisa_autor.delete(0, END)
+    entrada_pesquisa_editora.delete(0, END)
 
     tabela_livros.pack_forget()
     tabela_autores.pack_forget()
@@ -206,7 +280,7 @@ def cancelar_registro():
 
     button_register_frame.pack_forget()
 
-    pesquisa.pack(
+    pesquisa_livro.pack(
         expand=False,
         fill=X,
         padx=10,
@@ -236,6 +310,7 @@ def cancelar_registro():
     )
 
     drop_down_register.current(0)
+    drop_down.current(0)
 
 
 def mudar_tela_registro(event):
@@ -378,7 +453,7 @@ def selecionar_livro(event):
         n_pages_entry_editar_excluir_livro.insert(0, livro_selecionado[4])
         proprietario_entry_editar_excluir_livro.insert(0, livro_selecionado[5])
 
-        pesquisa.pack_forget()
+        pesquisa_livro.pack_forget()
 
         tabela_livros.pack_forget()
 
@@ -418,7 +493,7 @@ def selecionar_autor(event):
 
         autor_entry_editar_excluir_autor.insert(0, autor_selecionado[1])
 
-        pesquisa.pack_forget()
+        pesquisa_autor.pack_forget()
 
         tabela_autores.pack_forget()
 
@@ -457,7 +532,7 @@ def selecionar_editora(event):
 
         editora_entry_editar_excluir_editora.insert(0, editora_selecionada[1])
 
-        pesquisa.pack_forget()
+        pesquisa_editora.pack_forget()
 
         tabela_editoras.pack_forget()
 
@@ -539,7 +614,7 @@ def cancelar_edicao_livro():
     table_frame.pack_forget()
     button_frame.pack_forget()
 
-    pesquisa.pack(
+    pesquisa_livro.pack(
         expand=False,
         fill=X,
         padx=10,
@@ -568,6 +643,8 @@ def cancelar_edicao_livro():
         padx=10,
         pady=10
     )
+
+    drop_down.current(0)
 
 
 def excluir_livro():
@@ -648,7 +725,7 @@ def cancelar_edicao_autor():
     table_frame.pack_forget()
     button_frame.pack_forget()
 
-    pesquisa.pack(
+    pesquisa_livro.pack(
         expand=False,
         fill=X,
         padx=10,
@@ -677,6 +754,8 @@ def cancelar_edicao_autor():
         padx=10,
         pady=10
     )
+
+    drop_down.current(0)
 
 
 def editar_editora():
@@ -739,7 +818,7 @@ def cancelar_edicao_editora():
     table_frame.pack_forget()
     button_frame.pack_forget()
 
-    pesquisa.pack(
+    pesquisa_livro.pack(
         expand=False,
         fill=X,
         padx=10,
@@ -769,6 +848,8 @@ def cancelar_edicao_editora():
         pady=10
     )
 
+    drop_down.current(0)
+
 
 def atualiza_auto_completar():
     '''
@@ -786,23 +867,27 @@ def atualiza_auto_completar():
     editora_entry_editar_excluir_editora['completevalues'] = data_base.nome_editoras(
     )
 
-    entrada_pesquisa['complete_values'] = data_base.nome_autores()
-    entrada_pesquisa['complete_values'] = data_base.nome_editoras()
-    entrada_pesquisa['complete_values'] = data_base.titulo_livros()
+    entrada_pesquisa_livro['completevalues'] = data_base.nome_autores()
+    entrada_pesquisa_livro['completevalues'] = data_base.nome_editoras()
+    entrada_pesquisa_livro['completevalues'] = data_base.titulo_livros()
+
+    entrada_pesquisa_autor['completevalues'] = data_base.nome_autores()
+
+    entrada_pesquisa_editora['completevalues'] = data_base.nome_editoras()
 
 
 def muda_opcao_pesquisa(e):
     '''
     Muda os valores de auto completar do programa de acordo com a opção escolhida.
     '''
-    if opcao_pesquisa.get() == 'Livro':
-        entrada_pesquisa['completevalues'] = data_base.titulo_livros()
+    if opcao_pesquisa_livro.get() == 'Livro':
+        entrada_pesquisa_livro['completevalues'] = data_base.titulo_livros()
 
-    elif opcao_pesquisa.get() == 'Autor':
-        entrada_pesquisa['completevalues'] = data_base.nome_autores()
+    elif opcao_pesquisa_livro.get() == 'Autor':
+        entrada_pesquisa_livro['completevalues'] = data_base.nome_autores()
 
-    elif opcao_pesquisa.get() == 'Editora':
-        entrada_pesquisa['completevalues'] = data_base.nome_editoras()
+    elif opcao_pesquisa_livro.get() == 'Editora':
+        entrada_pesquisa_livro['completevalues'] = data_base.nome_editoras()
 
 
 def pesquisar_livros():
@@ -811,7 +896,7 @@ def pesquisar_livros():
     de pesquisa.
     '''
     livros = data_base.pesquisar_livro(
-        opcao_pesquisa.get(), entrada_pesquisa.get())
+        opcao_pesquisa_livro.get(), entrada_pesquisa_livro.get())
 
     for livro in tabela_livros.get_children():
         tabela_livros.delete(livro)
@@ -838,29 +923,81 @@ def pesquisar_livros():
         count += 1
 
 
+def pesquisar_autor():
+    '''
+    Exibe na tabela autores o resultado da pesquisa feita de acordo com o dado de entrada.
+    '''
+    autores = data_base.pesquisar_autor(entrada_pesquisa_autor.get())
+
+    for autor in tabela_autores.get_children():
+        tabela_autores.delete(autor)
+
+    count = 0
+
+    for autor in autores:
+        id = autor[0]
+        nome_autor = autor[1]
+
+        if count % 2 == 0:
+            tabela_autores.insert('', END, values=(
+                id, nome_autor), tags=('evenrow',))
+
+        else:
+            tabela_autores.insert('', END, values=(
+                id, nome_autor), tags=('oddrow',))
+
+        count += 1
+
+
+def pesquisar_editora():
+    '''
+    Exibe na tabela editoras o resultado da pesquisa feita de acordo com o dado de entrada.
+    '''
+    editoras = data_base.pesquisar_editora(entrada_pesquisa_editora.get())
+
+    for editora in tabela_editoras.get_children():
+        tabela_editoras.delete(editora)
+
+    count = 0
+
+    for editora in editoras:
+        id = editora[0]
+        nome_editora = editora[1]
+
+        if count % 2 == 0:
+            tabela_editoras.insert('', END, values=(
+                id, nome_editora), tags=('evenrow',))
+
+        else:
+            tabela_editoras.insert('', END, values=(
+                id, nome_editora), tags=('oddrow',))
+
+        count += 1
+
+
 root = Tk()
 root.title('Livraria')
 root.geometry('500x500')
 
-pesquisa = LabelFrame(
+pesquisa_livro = LabelFrame(
     root,
     text='Pesquisar Livro',
     font='Arial 12'
 )
 
-pesquisa.columnconfigure(0, weight=0)
-pesquisa.columnconfigure(1, weight=2)
-pesquisa.columnconfigure(2, weight=0)
+pesquisa_livro.columnconfigure(0, weight=0)
+pesquisa_livro.columnconfigure(1, weight=2)
+pesquisa_livro.columnconfigure(2, weight=0)
 
-pesquisa.pack(
+pesquisa_livro.pack(
     expand=False,
     fill=X,
     padx=10,
     pady=10
 )
 
-opcao_pesquisa = ttk.Combobox(
-    pesquisa,
+opcao_pesquisa_livro = ttk.Combobox(
+    pesquisa_livro,
     values=(
         'Livro',
         'Autor',
@@ -869,9 +1006,9 @@ opcao_pesquisa = ttk.Combobox(
     state='readonly',
     font='Arial 12'
 )
-opcao_pesquisa.current(0)
-opcao_pesquisa.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
-opcao_pesquisa.grid(
+opcao_pesquisa_livro.current(0)
+opcao_pesquisa_livro.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
+opcao_pesquisa_livro.grid(
     row=0,
     column=0,
     padx=10,
@@ -879,12 +1016,12 @@ opcao_pesquisa.grid(
     sticky=EW
 )
 
-entrada_pesquisa = AutocompleteCombobox(
-    pesquisa,
+entrada_pesquisa_livro = AutocompleteCombobox(
+    pesquisa_livro,
     font='Arial 12',
     completevalues=data_base.titulo_livros()
 )
-entrada_pesquisa.grid(
+entrada_pesquisa_livro.grid(
     row=0,
     column=1,
     padx=10,
@@ -892,16 +1029,89 @@ entrada_pesquisa.grid(
     sticky=EW
 )
 
-botao_pesquisar = Button(
-    pesquisa,
+botao_pesquisar_livro = Button(
+    pesquisa_livro,
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
     command=lambda: pesquisar_livros()
 )
-botao_pesquisar.grid(
+botao_pesquisar_livro.grid(
     row=0,
     column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+pesquisa_autor = LabelFrame(
+    root,
+    text='Pesquisar Autor',
+    font='Arial 12'
+)
+
+pesquisa_autor.columnconfigure(0, weight=1)
+pesquisa_autor.columnconfigure(1, weight=0)
+
+entrada_pesquisa_autor = AutocompleteCombobox(
+    pesquisa_autor,
+    font='Arial 12',
+    completevalues=data_base.nome_autores()
+)
+entrada_pesquisa_autor.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar_autor = Button(
+    pesquisa_autor,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=lambda: pesquisar_autor()
+)
+botao_pesquisar_autor.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+pesquisa_editora = LabelFrame(
+    root,
+    text='Pesquisar Editora',
+    font='Arial 12'
+)
+
+pesquisa_editora.columnconfigure(0, weight=1)
+pesquisa_editora.columnconfigure(1, weight=0)
+
+entrada_pesquisa_editora = AutocompleteCombobox(
+    pesquisa_editora,
+    font='Arial 12',
+    completevalues=data_base.nome_editoras()
+)
+entrada_pesquisa_editora.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar_editora = Button(
+    pesquisa_editora,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=lambda: pesquisar_editora()
+)
+botao_pesquisar_editora.grid(
+    row=0,
+    column=1,
     padx=10,
     pady=10,
     sticky=EW

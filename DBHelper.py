@@ -332,3 +332,25 @@ class DBHelper:
             self.cursor.execute(sql, values)
 
             return self.cursor.fetchall()
+
+    def pesquisar_autor(self, entrada):
+        '''
+        Esta função retorna o resultado da pesquisa de acordo com o nome do autor que é solicitado
+        '''
+        sql = 'SELECT * FROM autores WHERE autor = %s'
+        values = (entrada,)
+
+        self.cursor.execute(sql, values)
+
+        return self.cursor.fetchall()
+
+    def pesquisar_editora(self, entrada):
+        '''
+        Esta função retorna o resultado da pesquisa de acordo com o nome da editora que é solicitada
+        '''
+        sql = 'SELECT * FROM editoras WHERE editora = %s'
+        values = (entrada,)
+
+        self.cursor.execute(sql, values)
+
+        return self.cursor.fetchall()
