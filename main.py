@@ -266,7 +266,6 @@ def cancelar_registro():
         autor_entry_registro_livro.delete(0, END)
         editora_entry_registro_livro.delete(0, END)
         n_pages_entry_registro_livro.delete(0, END)
-        proprietario_entry_registro_livro.delete(0, END)
 
     elif drop_down_register.get() == 'Autor':
         autor_register_frame.pack_forget()
@@ -382,19 +381,17 @@ def adicionar_registro():
         autor = autor_entry_registro_livro.get().strip()
         editora = editora_entry_registro_livro.get().strip()
         n_pages = n_pages_entry_registro_livro.get().strip()
-        proprietario = proprietario_entry_registro_livro.get().strip()
 
-        if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_pages) == 0 or len(proprietario) == 0 or not n_pages.isdigit():
+        if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_pages) == 0 or not n_pages.isdigit():
             messagebox.showinfo('Valores inválidos',
                                 'Algum dos valores digitados está inválido!')
         else:
-            data_base.add_livro(titulo, autor, editora, n_pages, proprietario)
+            data_base.add_livro(titulo, autor, editora, n_pages)
 
             titulo_entry_registro_livro.delete(0, END)
             autor_entry_registro_livro.delete(0, END)
             editora_entry_registro_livro.delete(0, END)
             n_pages_entry_registro_livro.delete(0, END)
-            proprietario_entry_registro_livro.delete(0, END)
 
             atualiza_auto_completar()
 
@@ -975,6 +972,30 @@ def pesquisar_editora():
         count += 1
 
 
+def onClickEmprestado():
+    if (varLivroEmprestado.get() == 1):
+        beneficiado_livro_emprestado_label.grid(
+            row=5, column=0, padx=10, pady=10, sticky=EW)
+        beneficiado_livro_emprestado_entry.grid(
+            row=5, column=1, padx=10, pady=10, sticky=EW)
+        data_emprestimo_livro_label.grid(
+            row=6, column=0, padx=10, pady=10, sticky=EW)
+        data_emprestimo_livro_entry.grid(
+            row=6, column=1, padx=10, pady=10, sticky=EW)
+        data_devolucao_livro_label.grid(
+            row=7, column=0, padx=10, pady=10, sticky=EW)
+        data_devolucao_livro_entry.grid(
+            row=7, column=1, padx=10, pady=10, sticky=EW)
+
+    else:
+        beneficiado_livro_emprestado_label.grid_forget()
+        beneficiado_livro_emprestado_entry.grid_forget()
+        data_emprestimo_livro_label.grid_forget()
+        data_emprestimo_livro_entry.grid_forget()
+        data_devolucao_livro_label.grid_forget()
+        data_devolucao_livro_entry.grid_forget()
+
+
 root = Tk()
 root.title('Livraria')
 root.geometry('500x500')
@@ -1295,19 +1316,54 @@ n_pages_entry_registro_livro = Entry(
 )
 n_pages_entry_registro_livro.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
 
-proprietario_label_registro_livro = Label(
-    livro_register_frame,
-    text='Proprietário',
-    font='Arial'
-)
-proprietario_label_registro_livro.grid(row=4, column=0, padx=10, pady=10)
+varLivroEmprestado = IntVar()
 
-proprietario_entry_registro_livro = Entry(
+emprestado = Checkbutton(
     livro_register_frame,
+    text='Está emprestado?',
+    variable=varLivroEmprestado,
+    onvalue=1,
+    offvalue=0,
+    command=onClickEmprestado,
     font='Arial 12'
 )
-proprietario_entry_registro_livro.grid(
-    row=4, column=1, padx=10, pady=10, sticky=EW)
+emprestado.grid(row=4, column=0, padx=10, pady=10, sticky=EW)
+
+beneficiado_livro_emprestado_label = Label(
+    livro_register_frame,
+    text='Beneficiado',
+    font='Arial 12'
+)
+
+beneficiado_livro_emprestado_entry = Entry(
+    livro_register_frame,
+    font='Arial 12',
+    textvariable='Desconhecido (a)'
+)
+
+data_emprestimo_livro_label = Label(
+    livro_register_frame,
+    text='Data empréstimo',
+    font='Arial 12'
+)
+
+data_emprestimo_livro_entry = Entry(
+    livro_register_frame,
+    font='Arial 12',
+    textvariable='Desconhecido (a)'
+)
+
+data_devolucao_livro_label = Label(
+    livro_register_frame,
+    text='Data devolução',
+    font='Arial 12'
+)
+
+data_devolucao_livro_entry = Entry(
+    livro_register_frame,
+    font='Arial 12',
+    textvariable='Desconhecido (a)'
+)
 
 # frame responsável pela tela de registro dos autores
 autor_register_frame = Frame(
