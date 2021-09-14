@@ -1,4 +1,5 @@
 # imports
+from tkcalendar import DateEntry
 from ttkwidgets.autocomplete import AutocompleteCombobox
 from tkinter import *
 from tkinter import messagebox
@@ -34,16 +35,37 @@ def carrega_tabelas():
         autor = livro[2]
         editora = livro[3]
         n_paginas = livro[4]
-        proprietario = livro[5]
+        beneficiado = livro[5]
+        telefone = livro[6]
+        data_emprestimo = livro[7]
+        data_devolucao = livro[8]
 
         if count % 2 == 0:
 
             tabela_livros.insert('', END, values=(
-                id, titulo, autor, editora, n_paginas, proprietario), tags=('evenrow',))
+                id,
+                titulo,
+                autor,
+                editora,
+                n_paginas,
+                beneficiado,
+                telefone,
+                data_emprestimo,
+                data_devolucao
+            ), tags=('evenrow',))
 
         else:
             tabela_livros.insert('', END, values=(
-                id, titulo, autor, editora, n_paginas, proprietario), tags=('oddrow',))
+                id,
+                titulo,
+                autor,
+                editora,
+                n_paginas,
+                beneficiado,
+                telefone,
+                data_emprestimo,
+                data_devolucao
+            ), tags=('oddrow',))
 
         count += 1
 
@@ -972,28 +994,20 @@ def pesquisar_editora():
         count += 1
 
 
-def onClickEmprestado():
-    if (varLivroEmprestado.get() == 1):
-        beneficiado_livro_emprestado_label.grid(
-            row=5, column=0, padx=10, pady=10, sticky=EW)
-        beneficiado_livro_emprestado_entry.grid(
-            row=5, column=1, padx=10, pady=10, sticky=EW)
-        data_emprestimo_livro_label.grid(
-            row=6, column=0, padx=10, pady=10, sticky=EW)
-        data_emprestimo_livro_entry.grid(
-            row=6, column=1, padx=10, pady=10, sticky=EW)
-        data_devolucao_livro_label.grid(
-            row=7, column=0, padx=10, pady=10, sticky=EW)
-        data_devolucao_livro_entry.grid(
-            row=7, column=1, padx=10, pady=10, sticky=EW)
+def situacao_livro_on_click(e):
+    if situacao_livro.get() == 'Disponível':
+        beneficiado_livro.delete(0, END)
+        telefone_contato.delete(0, END)
+        data_devolucao.delete(0, END)
 
-    else:
-        beneficiado_livro_emprestado_label.grid_forget()
-        beneficiado_livro_emprestado_entry.grid_forget()
-        data_emprestimo_livro_label.grid_forget()
-        data_emprestimo_livro_entry.grid_forget()
-        data_devolucao_livro_label.grid_forget()
-        data_devolucao_livro_entry.grid_forget()
+        beneficiado_livro.configure(state=DISABLED)
+        telefone_contato.configure(state=DISABLED)
+        data_devolucao.configure(state=DISABLED)
+
+    elif situacao_livro.get() == 'Emprestado':
+        beneficiado_livro.configure(state=NORMAL)
+        telefone_contato.configure(state=NORMAL)
+        data_devolucao.configure(state=NORMAL)
 
 
 root = Tk()
@@ -1187,8 +1201,18 @@ tabela_livros.pack(
 
 tree_scrool.config(command=tabela_livros.yview)
 
-tabela_livros['columns'] = ('id', 'titulo', 'autor', 'editora',
-                            'n_paginas', 'proprietario')
+tabela_livros['columns'] = (
+    'id',
+    'titulo',
+    'autor',
+    'editora',
+    'n_paginas',
+    'situacao',
+    'beneficiado',
+    'telefone',
+    'data_emprestimo',
+    'data_devolucao'
+)
 tabela_livros.column('#0', width=0, stretch=NO)
 
 tabela_livros.column('id', anchor=CENTER, width=100)
@@ -1196,7 +1220,10 @@ tabela_livros.column('titulo', anchor=W, width=140)
 tabela_livros.column('autor', anchor=W, width=140)
 tabela_livros.column('editora', anchor=W, width=140)
 tabela_livros.column('n_paginas', anchor=CENTER, width=100)
-tabela_livros.column('proprietario', anchor=W, width=140)
+tabela_livros.column('beneficiado', anchor=W, width=140)
+tabela_livros.column('telefone', anchor=CENTER, width=140)
+tabela_livros.column('data_emprestimo', anchor=CENTER, width=140)
+tabela_livros.column('data_devolucao', anchor=CENTER, width=140)
 
 tabela_livros.heading('#0', text='', anchor=W)
 tabela_livros.heading('id', text='ID', anchor=CENTER)
@@ -1204,7 +1231,10 @@ tabela_livros.heading('titulo', text='Título', anchor=W)
 tabela_livros.heading('autor', text='Autor(a)', anchor=W)
 tabela_livros.heading('editora', text='Editora', anchor=W)
 tabela_livros.heading('n_paginas', text='Nº Páginas', anchor=CENTER)
-tabela_livros.heading('proprietario', text='Proprietário(a)', anchor=W)
+tabela_livros.heading('beneficiado', text='Beneficiado', anchor=W)
+tabela_livros.heading('telefone', text='Telefone', anchor=CENTER)
+tabela_livros.heading('data_emprestimo', text='Data Emprestimo', anchor=CENTER)
+tabela_livros.heading('data_devolucao', text='Data Devolução', anchor=CENTER)
 
 tabela_livros.tag_configure('oddrow', background='white')
 tabela_livros.tag_configure('evenrow', background='lightblue')
@@ -1316,53 +1346,112 @@ n_pages_entry_registro_livro = Entry(
 )
 n_pages_entry_registro_livro.grid(row=3, column=1, padx=10, pady=10, sticky=EW)
 
-varLivroEmprestado = IntVar()
-
-emprestado = Checkbutton(
+Label(
     livro_register_frame,
-    text='Está emprestado?',
-    variable=varLivroEmprestado,
-    onvalue=1,
-    offvalue=0,
-    command=onClickEmprestado,
+    text='Situação',
+    font='Arial 12'
+).grid(
+    row=4,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+situacao_livro = ttk.Combobox(
+    livro_register_frame,
+    values=(
+        'Disponível',
+        'Emprestado'
+    ),
+    state='readonly',
     font='Arial 12'
 )
-emprestado.grid(row=4, column=0, padx=10, pady=10, sticky=EW)
+situacao_livro.current(0)
+situacao_livro.bind('<<ComboboxSelected>>', situacao_livro_on_click)
+situacao_livro.grid(
+    row=4,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
 
-beneficiado_livro_emprestado_label = Label(
+Label(
     livro_register_frame,
     text='Beneficiado',
     font='Arial 12'
+).grid(
+    row=5,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
-beneficiado_livro_emprestado_entry = Entry(
+beneficiado_livro = Entry(
     livro_register_frame,
     font='Arial 12',
-    textvariable='Desconhecido (a)'
+    state=DISABLED
+)
+beneficiado_livro.grid(
+    row=5,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
-data_emprestimo_livro_label = Label(
+Label(
     livro_register_frame,
-    text='Data empréstimo',
+    text='Tel. Contato',
     font='Arial 12'
+).grid(
+    row=6,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
-data_emprestimo_livro_entry = Entry(
+telefone_contato = Entry(
     livro_register_frame,
     font='Arial 12',
-    textvariable='Desconhecido (a)'
+    state=DISABLED
+)
+telefone_contato.grid(
+    row=6,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
-data_devolucao_livro_label = Label(
+Label(
     livro_register_frame,
-    text='Data devolução',
+    text='Data de Devolução',
     font='Arial 12'
+).grid(
+    row=7,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
-data_devolucao_livro_entry = Entry(
+data_devolucao = DateEntry(
     livro_register_frame,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
     font='Arial 12',
-    textvariable='Desconhecido (a)'
+    state=DISABLED
+)
+data_devolucao.grid(
+    row=7,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
 # frame responsável pela tela de registro dos autores

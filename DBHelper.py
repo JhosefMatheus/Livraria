@@ -12,7 +12,7 @@ class DBHelper:
             host='localhost',
             user='root',
             passwd='',
-            database='livraria_menan'
+            database='livraria_hol'
         )
 
         self.cursor = self.connection.cursor()
@@ -24,7 +24,11 @@ class DBHelper:
             autor VARCHAR (255) NOT NULL,
             editora VARCHAR (255) NOT NULL,
             paginas INT (255) NOT NULL,
-            proprietario VARCHAR (255) NOT NULL 
+            situacao VARCHAR (255) NOT NULL,
+            beneficiado VARCHAR (255) NOT NULL,
+            telefone VARCHAR (255) NOT NULL,
+            data_emprestimo DATETIME NOT NULL,
+            data_devolucao DATETIME NOT NULL
         );
         ''')
 
