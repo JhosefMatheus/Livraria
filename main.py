@@ -4,9 +4,9 @@ from ttkwidgets.autocomplete import AutocompleteCombobox
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
-from DBHelper import DBHelper
+from db_manager import db_manager
 
-data_base = DBHelper()
+db = db_manager()
 
 
 def carrega_tabelas():
@@ -14,9 +14,11 @@ def carrega_tabelas():
     Função responsável por carregar a treeview tabela_livros, tabela_autores, tabela_editoras
     sempre que alguma alteração é feita em uma dessas tabelas.
     '''
-    livros = data_base.get_livros()
-    autores = data_base.get_autores()
-    editoras = data_base.get_editoras()
+    livros = db.get_data('livros.csv')
+    autores = db.get_data('autores_livros.csv')
+    editoras = db.get_data('editoras_livros.csv')
+    dvds = db.get_data('dvds.csv')
+    cds = db.get_data('cds.csv')
 
     for livro in tabela_livros.get_children():
         tabela_livros.delete(livro)
@@ -27,6 +29,12 @@ def carrega_tabelas():
     for editora in tabela_editoras.get_children():
         tabela_editoras.delete(editora)
 
+    for dvd in tabela_dvds.get_children():
+        tabela_dvds.delete(dvd)
+
+    for cd in tabela_cds.get_children():
+        tabela_cds.delete(cd)
+
     count = 0
 
     for livro in livros:
@@ -35,10 +43,11 @@ def carrega_tabelas():
         autor = livro[2]
         editora = livro[3]
         n_paginas = livro[4]
-        beneficiado = livro[5]
-        telefone = livro[6]
-        data_emprestimo = livro[7]
-        data_devolucao = livro[8]
+        situacao = livro[5]
+        beneficiado = livro[6]
+        telefone = livro[7]
+        data_emprestimo = livro[8]
+        data_devolucao = livro[9]
 
         if count % 2 == 0:
 
@@ -48,6 +57,7 @@ def carrega_tabelas():
                 autor,
                 editora,
                 n_paginas,
+                situacao,
                 beneficiado,
                 telefone,
                 data_emprestimo,
@@ -61,6 +71,7 @@ def carrega_tabelas():
                 autor,
                 editora,
                 n_paginas,
+                situacao,
                 beneficiado,
                 telefone,
                 data_emprestimo,
@@ -98,6 +109,114 @@ def carrega_tabelas():
 
         count += 1
 
+    count = 0
+
+    for dvd in dvds:
+        id = dvd[0]
+        titulo = dvd[1]
+        diretor = dvd[2]
+        distribuidora = dvd[3]
+        tempo = dvd[4]
+        situacao = dvd[5]
+        beneficiado = dvd[6]
+        telefone = dvd[7]
+        data_emprestimo = dvd[8]
+        data_devolucao = dvd[9]
+
+        if count % 2 == 0:
+            tabela_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    diretor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    data_emprestimo,
+                    data_devolucao
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    diretor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    data_emprestimo,
+                    data_devolucao
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
+
+    count = 0
+
+    for cd in cds:
+        id = cd[0]
+        titulo = cd[1]
+        artista_autor = cd[2]
+        distribuidora = cd[3]
+        tempo = cd[4]
+        situacao = cd[5]
+        beneficiado = cd[6]
+        telefone = cd[7]
+        data_emprestimo = cd[8]
+        data_devolucao = cd[9]
+
+        if count % 2 == 0:
+            tabela_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    artista_autor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    data_emprestimo,
+                    data_devolucao
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    artista_autor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    data_emprestimo,
+                    data_devolucao
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
+
 
 def mudar_tabela(event):
     '''
@@ -122,6 +241,8 @@ def mudar_tabela(event):
     if drop_down.get() == 'Livros':
         pesquisa_autor.pack_forget()
         pesquisa_editora.pack_forget()
+        pesquisa_dvd.pack_forget()
+        pesquisa_cd.pack_forget()
 
         pesquisa_livro.pack(
             expand=False,
@@ -132,6 +253,8 @@ def mudar_tabela(event):
 
         tabela_autores.pack_forget()
         tabela_editoras.pack_forget()
+        tabela_dvds.pack_forget()
+        tabela_cds.pack_forget()
 
         table_frame['text'] = 'Livros'
 
@@ -176,6 +299,8 @@ def mudar_tabela(event):
 
         tabela_livros.pack_forget()
         tabela_editoras.pack_forget()
+        tabela_dvds.pack_forget()
+        tabela_cds.pack_forget()
 
         table_frame['text'] = 'Autores'
 
@@ -196,6 +321,8 @@ def mudar_tabela(event):
     elif drop_down.get() == 'Editoras':
         pesquisa_livro.pack_forget()
         pesquisa_autor.pack_forget()
+        pesquisa_dvd.pack_forget()
+        pesquisa_cd.pack_forget()
 
         pesquisa_editora.pack(
             expand=False,
@@ -206,6 +333,8 @@ def mudar_tabela(event):
 
         tabela_livros.pack_forget()
         tabela_autores.pack_forget()
+        tabela_dvds.pack_forget()
+        tabela_cds.pack_forget()
 
         table_frame.pack(
             expand=True,
@@ -230,6 +359,88 @@ def mudar_tabela(event):
             pady=10
         )
 
+    elif drop_down.get() == 'DVD\'s':
+        pesquisa_livro.pack_forget()
+        pesquisa_autor.pack_forget()
+        pesquisa_editora.pack_forget()
+        pesquisa_cd.pack_forget()
+
+        pesquisa_dvd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
+        tabela_livros.pack_forget()
+        tabela_autores.pack_forget()
+        tabela_editoras.pack_forget()
+        tabela_cds.pack_forget()
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        table_frame['text'] = 'DVD\'s'
+
+        tabela_dvds.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        button_frame.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
+    elif drop_down.get() == 'CD\'s':
+        pesquisa_livro.pack_forget()
+        pesquisa_autor.pack_forget()
+        pesquisa_editora.pack_forget()
+        pesquisa_dvd.pack_forget()
+
+        pesquisa_cd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
+        tabela_livros.pack_forget()
+        tabela_autores.pack_forget()
+        tabela_editoras.pack_forget()
+        tabela_dvds.pack_forget()
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        table_frame['text'] = 'CD\'s'
+
+        tabela_cds.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        button_frame.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
 
 def adicionar_novo():
     '''
@@ -241,14 +452,20 @@ def adicionar_novo():
     pesquisa_livro.pack_forget()
     pesquisa_autor.pack_forget()
     pesquisa_editora.pack_forget()
+    pesquisa_dvd.pack_forget()
+    pesquisa_cd.pack_forget()
 
     entrada_pesquisa_livro.delete(0, END)
     entrada_pesquisa_autor.delete(0, END)
     entrada_pesquisa_editora.delete(0, END)
+    entrada_pesquisa_dvd.delete(0, END)
+    entrada_pesquisa_cd.delete(0, END)
 
     tabela_livros.pack_forget()
     tabela_autores.pack_forget()
     tabela_editoras.pack_forget()
+    tabela_dvds.pack_forget()
+    tabela_cds.pack_forget()
     editar_excluir_livro.pack_forget()
     botoes_editar_excluir_livro.pack_forget()
     editar_excluir_autor.pack_forget()
@@ -288,6 +505,15 @@ def cancelar_registro():
         autor_entry_registro_livro.delete(0, END)
         editora_entry_registro_livro.delete(0, END)
         n_pages_entry_registro_livro.delete(0, END)
+        situacao_livro.current(0)
+        beneficiado_livro.delete(0, END)
+        beneficiado_livro.configure(state=DISABLED)
+        telefone_contato.delete(0, END)
+        telefone_contato.configure(state=DISABLED)
+        data_emprestimo.delete(0, END)
+        data_emprestimo.configure(state=DISABLED)
+        data_devolucao.delete(0, END)
+        data_devolucao.configure(state=DISABLED)
 
     elif drop_down_register.get() == 'Autor':
         autor_register_frame.pack_forget()
@@ -298,6 +524,40 @@ def cancelar_registro():
         editora_register_frame.pack_forget()
 
         editora_entry_registro_editora.delete(0, END)
+
+    elif drop_down_register.get() == 'DVD':
+        dvd_register_frame.pack_forget()
+
+        titulo_dvd_registro.delete(0, END)
+        diretor_dvd_registro.delete(0, END)
+        distribuidora_dvd_registro.delete(0, END)
+        tempo_dvd_registro.delete(0, END)
+        situacao_dvd_registro.current(0)
+        beneficiado_dvd_registro.delete(0, END)
+        beneficiado_dvd_registro.configure(state=DISABLED)
+        telefone_dvd_registro.delete(0, END)
+        telefone_dvd_registro.configure(state=DISABLED)
+        dt_emprestimo_dvd_registro.delete(0, END)
+        dt_emprestimo_dvd_registro.configure(state=DISABLED)
+        dt_devolucao_dvd_registro.delete(0, END)
+        dt_devolucao_dvd_registro.configure(state=DISABLED)
+
+    elif drop_down_register.get() == 'CD':
+        cd_register_frame.pack_forget()
+
+        titulo_cd_registro.delete(0, END)
+        artista_autor_cd_registro.delete(0, END)
+        distribuidora_cd_registro.delete(0, END)
+        tempo_cd_registro.delete(0, END)
+        situacao_cd_registro.current(0)
+        beneficiado_cd_registro.delete(0, END)
+        beneficiado_cd_registro.configure(state=DISABLED)
+        telefone_cd_registro.delete(0, END)
+        telefone_cd_registro.configure(state=DISABLED)
+        dt_emprestimo_cd_registro.delete(0, END)
+        dt_emprestimo_cd_registro.configure(state=DISABLED)
+        dt_devolucao_cd_registro.delete(0, END)
+        dt_devolucao_cd_registro.configure(state=DISABLED)
 
     button_register_frame.pack_forget()
 
@@ -345,6 +605,8 @@ def mudar_tela_registro(event):
 
         autor_register_frame.pack_forget()
         editora_register_frame.pack_forget()
+        dvd_register_frame.pack_forget()
+        cd_register_frame.pack_forget()
 
         livro_register_frame.pack(
             expand=True,
@@ -359,6 +621,8 @@ def mudar_tela_registro(event):
 
         livro_register_frame.pack_forget()
         editora_register_frame.pack_forget()
+        dvd_register_frame.pack_forget()
+        cd_register_frame.pack_forget()
 
         autor_register_frame.pack(
             expand=True,
@@ -373,8 +637,42 @@ def mudar_tela_registro(event):
 
         livro_register_frame.pack_forget()
         autor_register_frame.pack_forget()
+        dvd_register_frame.pack_forget()
+        cd_register_frame.pack_forget()
 
         editora_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    elif drop_down_register.get() == 'DVD':
+        table_frame['text'] = 'Novo DVD'
+
+        livro_register_frame.pack_forget()
+        autor_register_frame.pack_forget()
+        editora_register_frame.pack_forget()
+        cd_register_frame.pack_forget()
+
+        dvd_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    elif drop_down_register.get() == 'CD':
+        table_frame['text'] = 'Novo CD'
+
+        livro_register_frame.pack_forget()
+        autor_register_frame.pack_forget()
+        editora_register_frame.pack_forget()
+        dvd_register_frame.pack_forget()
+
+        cd_register_frame.pack(
             expand=True,
             fill=BOTH,
             padx=10,
@@ -408,7 +706,7 @@ def adicionar_registro():
             messagebox.showinfo('Valores inválidos',
                                 'Algum dos valores digitados está inválido!')
         else:
-            data_base.add_livro(titulo, autor, editora, n_pages)
+            db.add_livro(titulo, autor, editora, n_pages)
 
             titulo_entry_registro_livro.delete(0, END)
             autor_entry_registro_livro.delete(0, END)
@@ -426,7 +724,7 @@ def adicionar_registro():
         if len(autor) == 0:
             messagebox.showinfo('Valor inválido', 'Valor digitado inválido')
         else:
-            data_base.add_autor(autor)
+            db.add_autor(autor)
 
             autor_entry_registro_autor.delete(0, END)
 
@@ -441,7 +739,7 @@ def adicionar_registro():
         if len(editora) == 0:
             messagebox.showinfo('Valor inválido', 'Valor digitado inválido')
         else:
-            data_base.add_editora(editora)
+            db.add_editora(editora)
 
             editora_entry_registro_editora.delete(0, END)
 
@@ -602,8 +900,8 @@ def editar_livro():
 
     else:
 
-        data_base.editar_livro(titulo, autor, editora,
-                               n_paginas, proprietario, id_livro_selecionado, autor_livro_selecionado, editora_livro_selecionado)
+        db.editar_livro(titulo, autor, editora,
+                        n_paginas, proprietario, id_livro_selecionado, autor_livro_selecionado, editora_livro_selecionado)
 
         atualiza_auto_completar()
 
@@ -676,7 +974,7 @@ def excluir_livro():
     autor_livro = livro_selecionado[2]
     editora_livro = livro_selecionado[3]
 
-    data_base.excluir_livro(id_livro, autor_livro, editora_livro)
+    db.excluir_livro(id_livro, autor_livro, editora_livro)
 
     atualiza_auto_completar()
 
@@ -701,8 +999,8 @@ def editar_autor():
         messagebox.showinfo(
             'Valor inválido', 'O valor digitado para nome do autor está em branco')
     else:
-        data_base.editar_autor(id_autor_selecionado,
-                               nome_autor_selecionado, novo_autor)
+        db.editar_autor(id_autor_selecionado,
+                        nome_autor_selecionado, novo_autor)
 
         atualiza_auto_completar()
 
@@ -718,7 +1016,7 @@ def excluir_autor():
     id_autor, nome_autor = tabela_autores.item(
         tabela_autores.focus())['values']
 
-    data_base.excluir_autor(id_autor, nome_autor)
+    db.excluir_autor(id_autor, nome_autor)
 
     atualiza_auto_completar()
 
@@ -794,7 +1092,7 @@ def editar_editora():
             'Valor inválido', 'Valores digitado está em branco')
 
     else:
-        data_base.editar_editora(
+        db.editar_editora(
             id_editora_selecionada, nome_editora_selecionada, nova_editora)
 
         atualiza_auto_completar()
@@ -811,7 +1109,7 @@ def excluir_editora():
     id_editora, nome_editora = tabela_editoras.item(
         tabela_editoras.focus())['values']
 
-    data_base.excluir_editora(id_editora, nome_editora)
+    db.excluir_editora(id_editora, nome_editora)
 
     atualiza_auto_completar()
 
@@ -874,25 +1172,25 @@ def atualiza_auto_completar():
     '''
     Esta função atualiza todos os campos de auto-completar presentes no programa.
     '''
-    autor_entry_registro_livro['completevalues'] = data_base.nome_autores()
-    autor_entry_editar_excluir_livro['completevalues'] = data_base.nome_autores(
+    autor_entry_registro_livro['completevalues'] = db.nome_autores()
+    autor_entry_editar_excluir_livro['completevalues'] = db.nome_autores(
     )
-    autor_entry_editar_excluir_autor['completevalues'] = data_base.nome_autores(
-    )
-
-    editora_entry_registro_livro['completevalues'] = data_base.nome_editoras()
-    editora_entry_editar_excluir_livro['completevalues'] = data_base.nome_editoras(
-    )
-    editora_entry_editar_excluir_editora['completevalues'] = data_base.nome_editoras(
+    autor_entry_editar_excluir_autor['completevalues'] = db.nome_autores(
     )
 
-    entrada_pesquisa_livro['completevalues'] = data_base.nome_autores()
-    entrada_pesquisa_livro['completevalues'] = data_base.nome_editoras()
-    entrada_pesquisa_livro['completevalues'] = data_base.titulo_livros()
+    editora_entry_registro_livro['completevalues'] = db.nome_editoras()
+    editora_entry_editar_excluir_livro['completevalues'] = db.nome_editoras(
+    )
+    editora_entry_editar_excluir_editora['completevalues'] = db.nome_editoras(
+    )
 
-    entrada_pesquisa_autor['completevalues'] = data_base.nome_autores()
+    entrada_pesquisa_livro['completevalues'] = db.nome_autores()
+    entrada_pesquisa_livro['completevalues'] = db.nome_editoras()
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
 
-    entrada_pesquisa_editora['completevalues'] = data_base.nome_editoras()
+    entrada_pesquisa_autor['completevalues'] = db.nome_autores()
+
+    entrada_pesquisa_editora['completevalues'] = db.nome_editoras()
 
 
 def muda_opcao_pesquisa(e):
@@ -900,13 +1198,13 @@ def muda_opcao_pesquisa(e):
     Muda os valores de auto completar do programa de acordo com a opção escolhida.
     '''
     if opcao_pesquisa_livro.get() == 'Livro':
-        entrada_pesquisa_livro['completevalues'] = data_base.titulo_livros()
+        entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
 
     elif opcao_pesquisa_livro.get() == 'Autor':
-        entrada_pesquisa_livro['completevalues'] = data_base.nome_autores()
+        entrada_pesquisa_livro['completevalues'] = db.nome_autores()
 
     elif opcao_pesquisa_livro.get() == 'Editora':
-        entrada_pesquisa_livro['completevalues'] = data_base.nome_editoras()
+        entrada_pesquisa_livro['completevalues'] = db.nome_editoras()
 
 
 def pesquisar_livros():
@@ -914,7 +1212,7 @@ def pesquisar_livros():
     Exibe na tabela livros o resultado da pesquisa feita de acordo com o dado de entrada e a opção
     de pesquisa.
     '''
-    livros = data_base.pesquisar_livro(
+    livros = db.pesquisar_livro(
         opcao_pesquisa_livro.get(), entrada_pesquisa_livro.get())
 
     for livro in tabela_livros.get_children():
@@ -946,7 +1244,7 @@ def pesquisar_autor():
     '''
     Exibe na tabela autores o resultado da pesquisa feita de acordo com o dado de entrada.
     '''
-    autores = data_base.pesquisar_autor(entrada_pesquisa_autor.get())
+    autores = db.pesquisar_autor(entrada_pesquisa_autor.get())
 
     for autor in tabela_autores.get_children():
         tabela_autores.delete(autor)
@@ -972,7 +1270,7 @@ def pesquisar_editora():
     '''
     Exibe na tabela editoras o resultado da pesquisa feita de acordo com o dado de entrada.
     '''
-    editoras = data_base.pesquisar_editora(entrada_pesquisa_editora.get())
+    editoras = db.pesquisar_editora(entrada_pesquisa_editora.get())
 
     for editora in tabela_editoras.get_children():
         tabela_editoras.delete(editora)
@@ -998,16 +1296,57 @@ def situacao_livro_on_click(e):
     if situacao_livro.get() == 'Disponível':
         beneficiado_livro.delete(0, END)
         telefone_contato.delete(0, END)
+        data_emprestimo.delete(0, END)
         data_devolucao.delete(0, END)
 
         beneficiado_livro.configure(state=DISABLED)
         telefone_contato.configure(state=DISABLED)
+        data_emprestimo.configure(state=DISABLED)
         data_devolucao.configure(state=DISABLED)
 
-    elif situacao_livro.get() == 'Emprestado':
+    else:
         beneficiado_livro.configure(state=NORMAL)
         telefone_contato.configure(state=NORMAL)
+        data_emprestimo.configure(state=NORMAL)
         data_devolucao.configure(state=NORMAL)
+
+
+def situacao_dvd_on_click(e):
+    if situacao_dvd_registro.get() == 'Disponível':
+        beneficiado_dvd_registro.delete(0, END)
+        telefone_dvd_registro.delete(0, END)
+        dt_emprestimo_dvd_registro.delete(0, END)
+        dt_devolucao_dvd_registro.delete(0, END)
+
+        beneficiado_dvd_registro.configure(state=DISABLED)
+        telefone_dvd_registro.configure(state=DISABLED)
+        dt_emprestimo_dvd_registro.configure(state=DISABLED)
+        dt_devolucao_dvd_registro.configure(state=DISABLED)
+
+    else:
+        beneficiado_dvd_registro.configure(state=NORMAL)
+        telefone_dvd_registro.configure(state=NORMAL)
+        dt_emprestimo_dvd_registro.configure(state=NORMAL)
+        dt_devolucao_dvd_registro.configure(state=NORMAL)
+
+
+def situacao_cd_on_click(e):
+    if situacao_cd_registro.get() == 'Disponível':
+        beneficiado_cd_registro.delete(0, END)
+        telefone_cd_registro.delete(0, END)
+        dt_emprestimo_cd_registro.delete(0, END)
+        dt_devolucao_cd_registro.delete(0, END)
+
+        beneficiado_cd_registro.configure(state=DISABLED)
+        telefone_cd_registro.configure(state=DISABLED)
+        dt_emprestimo_cd_registro.configure(state=DISABLED)
+        dt_devolucao_cd_registro.configure(state=DISABLED)
+
+    else:
+        beneficiado_cd_registro.configure(state=NORMAL)
+        telefone_cd_registro.configure(state=NORMAL)
+        dt_emprestimo_cd_registro.configure(state=NORMAL)
+        dt_devolucao_cd_registro.configure(state=NORMAL)
 
 
 root = Tk()
@@ -1054,7 +1393,7 @@ opcao_pesquisa_livro.grid(
 entrada_pesquisa_livro = AutocompleteCombobox(
     pesquisa_livro,
     font='Arial 12',
-    completevalues=data_base.titulo_livros()
+    # completevalues=db.titulo_livros()
 )
 entrada_pesquisa_livro.grid(
     row=0,
@@ -1091,7 +1430,7 @@ pesquisa_autor.columnconfigure(1, weight=0)
 entrada_pesquisa_autor = AutocompleteCombobox(
     pesquisa_autor,
     font='Arial 12',
-    completevalues=data_base.nome_autores()
+    # completevalues=db.nome_autores()
 )
 entrada_pesquisa_autor.grid(
     row=0,
@@ -1127,7 +1466,7 @@ pesquisa_editora.columnconfigure(1, weight=0)
 entrada_pesquisa_editora = AutocompleteCombobox(
     pesquisa_editora,
     font='Arial 12',
-    completevalues=data_base.nome_editoras()
+    # completevalues=db.nome_editoras()
 )
 entrada_pesquisa_editora.grid(
     row=0,
@@ -1147,6 +1486,126 @@ botao_pesquisar_editora = Button(
 botao_pesquisar_editora.grid(
     row=0,
     column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+pesquisa_dvd = LabelFrame(
+    root,
+    text='Pesquisar DVD',
+    font='Arial 12'
+)
+
+pesquisa_dvd.columnconfigure(0, weight=0)
+pesquisa_dvd.columnconfigure(1, weight=2)
+pesquisa_dvd.columnconfigure(2, weight=0)
+
+opcao_pesquisa_dvd = ttk.Combobox(
+    pesquisa_dvd,
+    values=(
+        'Titulo',
+        'Diretor',
+        'Distribuidora'
+    ),
+    state='readonly',
+    font='Arial 12'
+)
+
+opcao_pesquisa_dvd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+opcao_pesquisa_dvd.current(0)
+opcao_pesquisa_dvd.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
+
+entrada_pesquisa_dvd = AutocompleteCombobox(
+    pesquisa_dvd,
+    font='Arial 12',
+    # completevalues=db.titulo_livros()
+)
+entrada_pesquisa_dvd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar_dvd = Button(
+    pesquisa_dvd,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=lambda: pesquisar_livros()
+)
+botao_pesquisar_dvd.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+pesquisa_cd = LabelFrame(
+    root,
+    text='Pesquisar CD',
+    font='Arial 12'
+)
+
+pesquisa_cd.columnconfigure(0, weight=0)
+pesquisa_cd.columnconfigure(1, weight=2)
+pesquisa_cd.columnconfigure(2, weight=0)
+
+opcao_pesquisa_cd = ttk.Combobox(
+    pesquisa_cd,
+    values=(
+        'Titulo',
+        'Artista/Autor',
+        'Distribuidora'
+    ),
+    state='readonly',
+    font='Arial 12'
+)
+
+opcao_pesquisa_cd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+opcao_pesquisa_cd.current(0)
+opcao_pesquisa_cd.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
+
+entrada_pesquisa_cd = AutocompleteCombobox(
+    pesquisa_cd,
+    font='Arial 12',
+    # completevalues=db.titulo_livros()
+)
+
+entrada_pesquisa_cd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar_cd = Button(
+    pesquisa_cd,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=lambda: pesquisar_livros()
+)
+
+botao_pesquisar_cd.grid(
+    row=0,
+    column=2,
     padx=10,
     pady=10,
     sticky=EW
@@ -1220,6 +1679,7 @@ tabela_livros.column('titulo', anchor=W, width=140)
 tabela_livros.column('autor', anchor=W, width=140)
 tabela_livros.column('editora', anchor=W, width=140)
 tabela_livros.column('n_paginas', anchor=CENTER, width=100)
+tabela_livros.column('situacao', anchor=W, width=140)
 tabela_livros.column('beneficiado', anchor=W, width=140)
 tabela_livros.column('telefone', anchor=CENTER, width=140)
 tabela_livros.column('data_emprestimo', anchor=CENTER, width=140)
@@ -1231,6 +1691,7 @@ tabela_livros.heading('titulo', text='Título', anchor=W)
 tabela_livros.heading('autor', text='Autor(a)', anchor=W)
 tabela_livros.heading('editora', text='Editora', anchor=W)
 tabela_livros.heading('n_paginas', text='Nº Páginas', anchor=CENTER)
+tabela_livros.heading('situacao', text='Situação', anchor=W)
 tabela_livros.heading('beneficiado', text='Beneficiado', anchor=W)
 tabela_livros.heading('telefone', text='Telefone', anchor=CENTER)
 tabela_livros.heading('data_emprestimo', text='Data Emprestimo', anchor=CENTER)
@@ -1283,6 +1744,103 @@ tabela_editoras.tag_configure('evenrow', background='lightblue')
 
 tabela_editoras.bind('<ButtonRelease-1>', selecionar_editora)
 
+tabela_dvds = ttk.Treeview(
+    table_frame,
+    yscrollcommand=tree_scrool.set,
+    selectmode=EXTENDED,
+    columns=(
+        'id',
+        'titulo',
+        'diretor',
+        'distribuidora',
+        'tempo',
+        'situacao',
+        'beneficiado',
+        'telefone',
+        'dt_emprestimo',
+        'dt_devolucao'
+    )
+)
+
+tabela_dvds.column('#0', width=0, stretch=NO)
+
+tabela_dvds.column('id', anchor=CENTER, width=100)
+tabela_dvds.column('titulo', anchor=W, width=140)
+tabela_dvds.column('diretor', anchor=W, width=140)
+tabela_dvds.column('distribuidora', anchor=W, width=140)
+tabela_dvds.column('tempo', anchor=CENTER, width=100)
+tabela_dvds.column('situacao', anchor=W, width=140)
+tabela_dvds.column('beneficiado', anchor=W, width=140)
+tabela_dvds.column('telefone', anchor=CENTER, width=140)
+tabela_dvds.column('dt_emprestimo', anchor=CENTER, width=140)
+tabela_dvds.column('dt_devolucao', anchor=CENTER, width=140)
+
+tabela_dvds.heading('#0', text='', anchor=W)
+tabela_dvds.heading('id', text='ID', anchor=CENTER)
+tabela_dvds.heading('titulo', text='Título', anchor=W)
+tabela_dvds.heading('diretor', text='Diretor(a)', anchor=W)
+tabela_dvds.heading('distribuidora', text='Distribuidora', anchor=W)
+tabela_dvds.heading('tempo', text='Tempo', anchor=CENTER)
+tabela_dvds.heading('situacao', text='Situação', anchor=W)
+tabela_dvds.heading('beneficiado', text='Beneficiado', anchor=W)
+tabela_dvds.heading('telefone', text='Telefone', anchor=CENTER)
+tabela_dvds.heading('dt_emprestimo', text='Data Emprestimo', anchor=CENTER)
+tabela_dvds.heading('dt_devolucao', text='Data Devolução', anchor=CENTER)
+
+tabela_dvds.tag_configure('oddrow', background='white')
+tabela_dvds.tag_configure('evenrow', background='lightblue')
+
+tabela_dvds.bind('<ButtonRelease-1>', selecionar_livro)
+
+tabela_cds = ttk.Treeview(
+    table_frame,
+    yscrollcommand=tree_scrool.set,
+    selectmode=EXTENDED,
+    columns=(
+        'id',
+        'titulo',
+        'artista_autor',
+        'distribuidora',
+        'tempo',
+        'situacao',
+        'beneficiado',
+        'telefone',
+        'dt_emprestimo',
+        'dt_devolucao'
+    )
+)
+
+tabela_cds.column('#0', width=0, stretch=NO)
+
+tabela_cds.column('id', anchor=CENTER, width=100)
+tabela_cds.column('titulo', anchor=W, width=140)
+tabela_cds.column('artista_autor', anchor=W, width=140)
+tabela_cds.column('distribuidora', anchor=W, width=140)
+tabela_cds.column('tempo', anchor=CENTER, width=100)
+tabela_cds.column('situacao', anchor=W, width=140)
+tabela_cds.column('beneficiado', anchor=W, width=140)
+tabela_cds.column('telefone', anchor=CENTER, width=140)
+tabela_cds.column('dt_emprestimo', anchor=CENTER, width=140)
+tabela_cds.column('dt_devolucao', anchor=CENTER, width=140)
+
+tabela_cds.heading('#0', text='', anchor=W)
+tabela_cds.heading('id', text='ID', anchor=CENTER)
+tabela_cds.heading('titulo', text='Título', anchor=W)
+tabela_cds.heading('artista_autor', text='Artista/Autor', anchor=W)
+tabela_cds.heading('distribuidora', text='Distribuidora', anchor=W)
+tabela_cds.heading('tempo', text='Tempo', anchor=CENTER)
+tabela_cds.heading('situacao', text='Situação', anchor=W)
+tabela_cds.heading('beneficiado', text='Beneficiado', anchor=W)
+tabela_cds.heading('telefone', text='Telefone', anchor=CENTER)
+tabela_cds.heading('dt_emprestimo', text='Data Emprestimo', anchor=CENTER)
+tabela_cds.heading('dt_devolucao', text='Data Devolução', anchor=CENTER)
+
+tabela_cds.tag_configure('oddrow', background='white')
+tabela_cds.tag_configure('evenrow', background='lightblue')
+
+tabela_cds.bind('<ButtonRelease-1>', selecionar_livro)
+
+
 carrega_tabelas()
 
 # frame responsável pela tela de registro dos livros
@@ -1315,7 +1873,7 @@ autor_label_registro_livro.grid(row=1, column=0, padx=10, pady=10)
 autor_entry_registro_livro = AutocompleteCombobox(
     livro_register_frame,
     font='Arial 12',
-    completevalues=data_base.nome_autores()
+    # completevalues=db.nome_autores()
 )
 autor_entry_registro_livro.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
 
@@ -1329,7 +1887,7 @@ editora_label_registro_livro.grid(row=2, column=0, padx=10, pady=10)
 editora_entry_registro_livro = AutocompleteCombobox(
     livro_register_frame,
     font='Arial 12',
-    completevalues=data_base.nome_editoras()
+    # completevalues=db.nome_editoras()
 )
 editora_entry_registro_livro.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
 
@@ -1429,10 +1987,37 @@ telefone_contato.grid(
 
 Label(
     livro_register_frame,
-    text='Data de Devolução',
+    text='Data de Empréstimo',
     font='Arial 12'
 ).grid(
     row=7,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+data_emprestimo = DateEntry(
+    livro_register_frame,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+data_emprestimo.grid(
+    row=8,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    livro_register_frame,
+    text='Data de Devolução',
+    font='Arial 12'
+).grid(
+    row=8,
     column=0,
     padx=10,
     pady=10,
@@ -1495,6 +2080,480 @@ editora_entry_registro_editora = Entry(
 editora_entry_registro_editora.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
 
+dvd_register_frame = Frame(
+    table_frame
+)
+
+dvd_register_frame.columnconfigure(1, weight=1)
+
+Label(
+    dvd_register_frame,
+    text='Título',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+titulo_dvd_registro = Entry(
+    dvd_register_frame,
+    font='Arial 12'
+)
+titulo_dvd_registro.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    dvd_register_frame,
+    text='Diretor(a)',
+    font='Arial 12'
+).grid(
+    row=1,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+diretor_dvd_registro = Entry(
+    dvd_register_frame,
+    font='Arial 12'
+)
+diretor_dvd_registro.grid(
+    row=1,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    dvd_register_frame,
+    text='Distribuidora',
+    font='Arial 12'
+).grid(
+    row=2,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+distribuidora_dvd_registro = Entry(
+    dvd_register_frame,
+    font='Arial 12'
+)
+distribuidora_dvd_registro.grid(
+    row=2,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    dvd_register_frame,
+    text='Tempo',
+    font='Arial 12'
+).grid(
+    row=3,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+tempo_dvd_registro = Entry(
+    dvd_register_frame,
+    font='Arial 12'
+)
+tempo_dvd_registro.grid(
+    row=3,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    dvd_register_frame,
+    text='Situação',
+    font='Arial 12'
+).grid(
+    row=4,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+situacao_dvd_registro = ttk.Combobox(
+    dvd_register_frame,
+    values=(
+        'Disponível',
+        'Emprestado'
+    ),
+    state='readonly',
+    font='Arial 12',
+)
+situacao_dvd_registro.current(0)
+situacao_dvd_registro.bind('<<ComboboxSelected>>', situacao_dvd_on_click)
+situacao_dvd_registro.grid(
+    row=4,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    dvd_register_frame,
+    text='Beneficado',
+    font='Arial 12'
+).grid(
+    row=5,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+beneficiado_dvd_registro = Entry(
+    dvd_register_frame,
+    state=DISABLED,
+    font='Arial 12'
+)
+beneficiado_dvd_registro.grid(
+    row=5,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    dvd_register_frame,
+    text='Telefone',
+    font='Arial 12'
+).grid(
+    row=6,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+telefone_dvd_registro = Entry(
+    dvd_register_frame,
+    state=DISABLED,
+    font='Arial 12'
+)
+telefone_dvd_registro.grid(
+    row=6,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    dvd_register_frame,
+    text='Data Empréstimo',
+    font='Arial 12'
+).grid(
+    row=7,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_emprestimo_dvd_registro = DateEntry(
+    dvd_register_frame,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_emprestimo_dvd_registro.grid(
+    row=7,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    dvd_register_frame,
+    text='Data Devolução',
+    font='Arial 12'
+).grid(
+    row=8,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_devolucao_dvd_registro = DateEntry(
+    dvd_register_frame,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_devolucao_dvd_registro.grid(
+    row=8,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+cd_register_frame = Frame(
+    table_frame
+)
+
+cd_register_frame.columnconfigure(1, weight=1)
+
+Label(
+    cd_register_frame,
+    text='Título',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+titulo_cd_registro = Entry(
+    cd_register_frame,
+    font='Arial 12'
+)
+titulo_cd_registro.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    cd_register_frame,
+    text='Aritsta/Autor',
+    font='Arial 12'
+).grid(
+    row=1,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+artista_autor_cd_registro = Entry(
+    cd_register_frame,
+    font='Arial 12'
+)
+artista_autor_cd_registro.grid(
+    row=1,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    cd_register_frame,
+    text='Distribuidora',
+    font='Arial 12'
+).grid(
+    row=2,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+distribuidora_cd_registro = Entry(
+    cd_register_frame,
+    font='Arial 12'
+)
+distribuidora_cd_registro.grid(
+    row=2,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    cd_register_frame,
+    text='Tempo',
+    font='Arial 12'
+).grid(
+    row=3,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+tempo_cd_registro = Entry(
+    cd_register_frame,
+    font='Arial 12'
+)
+tempo_cd_registro.grid(
+    row=3,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    cd_register_frame,
+    text='Situação',
+    font='Arial 12'
+).grid(
+    row=4,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+situacao_cd_registro = ttk.Combobox(
+    cd_register_frame,
+    values=(
+        'Disponível',
+        'Emprestado'
+    ),
+    state='readonly',
+    font='Arial 12',
+)
+situacao_cd_registro.current(0)
+situacao_cd_registro.bind('<<ComboboxSelected>>', situacao_cd_on_click)
+situacao_cd_registro.grid(
+    row=4,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    cd_register_frame,
+    text='Beneficado',
+    font='Arial 12'
+).grid(
+    row=5,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+beneficiado_cd_registro = Entry(
+    cd_register_frame,
+    state=DISABLED,
+    font='Arial 12'
+)
+beneficiado_cd_registro.grid(
+    row=5,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    cd_register_frame,
+    text='Telefone',
+    font='Arial 12'
+).grid(
+    row=6,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+telefone_cd_registro = Entry(
+    cd_register_frame,
+    state=DISABLED,
+    font='Arial 12'
+)
+telefone_cd_registro.grid(
+    row=6,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    cd_register_frame,
+    text='Data Empréstimo',
+    font='Arial 12'
+).grid(
+    row=7,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_emprestimo_cd_registro = DateEntry(
+    cd_register_frame,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_emprestimo_cd_registro.grid(
+    row=7,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    cd_register_frame,
+    text='Data Devolução',
+    font='Arial 12'
+).grid(
+    row=8,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_devolucao_cd_registro = DateEntry(
+    cd_register_frame,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_devolucao_cd_registro.grid(
+    row=8,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
 # comandos do livro_register_frame
 button_register_frame = Frame(
     table_frame
@@ -1516,7 +2575,7 @@ button_cancel = Button(
     button_register_frame,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: cancelar_registro(),
+    command=cancelar_registro,
     font='Arial 12'
 )
 button_cancel.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -1526,7 +2585,9 @@ drop_down_register = ttk.Combobox(
     values=(
         'Livro',
         'Autor',
-        'Editora'
+        'Editora',
+        'DVD',
+        'CD'
     ),
     state='readonly',
     font='Arial 12'
@@ -1566,7 +2627,7 @@ autor_label_editar_excluir_livro.grid(row=1, column=0, padx=10, pady=10)
 autor_entry_editar_excluir_livro = AutocompleteCombobox(
     editar_excluir_livro,
     font='Arial 12',
-    completevalues=data_base.nome_autores()
+    # completevalues=db.nome_autores()
 )
 autor_entry_editar_excluir_livro.grid(
     row=1, column=1, padx=10, pady=10, sticky=EW)
@@ -1581,7 +2642,7 @@ editora_label_editar_excluir_livro.grid(row=2, column=0, padx=10, pady=10)
 editora_entry_editar_excluir_livro = AutocompleteCombobox(
     editar_excluir_livro,
     font='Arial 12',
-    completevalues=data_base.nome_editoras()
+    # completevalues=db.nome_editoras()
 )
 editora_entry_editar_excluir_livro.grid(
     row=2, column=1, padx=10, pady=10, sticky=EW)
@@ -1665,7 +2726,7 @@ autor_label_editar_excluir_autor.grid(row=0, column=0, padx=10, pady=10)
 autor_entry_editar_excluir_autor = AutocompleteCombobox(
     editar_excluir_autor,
     font='Arial 12',
-    completevalues=data_base.nome_autores()
+    # completevalues=db.nome_autores()
 )
 autor_entry_editar_excluir_autor.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -1721,7 +2782,7 @@ editora_label_editar_excluir_editora.grid(row=0, column=0, padx=10, pady=10)
 editora_entry_editar_excluir_editora = AutocompleteCombobox(
     editar_excluir_editora,
     font='Arial 12',
-    completevalues=data_base.nome_editoras()
+    # completevalues=db.nome_editoras()
 )
 editora_entry_editar_excluir_editora.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -1797,7 +2858,9 @@ drop_down = ttk.Combobox(
     values=(
         'Livros',
         'Autores',
-        'Editoras'
+        'Editoras',
+        'DVD\'s',
+        'CD\'s'
     ),
     state='readonly',
     font='Arial 12'
