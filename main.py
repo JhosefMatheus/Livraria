@@ -701,17 +701,32 @@ def adicionar_registro():
         autor = autor_entry_registro_livro.get().strip()
         editora = editora_entry_registro_livro.get().strip()
         n_pages = n_pages_entry_registro_livro.get().strip()
+        situacao = situacao_livro.get()
+        beneficiado = beneficiado_livro.get().strip()
+        telefone = telefone_contato.get().strip()
+        dt_emprestimo = data_emprestimo.get().strip()
+        dt_devolucao = data_devolucao.get().strip()
 
         if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_pages) == 0 or not n_pages.isdigit():
             messagebox.showinfo('Valores inválidos',
                                 'Algum dos valores digitados está inválido!')
         else:
-            db.add_livro(titulo, autor, editora, n_pages)
+            db.add_livro(titulo, autor, editora, n_pages, situacao,
+                         beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
             titulo_entry_registro_livro.delete(0, END)
             autor_entry_registro_livro.delete(0, END)
             editora_entry_registro_livro.delete(0, END)
             n_pages_entry_registro_livro.delete(0, END)
+            situacao_livro.current(0)
+            beneficiado_livro.delete(0, END)
+            beneficiado_livro.configure(state=DISABLED)
+            telefone_contato.delete(0, END)
+            telefone_contato.configure(state=DISABLED)
+            data_emprestimo.delete(0, END)
+            data_emprestimo.configure(state=DISABLED)
+            data_devolucao.delete(0, END)
+            data_devolucao.configure(state=DISABLED)
 
             atualiza_auto_completar()
 
@@ -742,6 +757,82 @@ def adicionar_registro():
             db.add_editora(editora)
 
             editora_entry_registro_editora.delete(0, END)
+
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+            cancelar_registro()
+
+    elif drop_down_register.get() == 'DVD':
+        titulo = titulo_dvd_registro.get().strip()
+        diretor = diretor_dvd_registro.get().strip()
+        distribuidora = distribuidora_dvd_registro.get().strip()
+        tempo = tempo_dvd_registro.get().strip()
+        situacao = situacao_dvd_registro.get().strip()
+        beneficiado = beneficiado_dvd_registro.get().strip()
+        telefone = telefone_dvd_registro.get().strip()
+        dt_emprestimo = dt_emprestimo_dvd_registro.get().strip()
+        dt_devolucao = dt_devolucao_dvd_registro.get().strip()
+
+        if (len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0):
+            messagebox.showinfo(
+                'Valor inválido', 'Algum dos valores digitados está em branco')
+
+        else:
+            db.add_dvd(titulo, diretor, distribuidora, tempo, situacao,
+                       beneficiado, telefone, dt_emprestimo, dt_devolucao)
+
+            titulo_dvd_registro.delete(0, END)
+            diretor_dvd_registro.delete(0, END)
+            distribuidora_dvd_registro.delete(0, END)
+            tempo_dvd_registro.delete(0, END)
+            situacao_dvd_registro.current(0)
+            beneficiado_dvd_registro.delete(0, END)
+            beneficiado_dvd_registro.configure(state=DISABLED)
+            telefone_dvd_registro.delete(0, END)
+            telefone_dvd_registro.configure(state=DISABLED)
+            dt_emprestimo_dvd_registro.delete(0, END)
+            dt_emprestimo_dvd_registro.configure(state=DISABLED)
+            dt_devolucao_dvd_registro.delete(0, END)
+            dt_devolucao_dvd_registro.configure(state=DISABLED)
+
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+            cancelar_registro()
+
+    elif drop_down_register.get() == 'CD':
+        titulo = titulo_cd_registro.get().strip()
+        artista_autor = artista_autor_cd_registro.get().strip()
+        distribuidora = distribuidora_cd_registro.get().strip()
+        tempo = tempo_cd_registro.get().strip()
+        situacao = situacao_cd_registro.get().strip()
+        beneficiado = beneficiado_cd_registro.get().strip()
+        telefone = telefone_cd_registro.get().strip()
+        dt_emprestimo = dt_emprestimo_cd_registro.get().strip()
+        dt_devolucao = dt_devolucao_cd_registro.get().strip()
+
+        if (len(titulo) == 0 or len(artista_autor) == 0 or len(distribuidora) == 0 or len(tempo) == 0):
+            messagebox.showinfo(
+                'Valor inválido', 'Algum dos valores digitados está em branco')
+
+        else:
+            db.add_cd(titulo, artista_autor, distribuidora, tempo, situacao,
+                      beneficiado, telefone, dt_emprestimo, dt_devolucao)
+
+            titulo_cd_registro.delete(0, END)
+            artista_autor_cd_registro.delete(0, END)
+            distribuidora_cd_registro.delete(0, END)
+            tempo_cd_registro.delete(0, END)
+            situacao_cd_registro.current(0)
+            beneficiado_cd_registro.delete(0, END)
+            beneficiado_cd_registro.configure(state=DISABLED)
+            telefone_cd_registro.delete(0, END)
+            telefone_cd_registro.configure(state=DISABLED)
+            dt_emprestimo_cd_registro.delete(0, END)
+            dt_emprestimo_cd_registro.configure(state=DISABLED)
+            dt_devolucao_cd_registro.delete(0, END)
+            dt_devolucao_cd_registro.configure(state=DISABLED)
 
             atualiza_auto_completar()
 
@@ -2566,7 +2657,7 @@ button_add = Button(
     button_register_frame,
     text='Adicionar',
     relief=GROOVE,
-    command=lambda: adicionar_registro(),
+    command=adicionar_registro,
     font='Arial 12'
 )
 button_add.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
