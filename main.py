@@ -853,13 +853,11 @@ def selecionar_livro(event):
         autor_entry_editar_excluir_livro.delete(0, END)
         editora_entry_editar_excluir_livro.delete(0, END)
         n_pages_entry_editar_excluir_livro.delete(0, END)
-        proprietario_entry_editar_excluir_livro.delete(0, END)
 
         titulo_entry_editar_excluir_livro.insert(0, livro_selecionado[1])
         autor_entry_editar_excluir_livro.insert(0, livro_selecionado[2])
         editora_entry_editar_excluir_livro.insert(0, livro_selecionado[3])
         n_pages_entry_editar_excluir_livro.insert(0, livro_selecionado[4])
-        proprietario_entry_editar_excluir_livro.insert(0, livro_selecionado[5])
 
         pesquisa_livro.pack_forget()
 
@@ -979,20 +977,19 @@ def editar_livro():
     autor = autor_entry_editar_excluir_livro.get().strip()
     editora = editora_entry_editar_excluir_livro.get().strip()
     n_paginas = n_pages_entry_editar_excluir_livro.get().strip()
-    proprietario = proprietario_entry_editar_excluir_livro.get().strip()
 
     id_livro_selecionado = livro_selecionado[0]
     autor_livro_selecionado = livro_selecionado[2]
     editora_livro_selecionado = livro_selecionado[3]
 
-    if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_paginas) == 0 or len(proprietario) == 0 or not n_paginas.isdigit():
+    if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_paginas) == 0 or not n_paginas.isdigit():
         messagebox.showinfo(
             'Valores inválidos', 'Algum dos valores digitados é um valor inválido ou está em branco')
 
     else:
 
         db.editar_livro(titulo, autor, editora,
-                        n_paginas, proprietario, id_livro_selecionado, autor_livro_selecionado, editora_livro_selecionado)
+                        n_paginas, id_livro_selecionado, autor_livro_selecionado, editora_livro_selecionado)
 
         atualiza_auto_completar()
 
@@ -1014,7 +1011,6 @@ def cancelar_edicao_livro():
     autor_entry_editar_excluir_livro.delete(0, END)
     editora_entry_editar_excluir_livro.delete(0, END)
     n_pages_entry_editar_excluir_livro.delete(0, END)
-    proprietario_entry_editar_excluir_livro.delete(0, END)
 
     editar_excluir_livro.pack_forget()
     botoes_editar_excluir_livro.pack_forget()
@@ -2752,19 +2748,139 @@ n_pages_entry_editar_excluir_livro = Entry(
 n_pages_entry_editar_excluir_livro.grid(
     row=3, column=1, padx=10, pady=10, sticky=EW)
 
-proprietario_label_editar_excluir_livro = Label(
+Label(
     editar_excluir_livro,
-    text='Proprietário',
+    text='Situação',
     font='Arial 12'
+).grid(
+    row=4,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
-proprietario_label_editar_excluir_livro.grid(row=4, column=0, padx=10, pady=10)
 
-proprietario_entry_editar_excluir_livro = Entry(
+situacao_livro_editar_excluir = ttk.Combobox(
     editar_excluir_livro,
+    values=(
+        'Disponível',
+        'Emprestado'
+    ),
+    state='readonly',
     font='Arial 12'
 )
-proprietario_entry_editar_excluir_livro.grid(
-    row=4, column=1, padx=10, pady=10, sticky=EW)
+situacao_livro_editar_excluir.current(0)
+situacao_livro_editar_excluir.grid(
+    row=4,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_livro,
+    text='Beneficiado',
+    font='Arial 12'
+).grid(
+    row=5,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+beneficiado_livro_editar_excluir = Entry(
+    editar_excluir_livro,
+    font='Arial 12',
+    state=DISABLED
+)
+beneficiado_livro_editar_excluir.grid(
+    row=5,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_livro,
+    text='Tel. Contato',
+    font='Arial 12'
+).grid(
+    row=6,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+telefone_contato_editar_excluir_livro = Entry(
+    editar_excluir_livro,
+    font='Arial 12',
+    state=DISABLED
+)
+telefone_contato_editar_excluir_livro.grid(
+    row=6,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_livro,
+    text='Data de Empréstimo',
+    font='Arial 12'
+).grid(
+    row=7,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_emprestimo_livro_editar_excluir = DateEntry(
+    editar_excluir_livro,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_emprestimo_livro_editar_excluir.grid(
+    row=7,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_livro,
+    text='Data de Devolução',
+    font='Arial 12'
+).grid(
+    row=8,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_devolucao_livro_editar_excluir = DateEntry(
+    editar_excluir_livro,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_devolucao_livro_editar_excluir.grid(
+    row=8,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
 
 botoes_editar_excluir_livro = Frame(
     table_frame
