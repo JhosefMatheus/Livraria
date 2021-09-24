@@ -964,6 +964,56 @@ def selecionar_editora(event):
         pass
 
 
+def selecionar_dvd(event):
+    try:
+        dvd_selecionado = tabela_dvds.item(tabela_dvds.focus())['values']
+
+        titulo_editar_excluir_dvd.delete(0, END)
+        diretor_editar_excluir_dvd.delete(0, END)
+        distribuidora_editar_excluir_dvd.delete(0, END)
+        tempo_editar_excluir_dvd.delete(0, END)
+        situacao_editar_excluir_dvd.delete(0, END)
+        beneficiado_editar_excluir_dvd.delete(0, END)
+        telefone_editar_excluir_dvd.delete(0, END)
+        dt_emprestimo_editar_excluir_dvd.delete(0, END)
+        dt_devolucao_editar_excluir_dvd.delete(0, END)
+
+        titulo_editar_excluir_dvd.insert(0, dvd_selecionado[1])
+        diretor_editar_excluir_dvd.insert(0, dvd_selecionado[2])
+        distribuidora_editar_excluir_dvd.insert(0, dvd_selecionado[3])
+        tempo_editar_excluir_dvd.insert(0, dvd_selecionado[4])
+        situacao_editar_excluir_dvd.insert(0, dvd_selecionado[5])
+        beneficiado_editar_excluir_dvd.insert(0, dvd_selecionado[6])
+        telefone_editar_excluir_dvd.insert(0, dvd_selecionado[7])
+        dt_emprestimo_editar_excluir_dvd.insert(0, dvd_selecionado[8])
+        dt_devolucao_editar_excluir_dvd.insert(0, dvd_selecionado[9])
+
+        pesquisa_dvd.pack_forget()
+
+        tabela_dvds.pack_forget()
+
+        table_frame['text'] = 'Editar/Excluir DVD'
+
+        editar_excluir_dvd.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+        botoes_editar_excluir_dvd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10,
+            anchor=S
+        )
+
+    except Exception as e:
+        pass
+
+
 def editar_livro():
     '''
     Esta função é responsável por pegar os valores digitados na tela de edição/exclusão do livro
@@ -1218,6 +1268,60 @@ def cancelar_edicao_editora():
 
     editar_excluir_editora.pack_forget()
     botoes_editar_excluir_editora.pack_forget()
+
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa_livro.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    drop_down.current(0)
+
+
+def cancelar_edicao_dvd():
+    tabela_dvds.selection_remove(tabela_dvds.focus())
+
+    tabela_dvds.focus('')
+
+    titulo_editar_excluir_dvd.delete(0, END)
+    diretor_editar_excluir_dvd.delete(0, END)
+    distribuidora_editar_excluir_dvd.delete(0, END)
+    tempo_editar_excluir_dvd.delete(0, END)
+    situacao_editar_excluir_dvd.delete(0, END)
+    beneficiado_editar_excluir_dvd.delete(0, END)
+    telefone_editar_excluir_dvd.delete(0, END)
+    dt_emprestimo_editar_excluir_dvd.delete(0, END)
+    dt_devolucao_editar_excluir_dvd.delete(0, END)
+
+    editar_excluir_dvd.pack_forget()
+    botoes_editar_excluir_dvd.pack_forget()
 
     table_frame.pack_forget()
     button_frame.pack_forget()
@@ -1877,7 +1981,7 @@ tabela_dvds.heading('dt_devolucao', text='Data Devolução', anchor=CENTER)
 tabela_dvds.tag_configure('oddrow', background='white')
 tabela_dvds.tag_configure('evenrow', background='lightblue')
 
-tabela_dvds.bind('<ButtonRelease-1>', selecionar_livro)
+tabela_dvds.bind('<ButtonRelease-1>', selecionar_dvd)
 
 tabela_cds = ttk.Treeview(
     table_frame,
@@ -3030,6 +3134,294 @@ botao_cancelar_edicao_editora = Button(
 botao_cancelar_edicao_editora.grid(
     row=0, column=2, padx=10, pady=10, sticky=EW)
 
+editar_excluir_dvd = Frame(
+    table_frame
+)
+
+editar_excluir_dvd.columnconfigure(0, weight=0)
+editar_excluir_dvd.columnconfigure(1, weight=1)
+
+Label(
+    editar_excluir_dvd,
+    text='Título',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+titulo_editar_excluir_dvd = Entry(
+    editar_excluir_dvd,
+    font='Arial 12'
+)
+titulo_editar_excluir_dvd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_dvd,
+    text='Diretor(a)',
+    font='Arial 12'
+).grid(
+    row=1,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+diretor_editar_excluir_dvd = Entry(
+    editar_excluir_dvd,
+    font='Arial 12'
+)
+diretor_editar_excluir_dvd.grid(
+    row=1,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_dvd,
+    text='Distribuidora',
+    font='Arial 12'
+).grid(
+    row=2,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+distribuidora_editar_excluir_dvd = Entry(
+    editar_excluir_dvd,
+    font='Arial 12'
+)
+distribuidora_editar_excluir_dvd.grid(
+    row=2,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_dvd,
+    text='Tempo',
+    font='Arial 12'
+).grid(
+    row=3,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+tempo_editar_excluir_dvd = Entry(
+    editar_excluir_dvd,
+    font='Arial 12'
+)
+tempo_editar_excluir_dvd.grid(
+    row=2,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_dvd,
+    text='Situação',
+    font='Arial 12'
+).grid(
+    row=3,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+situacao_editar_excluir_dvd = ttk.Combobox(
+    editar_excluir_dvd,
+    values=(
+        'Disponível',
+        'Emprestado'
+    ),
+    font='Arial 12',
+    state='readonly'
+)
+situacao_editar_excluir_dvd.current(0)
+situacao_editar_excluir_dvd.grid(
+    row=3,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_dvd,
+    text='Beneficiado',
+    font='Arial 12'
+).grid(
+    row=4,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+beneficiado_editar_excluir_dvd = Entry(
+    editar_excluir_dvd,
+    font='Arial 12',
+    state=DISABLED
+)
+beneficiado_editar_excluir_dvd.grid(
+    row=4,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_dvd,
+    text='Telefone',
+    font='Arial 12'
+).grid(
+    row=5,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+telefone_editar_excluir_dvd = Entry(
+    editar_excluir_dvd,
+    font='Arial 12'
+)
+telefone_editar_excluir_dvd.grid(
+    row=5,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_dvd,
+    text='Data de Empréstimo',
+    font='Arial 12'
+).grid(
+    row=6,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_emprestimo_editar_excluir_dvd = DateEntry(
+    editar_excluir_dvd,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_emprestimo_editar_excluir_dvd.grid(
+    row=6,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_dvd,
+    text='Data de devolução',
+    font='Arial 12'
+).grid(
+    row=7,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_devolucao_editar_excluir_dvd = DateEntry(
+    editar_excluir_dvd,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_devolucao_editar_excluir_dvd.grid(
+    row=7,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botoes_editar_excluir_dvd = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_dvd.columnconfigure(0, weight=1)
+botoes_editar_excluir_dvd.columnconfigure(1, weight=1)
+botoes_editar_excluir_dvd.columnconfigure(2, weight=1)
+
+botao_editar_dvd = Button(
+    botoes_editar_excluir_dvd,
+    text='Editar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_dvd
+)
+botao_editar_dvd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_excluir_dvd = Button(
+    botoes_editar_excluir_dvd,
+    text='Excluir',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_dvd
+)
+botao_excluir_dvd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_cancelar_edicao_dvd = Button(
+    botoes_editar_excluir_dvd,
+    text='Cancelar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_dvd
+)
+botao_cancelar_edicao_dvd.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
 
 # criação do label frame responsável por gerenciar os botões de comandos
 button_frame = LabelFrame(
