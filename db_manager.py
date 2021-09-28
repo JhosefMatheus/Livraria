@@ -65,6 +65,9 @@ class db_manager:
             csv_writer.writerow([id, titulo, diretor, distribuidora, tempo,
                                  situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao])
 
+        self.add_diretor_dvd(diretor)
+        self.add_distribuidora_dvd(distribuidora)
+
     def add_cd(self, titulo, artista_autor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         file = open('cds.csv')
         reader = csv.reader(file)
@@ -76,6 +79,57 @@ class db_manager:
 
             csv_writer.writerow([id, titulo, artista_autor, distribuidora, tempo,
                                  situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao])
+
+        self.add_autor_artista_cd(artista_autor)
+        self.add_distribuidora_cd(distribuidora)
+
+    def add_diretor_dvd(self, diretor):
+        file = open('diretores_dvds.csv')
+        reader = csv.reader(file)
+
+        id = len(list(reader))
+
+        if diretor not in self.nome_diretores_dvds():
+            with open('diretores_dvds.csv', mode='a+', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file)
+
+                csv_writer.writerow([id, diretor])
+
+    def add_autor_artista_cd(self, autor_artista):
+        file = open('autores_artistas_cds.csv')
+        reader = csv.reader(file)
+
+        id = len(list(reader))
+
+        if autor_artista not in self.nome_autores_artistas_cds():
+            with open('autores_artistas_cds.csv', mode='a+', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file)
+
+                csv_writer.writerow([id, autor_artista])
+
+    def add_distribuidora_dvd(self, distribuidora):
+        file = open('distribuidoras_dvds.csv')
+        reader = csv.reader(file)
+
+        id = len(list(reader))
+
+        if distribuidora not in self.nome_diretores_dvds():
+            with open('distribuidoras_dvds.csv', mode='a+', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file)
+
+                csv_writer.writerow([id, distribuidora])
+
+    def add_distribuidora_cd(self, distribuidora):
+        file = open('distribuidoras_cds.csv')
+        reader = csv.reader(file)
+
+        id = len(list(reader))
+
+        if distribuidora not in self.nome_distribuidoras_cds():
+            with open('distribuidoras_cds.csv', mode='a+', newline='') as csv_file:
+                csv_writer = csv.writer(csv_file)
+
+                csv_writer.writerow([id, distribuidora])
 
     def nome_autores(self):
         with open('autores_livros.csv', mode='r') as csv_file:
@@ -95,6 +149,38 @@ class db_manager:
 
     def titulo_livros(self):
         with open('livros.csv', 'r') as csv_file:
+            csv_reader = csv.reader(csv_file)
+
+            next(csv_reader)
+
+            return [line[1] for line in csv_reader]
+
+    def nome_diretores_dvds(self):
+        with open('diretores_dvds.csv', 'r') as csv_file:
+            csv_reader = csv.reader(csv_file)
+
+            next(csv_reader)
+
+            return [line[1] for line in csv_reader]
+
+    def nome_autores_artistas_cds(self):
+        with open('autores_artistas_cds.csv', 'r') as csv_file:
+            csv_reader = csv.reader(csv_file)
+
+            next(csv_reader)
+
+            return [line[1] for line in csv_reader]
+
+    def nome_distribuidoras_dvds(self):
+        with open('distribuidoras_dvds.csv', 'r') as csv_file:
+            csv_reader = csv.reader(csv_file)
+
+            next(csv_reader)
+
+            return [line[1] for line in csv_reader]
+
+    def nome_distribuidoras_cds(self):
+        with open('distribuidoras_cds.csv', 'r') as csv_file:
             csv_reader = csv.reader(csv_file)
 
             next(csv_reader)

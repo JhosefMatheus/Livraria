@@ -19,6 +19,10 @@ def carrega_tabelas():
     editoras = db.get_data('editoras_livros.csv')
     dvds = db.get_data('dvds.csv')
     cds = db.get_data('cds.csv')
+    autores_artistas_cds = db.get_data('autores_artistas_cds.csv')
+    diretores_dvds = db.get_data('diretores_dvds.csv')
+    distribuidoras_cds = db.get_data('distribuidoras_cds.csv')
+    distribuidoras_dvds = db.get_data('distribuidoras_dvds.csv')
 
     for livro in tabela_livros.get_children():
         tabela_livros.delete(livro)
@@ -232,6 +236,8 @@ def mudar_tabela(event):
     botoes_editar_excluir_autor.pack_forget()
     editar_excluir_editora.pack_forget()
     botoes_editar_excluir_editora.pack_forget()
+    editar_excluir_dvd.pack_forget()
+    botoes_editar_excluir_dvd.pack_forget()
 
     carrega_tabelas()
 
@@ -243,6 +249,10 @@ def mudar_tabela(event):
         pesquisa_editora.pack_forget()
         pesquisa_dvd.pack_forget()
         pesquisa_cd.pack_forget()
+        pesquisa_artista_autor_cd.pack_forget()
+        pesquisa_diretor_dvd.pack_forget()
+        pesquisa_distribuidora_cd.pack_forget()
+        pesquisa_distribuidora_dvd.pack_forget()
 
         pesquisa_livro.pack(
             expand=False,
@@ -255,6 +265,10 @@ def mudar_tabela(event):
         tabela_editoras.pack_forget()
         tabela_dvds.pack_forget()
         tabela_cds.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
 
         table_frame['text'] = 'Livros'
 
@@ -272,16 +286,15 @@ def mudar_tabela(event):
             pady=10
         )
 
-        button_frame.pack(
-            expand=False,
-            fill=X,
-            padx=10,
-            pady=10
-        )
-
     elif drop_down.get() == 'Autores':
         pesquisa_livro.pack_forget()
         pesquisa_editora.pack_forget()
+        pesquisa_dvd.pack_forget()
+        pesquisa_cd.pack_forget()
+        pesquisa_artista_autor_cd.pack_forget()
+        pesquisa_diretor_dvd.pack_forget()
+        pesquisa_distribuidora_cd.pack_forget()
+        pesquisa_distribuidora_dvd.pack_forget()
 
         pesquisa_autor.pack(
             expand=False,
@@ -301,6 +314,10 @@ def mudar_tabela(event):
         tabela_editoras.pack_forget()
         tabela_dvds.pack_forget()
         tabela_cds.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
 
         table_frame['text'] = 'Autores'
 
@@ -311,18 +328,15 @@ def mudar_tabela(event):
             pady=10
         )
 
-        button_frame.pack(
-            expand=False,
-            fill=X,
-            padx=10,
-            pady=10
-        )
-
     elif drop_down.get() == 'Editoras':
         pesquisa_livro.pack_forget()
         pesquisa_autor.pack_forget()
         pesquisa_dvd.pack_forget()
         pesquisa_cd.pack_forget()
+        pesquisa_artista_autor_cd.pack_forget()
+        pesquisa_diretor_dvd.pack_forget()
+        pesquisa_distribuidora_cd.pack_forget()
+        pesquisa_distribuidora_dvd.pack_forget()
 
         pesquisa_editora.pack(
             expand=False,
@@ -335,6 +349,10 @@ def mudar_tabela(event):
         tabela_autores.pack_forget()
         tabela_dvds.pack_forget()
         tabela_cds.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
 
         table_frame.pack(
             expand=True,
@@ -352,18 +370,15 @@ def mudar_tabela(event):
             pady=10
         )
 
-        button_frame.pack(
-            expand=False,
-            fill=X,
-            padx=10,
-            pady=10
-        )
-
     elif drop_down.get() == 'DVD\'s':
         pesquisa_livro.pack_forget()
         pesquisa_autor.pack_forget()
         pesquisa_editora.pack_forget()
         pesquisa_cd.pack_forget()
+        pesquisa_artista_autor_cd.pack_forget()
+        pesquisa_diretor_dvd.pack_forget()
+        pesquisa_distribuidora_cd.pack_forget()
+        pesquisa_distribuidora_dvd.pack_forget()
 
         pesquisa_dvd.pack(
             expand=False,
@@ -376,6 +391,10 @@ def mudar_tabela(event):
         tabela_autores.pack_forget()
         tabela_editoras.pack_forget()
         tabela_cds.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
 
         table_frame.pack(
             expand=True,
@@ -393,18 +412,15 @@ def mudar_tabela(event):
             pady=10
         )
 
-        button_frame.pack(
-            expand=False,
-            fill=X,
-            padx=10,
-            pady=10
-        )
-
     elif drop_down.get() == 'CD\'s':
         pesquisa_livro.pack_forget()
         pesquisa_autor.pack_forget()
         pesquisa_editora.pack_forget()
         pesquisa_dvd.pack_forget()
+        pesquisa_artista_autor_cd.pack_forget()
+        pesquisa_diretor_dvd.pack_forget()
+        pesquisa_distribuidora_cd.pack_forget()
+        pesquisa_distribuidora_dvd.pack_forget()
 
         pesquisa_cd.pack(
             expand=False,
@@ -417,6 +433,10 @@ def mudar_tabela(event):
         tabela_autores.pack_forget()
         tabela_editoras.pack_forget()
         tabela_dvds.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
 
         table_frame.pack(
             expand=True,
@@ -434,12 +454,180 @@ def mudar_tabela(event):
             pady=10
         )
 
-        button_frame.pack(
+    elif drop_down.get() == 'Artistas/Autores CD\'s':
+        pesquisa_livro.pack_forget()
+        pesquisa_autor.pack_forget()
+        pesquisa_editora.pack_forget()
+        pesquisa_dvd.pack_forget()
+        pesquisa_cd.pack_forget()
+        pesquisa_diretor_dvd.pack_forget()
+        pesquisa_distribuidora_cd.pack_forget()
+        pesquisa_distribuidora_dvd.pack_forget()
+
+        pesquisa_artista_autor_cd.pack(
             expand=False,
             fill=X,
             padx=10,
             pady=10
         )
+
+        tabela_livros.pack_forget()
+        tabela_autores.pack_forget()
+        tabela_editoras.pack_forget()
+        tabela_dvds.pack_forget()
+        tabela_cds.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        table_frame['text'] = 'Artistas/Autores CD\'s'
+
+        tabela_autores_artistas_cds.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+    elif drop_down.get() == 'Diretores DVD\'s':
+        pesquisa_livro.pack_forget()
+        pesquisa_autor.pack_forget()
+        pesquisa_editora.pack_forget()
+        pesquisa_dvd.pack_forget()
+        pesquisa_cd.pack_forget()
+        pesquisa_artista_autor_cd.pack_forget()
+        pesquisa_distribuidora_cd.pack_forget()
+        pesquisa_distribuidora_dvd.pack_forget()
+
+        pesquisa_diretor_dvd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
+        tabela_livros.pack_forget()
+        tabela_autores.pack_forget()
+        tabela_editoras.pack_forget()
+        tabela_dvds.pack_forget()
+        tabela_cds.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        table_frame['text'] = 'Diretores DVD\'s'
+
+        tabela_diretores_dvds.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+    elif drop_down.get() == 'Distribuidoras DVD\'s':
+        pesquisa_livro.pack_forget()
+        pesquisa_autor.pack_forget()
+        pesquisa_editora.pack_forget()
+        pesquisa_dvd.pack_forget()
+        pesquisa_cd.pack_forget()
+        pesquisa_artista_autor_cd.pack_forget()
+        pesquisa_diretor_dvd.pack_forget()
+        pesquisa_distribuidora_cd.pack_forget()
+
+        pesquisa_distribuidora_dvd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
+        tabela_livros.pack_forget()
+        tabela_autores.pack_forget()
+        tabela_editoras.pack_forget()
+        tabela_dvds.pack_forget()
+        tabela_cds.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        table_frame['text'] = 'Distribuidoras DVD\'s'
+
+        tabela_distribuidoras_dvds.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+    elif drop_down.get() == 'Distribuidoras CD\'s':
+        pesquisa_livro.pack_forget()
+        pesquisa_autor.pack_forget()
+        pesquisa_editora.pack_forget()
+        pesquisa_cd.pack_forget()
+        pesquisa_dvd.pack_forget()
+        pesquisa_artista_autor_cd.pack_forget()
+        pesquisa_diretor_dvd.pack_forget()
+        pesquisa_distribuidora_dvd.pack_forget()
+
+        pesquisa_distribuidora_cd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
+        tabela_livros.pack_forget()
+        tabela_autores.pack_forget()
+        tabela_editoras.pack_forget()
+        tabela_dvds.pack_forget()
+        tabela_cds.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
+
+        table_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        table_frame['text'] = 'Distribuidoras CD\'s'
+
+        tabela_distribuidoras_cds.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
 
 
 def adicionar_novo():
@@ -1010,6 +1198,43 @@ def selecionar_dvd(event):
             anchor=S
         )
 
+    except Exception as e:
+        pass
+
+
+def selecionar_cd(event):
+    try:
+        cd_selecionado = tabela_cds.item(tabela_cds.focus())['values']
+    except Exception as e:
+        pass
+
+
+def selecionar_artista_autor_cd(event):
+    try:
+        artista_autor_selecionado = tabela_autores_artistas_cds.item(
+            tabela_autores_artistas_cds.focus())['values']
+    except Exception as e:
+        pass
+
+
+def selecionar_diretor_dvd(event):
+    try:
+        diretor_dvd = tabela_diretores_dvds.item(
+            tabela_diretores_dvds.focus())['values']
+    except Exception as e:
+        pass
+
+
+def selecionar_distribuidora_cd(event):
+    try:
+        pass
+    except Exception as e:
+        pass
+
+
+def selecionar_distribuidora_dvd(event):
+    try:
+        pass
     except Exception as e:
         pass
 
@@ -1636,7 +1861,7 @@ botao_pesquisar_autor = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=lambda: pesquisar_autor()
+    command=pesquisar_autor
 )
 botao_pesquisar_autor.grid(
     row=0,
@@ -1800,6 +2025,126 @@ botao_pesquisar_cd.grid(
     padx=10,
     pady=10,
     sticky=EW
+)
+
+pesquisa_artista_autor_cd = LabelFrame(
+    root,
+    text='Pesquisar Artista/Autor CD',
+    font='Arial 12'
+)
+
+pesquisa_artista_autor_cd.columnconfigure(0, weight=1)
+pesquisa_artista_autor_cd.columnconfigure(1, weight=0)
+
+entrada_pesquisa_artista_autor = AutocompleteCombobox(
+    pesquisa_artista_autor_cd,
+    font='Arial 12',
+    # completevalues=db.nome_autores()
+)
+entrada_pesquisa_artista_autor.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar_artista_autor = Button(
+    pesquisa_artista_autor_cd,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=pesquisar_autor
+)
+
+pesquisa_diretor_dvd = LabelFrame(
+    root,
+    text='Pesquisar Diretor DVD',
+    font='Arial 12'
+)
+
+pesquisa_diretor_dvd.columnconfigure(0, weight=1)
+pesquisa_diretor_dvd.columnconfigure(1, weight=0)
+
+entrada_pesquisa_diretor_dvd = AutocompleteCombobox(
+    pesquisa_diretor_dvd,
+    font='Arial 12',
+    # completevalues=db.nome_autores()
+)
+entrada_pesquisa_diretor_dvd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar_diretor_dvd = Button(
+    pesquisa_diretor_dvd,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=pesquisar_autor
+)
+
+pesquisa_distribuidora_cd = LabelFrame(
+    root,
+    text='Pesquisar Distribuidora CD',
+    font='Arial 12'
+)
+
+pesquisa_distribuidora_cd.columnconfigure(0, weight=1)
+pesquisa_distribuidora_cd.columnconfigure(1, weight=0)
+
+entrada_pesquisa_distribuidora_cd = AutocompleteCombobox(
+    pesquisa_distribuidora_cd,
+    font='Arial 12',
+    # completevalues=db.nome_autores()
+)
+entrada_pesquisa_distribuidora_cd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar_distribuidora_cd = Button(
+    pesquisa_distribuidora_cd,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=pesquisar_autor
+)
+
+pesquisa_distribuidora_dvd = LabelFrame(
+    root,
+    text='Pesquisar Distribuidora DVD',
+    font='Arial 12'
+)
+
+pesquisa_distribuidora_dvd.columnconfigure(0, weight=1)
+pesquisa_distribuidora_dvd.columnconfigure(1, weight=0)
+
+entrada_pesquisa_distribuidora_dvd = AutocompleteCombobox(
+    pesquisa_distribuidora_dvd,
+    font='Arial 12',
+    # completevalues=db.nome_autores()
+)
+entrada_pesquisa_distribuidora_dvd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_pesquisar_distribuidora_dvd = Button(
+    pesquisa_distribuidora_dvd,
+    font='Arial 12',
+    text='Pesquisar',
+    relief=GROOVE,
+    command=pesquisar_autor
 )
 
 style = ttk.Style()
@@ -2031,6 +2376,111 @@ tabela_cds.tag_configure('evenrow', background='lightblue')
 
 tabela_cds.bind('<ButtonRelease-1>', selecionar_livro)
 
+tabela_autores_artistas_cds = ttk.Treeview(
+    table_frame,
+    yscrollcommand=tree_scrool.set,
+    selectmode=EXTENDED,
+    columns=(
+        'id',
+        'artista_autor'
+    )
+)
+
+tabela_autores_artistas_cds.column('#0', width=0, stretch=NO)
+
+tabela_autores_artistas_cds.column('id', anchor=CENTER, width=100)
+tabela_autores_artistas_cds.column('artista_autor', anchor=W, width=140)
+
+tabela_autores_artistas_cds.heading('#0', text='', anchor=W)
+
+tabela_autores_artistas_cds.heading('id', text='ID', anchor=CENTER)
+tabela_autores_artistas_cds.heading(
+    'artista_autor', text='Artista/Autor', anchor=W)
+
+tabela_autores_artistas_cds.tag_configure('oddrow', background='white')
+tabela_autores_artistas_cds.tag_configure('evenrow', background='lightblue')
+
+tabela_autores_artistas_cds.bind(
+    '<ButtonRelease-1>', selecionar_artista_autor_cd)
+
+tabela_diretores_dvds = ttk.Treeview(
+    table_frame,
+    yscrollcommand=tree_scrool.set,
+    selectmode=EXTENDED,
+    columns=(
+        'id',
+        'diretor'
+    )
+)
+
+tabela_diretores_dvds.column('#0', width=0, stretch=NO)
+
+tabela_diretores_dvds.column('id', anchor=CENTER, width=100)
+tabela_diretores_dvds.column('diretor', anchor=W, width=140)
+
+tabela_diretores_dvds.heading('#0', text='', anchor=W)
+
+tabela_diretores_dvds.heading('id', text='ID', anchor=CENTER)
+tabela_diretores_dvds.heading('diretor', text='Diretor(a)', anchor=W)
+
+tabela_diretores_dvds.tag_configure('oddrow', background='white')
+tabela_diretores_dvds.tag_configure('evenrow', background='lightblue')
+
+tabela_diretores_dvds.bind('<ButtonRelease-1>', selecionar_diretor_dvd)
+
+tabela_distribuidoras_cds = ttk.Treeview(
+    table_frame,
+    yscrollcommand=tree_scrool.set,
+    selectmode=EXTENDED,
+    columns=(
+        'id',
+        'distribuidora'
+    )
+)
+
+tabela_distribuidoras_cds.column('#0', width=0, stretch=NO)
+
+tabela_distribuidoras_cds.column('id', anchor=CENTER, width=100)
+tabela_distribuidoras_cds.column('distribuidora', anchor=W, width=140)
+
+tabela_distribuidoras_cds.heading('#0', text='', anchor=W)
+
+tabela_distribuidoras_cds.heading('id', text='ID', anchor=CENTER)
+tabela_distribuidoras_cds.heading(
+    'distribuidora', text='Distribuidora', anchor=W)
+
+tabela_distribuidoras_cds.tag_configure('oddrow', background='white')
+tabela_distribuidoras_cds.tag_configure('evenrow', background='lightblue')
+
+tabela_distribuidoras_cds.bind(
+    '<ButtonRelease-1>', selecionar_distribuidora_cd)
+
+tabela_distribuidoras_dvds = ttk.Treeview(
+    table_frame,
+    yscrollcommand=tree_scrool.set,
+    selectmode=EXTENDED,
+    columns=(
+        'id',
+        'distribuidora'
+    )
+)
+
+tabela_distribuidoras_dvds.column('#0', width=0, stretch=NO)
+
+tabela_distribuidoras_dvds.column('id', anchor=CENTER, width=100)
+tabela_distribuidoras_dvds.column('distribuidora', anchor=W, width=140)
+
+tabela_distribuidoras_dvds.heading('#0', text='', anchor=W)
+
+tabela_distribuidoras_dvds.heading('id', text='ID', anchor=CENTER)
+tabela_distribuidoras_dvds.heading(
+    'distribuidora', text='Distribuidora', anchor=W)
+
+tabela_distribuidoras_dvds.tag_configure('oddrow', background='white')
+tabela_distribuidoras_dvds.tag_configure('evenrow', background='lightblue')
+
+tabela_distribuidoras_dvds.bind(
+    '<ButtonRelease-1>', selecionar_distribuidora_dvd)
 
 carrega_tabelas()
 
@@ -3459,7 +3909,11 @@ drop_down = ttk.Combobox(
         'Autores',
         'Editoras',
         'DVD\'s',
-        'CD\'s'
+        'CD\'s',
+        'Artistas/Autores CD\'s',
+        'Diretores DVD\'s',
+        'Distribuidoras DVD\'s',
+        'Distribuidoras CD\'s'
     ),
     state='readonly',
     font='Arial 12'
