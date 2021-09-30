@@ -39,6 +39,18 @@ def carrega_tabelas():
     for cd in tabela_cds.get_children():
         tabela_cds.delete(cd)
 
+    for autor_artista_cd in tabela_autores_artistas_cds.get_children():
+        tabela_autores_artistas_cds.delete(autor_artista_cd)
+
+    for diretor_dvd in tabela_diretores_dvds.get_children():
+        tabela_diretores_dvds.delete(diretor_dvd)
+
+    for distribuidora_cd in tabela_distribuidoras_cds.get_children():
+        tabela_distribuidoras_cds.delete(distribuidora_cd)
+
+    for distribuidora_dvd in tabela_distribuidoras_dvds.get_children():
+        tabela_distribuidoras_dvds.delete(distribuidora_dvd)
+
     count = 0
 
     for livro in livros:
@@ -218,6 +230,70 @@ def carrega_tabelas():
                 ),
                 tags=('oddrow',)
             )
+
+        count += 1
+
+    count = 0
+
+    for autor_artista_cd in autores_artistas_cds:
+        id = autor_artista_cd[0]
+        nome_autor_artista_cd = autor_artista_cd[1]
+
+        if count % 2 == 0:
+            tabela_autores_artistas_cds.insert('', END, values=(
+                id, nome_autor_artista_cd), tags=('evenrow',))
+
+        else:
+            tabela_autores_artistas_cds.insert('', END, values=(
+                id, nome_autor_artista_cd), tags=('oddrow',))
+
+        count += 1
+
+    count = 0
+
+    for diretor_dvd in diretores_dvds:
+        id = diretor_dvd[0]
+        nome_diretor_dvd = diretor_dvd[1]
+
+        if count % 2 == 0:
+            tabela_diretores_dvds.insert('', END, values=(
+                id, nome_diretor_dvd), tags=('evenrow',))
+
+        else:
+            tabela_diretores_dvds.insert('', END, values=(
+                id, nome_diretor_dvd), tags=('oddrow',))
+
+        count += 1
+
+    count = 0
+
+    for distribuidora_cd in distribuidoras_cds:
+        id = distribuidora_cd[0]
+        nome_distribuidora_cd = distribuidora_cd[1]
+
+        if count % 2 == 0:
+            tabela_distribuidoras_cds.insert('', END, values=(
+                id, nome_distribuidora_cd), tags=('evenrow',))
+
+        else:
+            tabela_distribuidoras_cds.insert('', END, values=(
+                id, nome_distribuidora_cd), tags=('oddrow',))
+
+        count += 1
+
+    count = 0
+
+    for distribuidora_dvd in distribuidoras_dvds:
+        id = distribuidora_dvd[0]
+        nome_distribuidora_dvd = distribuidora_dvd[1]
+
+        if count % 2 == 0:
+            tabela_distribuidoras_dvds.insert('', END, values=(
+                id, nome_distribuidora_dvd), tags=('evenrow',))
+
+        else:
+            tabela_distribuidoras_dvds.insert('', END, values=(
+                id, nome_distribuidora_dvd), tags=('oddrow',))
 
         count += 1
 
@@ -642,24 +718,39 @@ def adicionar_novo():
     pesquisa_editora.pack_forget()
     pesquisa_dvd.pack_forget()
     pesquisa_cd.pack_forget()
+    pesquisa_artista_autor_cd.pack_forget()
+    pesquisa_diretor_dvd.pack_forget()
+    pesquisa_distribuidora_cd.pack_forget()
+    pesquisa_distribuidora_dvd.pack_forget()
 
     entrada_pesquisa_livro.delete(0, END)
     entrada_pesquisa_autor.delete(0, END)
     entrada_pesquisa_editora.delete(0, END)
     entrada_pesquisa_dvd.delete(0, END)
     entrada_pesquisa_cd.delete(0, END)
+    entrada_pesquisa_artista_autor.delete(0, END)
+    entrada_pesquisa_diretor_dvd.delete(0, END)
+    entrada_pesquisa_distribuidora_cd.delete(0, END)
+    entrada_pesquisa_distribuidora_dvd.delete(0, END)
 
     tabela_livros.pack_forget()
     tabela_autores.pack_forget()
     tabela_editoras.pack_forget()
     tabela_dvds.pack_forget()
     tabela_cds.pack_forget()
+    tabela_autores_artistas_cds.pack_forget()
+    tabela_diretores_dvds.pack_forget()
+    tabela_distribuidoras_cds.pack_forget()
+    tabela_distribuidoras_dvds.pack_forget()
+
     editar_excluir_livro.pack_forget()
     botoes_editar_excluir_livro.pack_forget()
     editar_excluir_autor.pack_forget()
     botoes_editar_excluir_autor.pack_forget()
     editar_excluir_editora.pack_forget()
     botoes_editar_excluir_editora.pack_forget()
+    editar_excluir_dvd.pack_forget()
+    botoes_editar_excluir_dvd.pack_forget()
 
     livro_register_frame.pack(
         expand=True,
@@ -1147,6 +1238,74 @@ def adicionar_registro():
             carrega_tabelas()
             cancelar_registro()
 
+    elif drop_down_register.get() == 'Autor/Artista CD':
+        nome_autor_artista = nome_autor_artista_registro.get().strip()
+
+        if len(nome_autor_artista) == 0:
+            messagebox.showinfo(
+                'Valor inválido', 'O nome do autor possivelmente está em branco')
+
+        else:
+            db.add_autor_artista_cd(nome_autor_artista)
+
+            nome_autor_artista_registro.delete(0, END)
+
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+            cancelar_registro()
+
+    elif drop_down_register.get() == 'Diretor(a) DVD':
+        nome_diretor = nome_diretor_dvd_registro.get().strip()
+
+        if len(nome_diretor) == 0:
+            messagebox.showinfo(
+                'Valor inválido', 'O nome do autor possivelmente está em branco')
+
+        else:
+            db.add_diretor_dvd(nome_diretor)
+
+            nome_diretor_dvd_registro.delete(0, END)
+
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+            cancelar_registro()
+
+    elif drop_down_register.get() == 'Distribuidora CD':
+        distribuidora = nome_distribuidora_cd_registro.get().strip()
+
+        if len(distribuidora) == 0:
+            messagebox.showinfo(
+                'Valor inválido', 'O nome do autor possivelmente está em branco')
+
+        else:
+            db.add_distribuidora_cd(distribuidora)
+
+            nome_distribuidora_cd_registro.delete(0, END)
+
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+            cancelar_registro()
+
+    elif drop_down_register.get() == 'Distribuidora DVD':
+        distribuidora = nome_distribuidora_dvd_registro.get().strip()
+
+        if len(distribuidora) == 0:
+            messagebox.showinfo(
+                'Valor inválido', 'O nome do autor possivelmente está em branco')
+
+        else:
+            db.add_distribuidora_dvd(distribuidora)
+
+            nome_distribuidora_dvd_registro.delete(0, END)
+
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+            cancelar_registro()
+
 
 def selecionar_livro(event):
     '''
@@ -1325,6 +1484,61 @@ def selecionar_dvd(event):
 def selecionar_cd(event):
     try:
         cd_selecionado = tabela_cds.item(tabela_cds.focus())['values']
+
+        titulo_cd_editar_excluir.delete(0, END)
+        autor_artista_cd_editar_excluir.delete(0, END)
+        distribuidora_cd_editar_excluir.delete(0, END)
+        tempo_cd_editar_excluir.delete(0, END)
+        beneficiado_cd_editar_excluir.delete(0, END)
+        telefone_cd_editar_excluir.delete(0, END)
+        dt_emprestimo_cd_editar_excluir.delete(0, END)
+        dt_devolucao_cd_editar_excluir.delete(0, END)
+
+        titulo_cd_editar_excluir.insert(0, cd_selecionado[1])
+        autor_artista_cd_editar_excluir.insert(0, cd_selecionado[2])
+        distribuidora_cd_editar_excluir.insert(0, cd_selecionado[3])
+        tempo_cd_editar_excluir.insert(0, cd_selecionado[4])
+        situacao_cd_editar_excluir.current(
+            0 if cd_selecionado[5] == 'Disponível' else 1)
+
+        if situacao_cd_editar_excluir.get() == 'Disponível':
+            beneficiado_cd_editar_excluir.configure(state=DISABLED)
+            telefone_cd_editar_excluir.configure(state=DISABLED)
+            dt_emprestimo_cd_editar_excluir.configure(state=DISABLED)
+            dt_devolucao_cd_editar_excluir.configure(state=DISABLED)
+
+        else:
+            beneficiado_cd_editar_excluir.configure(state=NORMAL)
+            beneficiado_cd_editar_excluir.insert(0, cd_selecionado[6])
+
+            telefone_cd_editar_excluir.configure(state=NORMAL)
+            telefone_cd_editar_excluir.insert(0, cd_selecionado[7])
+
+            dt_emprestimo_cd_editar_excluir.configure(state=NORMAL)
+            dt_emprestimo_cd_editar_excluir.insert(0, cd_selecionado[8])
+
+            dt_devolucao_cd_editar_excluir.configure(state=NORMAL)
+            dt_devolucao_cd_editar_excluir.insert(0, cd_selecionado[9])
+
+        pesquisa_cd.pack_forget()
+        tabela_cds.pack_forget()
+
+        table_frame['text'] = 'Editar/Excluir CD'
+
+        editar_excluir_cd.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        botoes_editar_excluir_cd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
     except Exception as e:
         pass
 
@@ -1333,28 +1547,126 @@ def selecionar_artista_autor_cd(event):
     try:
         artista_autor_selecionado = tabela_autores_artistas_cds.item(
             tabela_autores_artistas_cds.focus())['values']
+
+        nome_autor_artista_editar_excluir_cd.delete(0, END)
+
+        nome_autor_artista_editar_excluir_cd.insert(
+            0, artista_autor_selecionado[1])
+
+        pesquisa_artista_autor_cd.pack_forget()
+        tabela_autores_artistas_cds.pack_forget()
+
+        table_frame['text'] = 'Editar/Excluir Artista/Autor CD'
+
+        editar_excluir_autor_artista_cd.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        botoes_editar_excluir_autor_artista_cd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
     except Exception as e:
         pass
 
 
 def selecionar_diretor_dvd(event):
     try:
-        diretor_dvd = tabela_diretores_dvds.item(
+        diretor_dvd_selecionado = tabela_diretores_dvds.item(
             tabela_diretores_dvds.focus())['values']
+
+        nome_diretor_dvd_editar_excluir.delete(0, END)
+
+        nome_diretor_dvd_editar_excluir.insert(0, diretor_dvd_selecionado[1])
+
+        pesquisa_diretor_dvd.pack_forget()
+        tabela_diretores_dvds.pack_forget()
+
+        table_frame['text'] = 'Editar/Excluir Diretor DVD'
+
+        editar_excluir_diretor_dvd.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        botoes_editar_excluir_diretor_dvd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
+
     except Exception as e:
         pass
 
 
 def selecionar_distribuidora_cd(event):
     try:
-        pass
+        distribuidora_selecionada = tabela_distribuidoras_cds.item(
+            tabela_distribuidoras_cds.focus())['values']
+
+        nome_distribuidora_cd_editar_excluir.delete(0, END)
+
+        nome_distribuidora_cd_editar_excluir.insert(
+            0, distribuidora_selecionada[1])
+
+        pesquisa_distribuidora_cd.pack_forget()
+        tabela_distribuidoras_cds.pack_forget()
+
+        table_frame['text'] = 'Editar/Excluir Distribuidora CD'
+
+        editar_excluir_distribuidora_cd.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        botoes_editar_excluir_distribuidora_cd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
     except Exception as e:
         pass
 
 
 def selecionar_distribuidora_dvd(event):
     try:
-        pass
+        distribuidora_selecionada = tabela_distribuidoras_dvds.item(
+            tabela_distribuidoras_dvds.focus())['values']
+
+        nome_distribuidora_dvd_editar_excluir.delete(0, END)
+
+        nome_distribuidora_dvd_editar_excluir.insert(
+            0, distribuidora_selecionada[1])
+
+        pesquisa_distribuidora_dvd.pack_forget()
+        tabela_distribuidoras_dvds.pack_forget()
+
+        table_frame['text'] = 'Editar/Excluir Distribuidora DVD'
+
+        editar_excluir_distribuidora_dvd.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10
+        )
+
+        botoes_editar_excluir_distribuidora_dvd.pack(
+            expand=False,
+            fill=X,
+            padx=10,
+            pady=10
+        )
     except Exception as e:
         pass
 
@@ -1667,6 +1979,243 @@ def cancelar_edicao_dvd():
 
     editar_excluir_dvd.pack_forget()
     botoes_editar_excluir_dvd.pack_forget()
+
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa_livro.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    drop_down.current(0)
+
+
+def cancelar_edicao_cd():
+    tabela_cds.selection_remove(tabela_dvds.focus())
+
+    tabela_cds.focus('')
+
+    titulo_cd_editar_excluir.delete(0, END)
+    autor_artista_cd_editar_excluir.delete(0, END)
+    distribuidora_cd_editar_excluir.delete(0, END)
+    tempo_cd_editar_excluir.delete(0, END)
+    beneficiado_cd_editar_excluir.delete(0, END)
+    telefone_cd_editar_excluir.delete(0, END)
+    dt_emprestimo_cd_editar_excluir.delete(0, END)
+    dt_devolucao_cd_editar_excluir.delete(0, END)
+
+    editar_excluir_cd.pack_forget()
+    botoes_editar_excluir_cd.pack_forget()
+
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa_livro.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    drop_down.current(0)
+
+
+def cancelar_edicao_artista_autor_cd():
+    tabela_autores_artistas_cds.selection_remove(
+        tabela_autores_artistas_cds.focus())
+
+    tabela_autores_artistas_cds.focus('')
+
+    nome_autor_artista_editar_excluir_cd.delete(0, END)
+
+    editar_excluir_autor_artista_cd.pack_forget()
+    botoes_editar_excluir_autor_artista_cd.pack_forget()
+
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa_livro.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    drop_down.current(0)
+
+
+def cancelar_edicao_diretor_dvd():
+    tabela_diretores_dvds.selection_remove(tabela_diretores_dvds.focus())
+    tabela_diretores_dvds.focus('')
+
+    nome_diretor_dvd_editar_excluir.delete(0, END)
+
+    editar_excluir_diretor_dvd.pack_forget()
+    botoes_editar_excluir_diretor_dvd.pack_forget()
+
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa_livro.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    drop_down.current(0)
+
+
+def cancelar_edicao_distribuidora_cd():
+    tabela_distribuidoras_cds.selection_remove(
+        tabela_distribuidoras_cds.focus())
+    tabela_distribuidoras_cds.focus('')
+
+    nome_distribuidora_cd_editar_excluir.delete(0, END)
+
+    editar_excluir_distribuidora_cd.pack_forget()
+    botoes_editar_excluir_distribuidora_cd.pack_forget()
+
+    table_frame.pack_forget()
+    button_frame.pack_forget()
+
+    pesquisa_livro.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    table_frame['text'] = 'Livros'
+
+    table_frame.pack(
+        fill=BOTH,
+        padx=10,
+        pady=10,
+        expand=True
+    )
+
+    tabela_livros.pack(
+        expand=True,
+        fill=BOTH,
+        padx=10,
+        pady=10
+    )
+
+    button_frame.pack(
+        expand=False,
+        fill=X,
+        padx=10,
+        pady=10
+    )
+
+    drop_down.current(0)
+
+
+def cancelar_edicao_distribuidora_dvd():
+    tabela_distribuidoras_dvds.selection_remove(
+        tabela_distribuidoras_dvds.focus())
+    tabela_distribuidoras_dvds.focus('')
+
+    nome_distribuidora_dvd_editar_excluir.delete(0, END)
+
+    editar_excluir_distribuidora_dvd.pack_forget()
+    botoes_editar_excluir_distribuidora_dvd.pack_forget()
 
     table_frame.pack_forget()
     button_frame.pack_forget()
@@ -2494,7 +3043,7 @@ tabela_cds.heading('dt_devolucao', text='Data Devolução', anchor=CENTER)
 tabela_cds.tag_configure('oddrow', background='white')
 tabela_cds.tag_configure('evenrow', background='lightblue')
 
-tabela_cds.bind('<ButtonRelease-1>', selecionar_livro)
+tabela_cds.bind('<ButtonRelease-1>', selecionar_cd)
 
 tabela_autores_artistas_cds = ttk.Treeview(
     table_frame,
@@ -3696,7 +4245,7 @@ botao_editar_livro = Button(
     botoes_editar_excluir_livro,
     text='Editar',
     relief=GROOVE,
-    command=lambda: editar_livro(),
+    command=editar_livro,
     font='Arial 12'
 )
 botao_editar_livro.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
@@ -3705,7 +4254,7 @@ botao_excluir_livro = Button(
     botoes_editar_excluir_livro,
     text='Excluir',
     relief=GROOVE,
-    command=lambda: excluir_livro(),
+    command=excluir_livro,
     font='Arial 12'
 )
 botao_excluir_livro.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -3714,7 +4263,7 @@ botao_cancelar_edicao_livro = Button(
     botoes_editar_excluir_livro,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: cancelar_edicao_livro(),
+    command=cancelar_edicao_livro,
     font='Arial 12'
 )
 botao_cancelar_edicao_livro.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
@@ -3752,7 +4301,7 @@ botao_editar_autor = Button(
     botoes_editar_excluir_autor,
     text='Editar',
     relief=GROOVE,
-    command=lambda: editar_autor(),
+    command=editar_autor,
     font='Arial 12'
 )
 botao_editar_autor.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
@@ -3761,7 +4310,7 @@ botao_excluir_autor = Button(
     botoes_editar_excluir_autor,
     text='Excluir',
     relief=GROOVE,
-    command=lambda: excluir_autor(),
+    command=excluir_autor,
     font='Arial 12'
 )
 botao_excluir_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -3770,7 +4319,7 @@ botao_cancelar_edicao_autor = Button(
     botoes_editar_excluir_autor,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: cancelar_edicao_autor(),
+    command=cancelar_edicao_autor,
     font='Arial 12'
 )
 botao_cancelar_edicao_autor.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
@@ -3808,7 +4357,7 @@ botao_editar_editora = Button(
     botoes_editar_excluir_editora,
     text='Editar',
     relief=GROOVE,
-    command=lambda: editar_editora(),
+    command=editar_editora,
     font='Arial 12'
 )
 botao_editar_editora.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
@@ -3817,7 +4366,7 @@ botao_excluir_editora = Button(
     botoes_editar_excluir_editora,
     text='Excluir',
     relief=GROOVE,
-    command=lambda: excluir_editora(),
+    command=excluir_editora,
     font='Arial 12'
 )
 botao_excluir_editora.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -3826,7 +4375,7 @@ botao_cancelar_edicao_editora = Button(
     botoes_editar_excluir_editora,
     text='Cancelar',
     relief=GROOVE,
-    command=lambda: cancelar_edicao_editora(),
+    command=cancelar_edicao_editora,
     font='Arial 12'
 )
 botao_cancelar_edicao_editora.grid(
@@ -4121,6 +4670,630 @@ botao_cancelar_edicao_dvd.grid(
     sticky=EW
 )
 
+editar_excluir_cd = Frame(
+    table_frame
+)
+
+editar_excluir_cd.columnconfigure(0, weight=0)
+editar_excluir_cd.columnconfigure(1, weight=1)
+
+Label(
+    editar_excluir_cd,
+    text='Título',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+titulo_cd_editar_excluir = Entry(
+    editar_excluir_cd,
+    font='Arial 12'
+)
+titulo_cd_editar_excluir.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_cd,
+    text='Autor/Artista',
+    font='Arial 12'
+).grid(
+    row=1,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+autor_artista_cd_editar_excluir = Entry(
+    editar_excluir_cd,
+    font='Arial 12'
+)
+autor_artista_cd_editar_excluir.grid(
+    row=1,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_cd,
+    text='Distribuidora',
+    font='Arial 12'
+).grid(
+    row=2,
+    column=0,
+    padx=10,
+    pady=10,
+    stick=EW
+)
+
+distribuidora_cd_editar_excluir = Entry(
+    editar_excluir_cd,
+    font='Arial 12'
+)
+distribuidora_cd_editar_excluir.grid(
+    row=2,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_cd,
+    text='Tempo',
+    font='Arial 12'
+).grid(
+    row=3,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+tempo_cd_editar_excluir = Entry(
+    editar_excluir_cd,
+    font='Arial 12'
+)
+tempo_cd_editar_excluir.grid(
+    row=3,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_cd,
+    text='Situação',
+    font='Arial 12'
+).grid(
+    row=4,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+situacao_cd_editar_excluir = ttk.Combobox(
+    editar_excluir_cd,
+    values=(
+        'Disponível',
+        'Emprestado'
+    ),
+    font='Arial 12',
+    state='readonly',
+)
+situacao_cd_editar_excluir.current(0)
+situacao_cd_editar_excluir.grid(
+    row=4,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_cd,
+    text='Beneficiado',
+    font='Arial 12'
+).grid(
+    row=5,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+beneficiado_cd_editar_excluir = Entry(
+    editar_excluir_cd,
+    font='Arial 12'
+)
+beneficiado_cd_editar_excluir.grid(
+    row=5,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_cd,
+    text='Telefone',
+    font='Arial 12'
+).grid(
+    row=6,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+telefone_cd_editar_excluir = Entry(
+    editar_excluir_cd,
+    font='Arial 12'
+)
+telefone_cd_editar_excluir.grid(
+    row=6,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_cd,
+    text='Data de Empréstimo',
+    font='Arial 12'
+).grid(
+    row=7,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_emprestimo_cd_editar_excluir = DateEntry(
+    editar_excluir_cd,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_emprestimo_cd_editar_excluir.grid(
+    row=7,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+Label(
+    editar_excluir_cd,
+    text='Data de Devolução',
+    font='Arial 12'
+).grid(
+    row=8,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+dt_devolucao_cd_editar_excluir = DateEntry(
+    editar_excluir_cd,
+    locale='pt_BR',
+    date_pattern='dd/mm/y',
+    font='Arial 12',
+    state=DISABLED
+)
+dt_devolucao_cd_editar_excluir.grid(
+    row=8,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botoes_editar_excluir_cd = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_cd.columnconfigure(0, weight=1)
+botoes_editar_excluir_cd.columnconfigure(1, weight=1)
+botoes_editar_excluir_cd.columnconfigure(2, weight=1)
+
+botao_editar_cd = Button(
+    botoes_editar_excluir_cd,
+    text='Editar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_cd
+)
+botao_editar_cd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_excluir_cd = Button(
+    botoes_editar_excluir_cd,
+    text='Excluir',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_cd
+)
+botao_excluir_cd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_cancelar_edicao_cd = Button(
+    botoes_editar_excluir_cd,
+    text='Cancelar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_cd
+)
+botao_cancelar_edicao_cd.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+editar_excluir_autor_artista_cd = Frame(
+    table_frame
+)
+
+editar_excluir_autor_artista_cd.columnconfigure(0, weight=0)
+editar_excluir_autor_artista_cd.columnconfigure(1, weight=1)
+
+Label(
+    editar_excluir_autor_artista_cd,
+    text='Autor',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+nome_autor_artista_editar_excluir_cd = Entry(
+    editar_excluir_autor_artista_cd,
+    font='Arial 12'
+)
+nome_autor_artista_editar_excluir_cd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botoes_editar_excluir_autor_artista_cd = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_autor_artista_cd.columnconfigure(0, weight=1)
+botoes_editar_excluir_autor_artista_cd.columnconfigure(1, weight=1)
+botoes_editar_excluir_autor_artista_cd.columnconfigure(2, weight=1)
+
+botao_editar_autor_artista_cd = Button(
+    botoes_editar_excluir_autor_artista_cd,
+    text='Editar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_artista_autor_cd
+)
+botao_editar_autor_artista_cd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_excluir_autor_artista_cd = Button(
+    botoes_editar_excluir_autor_artista_cd,
+    text='Excluir',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_artista_autor_cd
+)
+botao_excluir_autor_artista_cd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_cancelar_edicao_autor_artista_cd = Button(
+    botoes_editar_excluir_autor_artista_cd,
+    text='Cancelar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_artista_autor_cd
+)
+botao_cancelar_edicao_autor_artista_cd.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+editar_excluir_diretor_dvd = Frame(
+    table_frame
+)
+
+editar_excluir_diretor_dvd.columnconfigure(0, weight=0)
+editar_excluir_diretor_dvd.columnconfigure(1, weight=1)
+
+Label(
+    editar_excluir_diretor_dvd,
+    text='Diretor(a)',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+nome_diretor_dvd_editar_excluir = Entry(
+    editar_excluir_diretor_dvd,
+    font='Arial 12'
+)
+nome_diretor_dvd_editar_excluir.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botoes_editar_excluir_diretor_dvd = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_diretor_dvd.columnconfigure(0, weight=1)
+botoes_editar_excluir_diretor_dvd.columnconfigure(1, weight=1)
+botoes_editar_excluir_diretor_dvd.columnconfigure(2, weight=1)
+
+botao_editar_diretor_dvd = Button(
+    botoes_editar_excluir_diretor_dvd,
+    text='Editar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_diretor_dvd
+)
+botao_editar_diretor_dvd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_excluir_diretor_dvd = Button(
+    botoes_editar_excluir_diretor_dvd,
+    text='Excluir',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_diretor_dvd
+)
+botao_excluir_diretor_dvd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_cancelar_edicao_diretor_dvd = Button(
+    botoes_editar_excluir_diretor_dvd,
+    text='Cancelar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_diretor_dvd
+)
+botao_cancelar_edicao_diretor_dvd.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+editar_excluir_distribuidora_cd = Frame(
+    table_frame
+)
+
+editar_excluir_distribuidora_cd.columnconfigure(0, weight=0)
+editar_excluir_distribuidora_cd.columnconfigure(1, weight=1)
+
+Label(
+    editar_excluir_distribuidora_cd,
+    text='Distribuidora',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+nome_distribuidora_cd_editar_excluir = Entry(
+    editar_excluir_distribuidora_cd,
+    font='Arial 12'
+)
+nome_distribuidora_cd_editar_excluir.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botoes_editar_excluir_distribuidora_cd = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_distribuidora_cd.columnconfigure(0, weight=1)
+botoes_editar_excluir_distribuidora_cd.columnconfigure(1, weight=1)
+botoes_editar_excluir_distribuidora_cd.columnconfigure(2, weight=1)
+
+botao_editar_distribuidora_cd = Button(
+    botoes_editar_excluir_distribuidora_cd,
+    text='Editar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_distribuidora_cd
+)
+botao_editar_distribuidora_cd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_excluir_distribuidora_cd = Button(
+    botoes_editar_excluir_distribuidora_cd,
+    text='Excluir',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_distribuidora_cd
+)
+botao_excluir_distribuidora_cd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_cancelar_edicao_distribuidora_cd = Button(
+    botoes_editar_excluir_distribuidora_cd,
+    text='Cancelar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_distribuidora_cd
+)
+botao_cancelar_edicao_distribuidora_cd.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+editar_excluir_distribuidora_dvd = Frame(
+    table_frame
+)
+
+editar_excluir_distribuidora_dvd.columnconfigure(0, weight=0)
+editar_excluir_distribuidora_dvd.columnconfigure(1, weight=1)
+
+Label(
+    editar_excluir_distribuidora_dvd,
+    text='Distribuidora',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+nome_distribuidora_dvd_editar_excluir = Entry(
+    editar_excluir_distribuidora_dvd,
+    font='Arial 12'
+)
+nome_distribuidora_dvd_editar_excluir.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botoes_editar_excluir_distribuidora_dvd = Frame(
+    table_frame
+)
+
+botoes_editar_excluir_distribuidora_dvd.columnconfigure(0, weight=1)
+botoes_editar_excluir_distribuidora_dvd.columnconfigure(1, weight=1)
+botoes_editar_excluir_distribuidora_dvd.columnconfigure(2, weight=1)
+
+botao_editar_distribuidora_dvd = Button(
+    botoes_editar_excluir_distribuidora_dvd,
+    text='Editar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_distribuidora_dvd
+)
+botao_editar_distribuidora_dvd.grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_excluir_distribuidora_dvd = Button(
+    botoes_editar_excluir_distribuidora_dvd,
+    text='Excluir',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_distribuidora_dvd
+)
+botao_excluir_distribuidora_dvd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+botao_cancelar_edicao_distribuidora_dvd = Button(
+    botoes_editar_excluir_distribuidora_dvd,
+    text='Cancelar',
+    font='Arial 12',
+    relief=GROOVE,
+    command=cancelar_edicao_distribuidora_dvd
+)
+botao_cancelar_edicao_distribuidora_dvd.grid(
+    row=0,
+    column=2,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
 # criação do label frame responsável por gerenciar os botões de comandos
 button_frame = LabelFrame(
     root,
@@ -4139,7 +5312,7 @@ add_new = Button(
     button_frame,
     text='Novo',
     relief=GROOVE,
-    command=lambda: adicionar_novo(),
+    command=adicionar_novo,
     font='Arial 12'
 )
 
