@@ -747,6 +747,26 @@ def cancelar_registro():
         dt_devolucao_cd_registro.delete(0, END)
         dt_devolucao_cd_registro.configure(state=DISABLED)
 
+    elif drop_down_register.get() == 'Autor/Artista CD':
+        autor_artista_cd_register_frame.pack_forget()
+
+        nome_autor_artista_registro.delete(0, END)
+
+    elif drop_down_register.get() == 'Diretor(a) DVD':
+        diretor_dvd_register_frame.pack_forget()
+
+        nome_diretor_dvd_registro.delete(0, END)
+
+    elif drop_down_register.get() == 'Distribuidora CD':
+        distribuidora_cd_register_frame.pack_forget()
+
+        nome_distribuidora_cd_registro.delete(0, END)
+
+    elif drop_down_register.get() == 'Distribuidora DVD':
+        distribuidora_dvd_register_frame.pack_forget()
+
+        nome_distribuidora_dvd_registro.delete(0, END)
+
     button_register_frame.pack_forget()
 
     pesquisa_livro.pack(
@@ -795,6 +815,10 @@ def mudar_tela_registro(event):
         editora_register_frame.pack_forget()
         dvd_register_frame.pack_forget()
         cd_register_frame.pack_forget()
+        autor_artista_cd_register_frame.pack_forget()
+        diretor_dvd_register_frame.pack_forget()
+        distribuidora_cd_register_frame.pack_forget()
+        distribuidora_dvd_register_frame.pack_forget()
 
         livro_register_frame.pack(
             expand=True,
@@ -811,6 +835,10 @@ def mudar_tela_registro(event):
         editora_register_frame.pack_forget()
         dvd_register_frame.pack_forget()
         cd_register_frame.pack_forget()
+        autor_artista_cd_register_frame.pack_forget()
+        diretor_dvd_register_frame.pack_forget()
+        distribuidora_cd_register_frame.pack_forget()
+        distribuidora_dvd_register_frame.pack_forget()
 
         autor_register_frame.pack(
             expand=True,
@@ -827,6 +855,10 @@ def mudar_tela_registro(event):
         autor_register_frame.pack_forget()
         dvd_register_frame.pack_forget()
         cd_register_frame.pack_forget()
+        autor_artista_cd_register_frame.pack_forget()
+        diretor_dvd_register_frame.pack_forget()
+        distribuidora_cd_register_frame.pack_forget()
+        distribuidora_dvd_register_frame.pack_forget()
 
         editora_register_frame.pack(
             expand=True,
@@ -843,6 +875,10 @@ def mudar_tela_registro(event):
         autor_register_frame.pack_forget()
         editora_register_frame.pack_forget()
         cd_register_frame.pack_forget()
+        autor_artista_cd_register_frame.pack_forget()
+        diretor_dvd_register_frame.pack_forget()
+        distribuidora_cd_register_frame.pack_forget()
+        distribuidora_dvd_register_frame.pack_forget()
 
         dvd_register_frame.pack(
             expand=True,
@@ -859,8 +895,92 @@ def mudar_tela_registro(event):
         autor_register_frame.pack_forget()
         editora_register_frame.pack_forget()
         dvd_register_frame.pack_forget()
+        autor_artista_cd_register_frame.pack_forget()
+        diretor_dvd_register_frame.pack_forget()
+        distribuidora_cd_register_frame.pack_forget()
+        distribuidora_dvd_register_frame.pack_forget()
 
         cd_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    elif drop_down_register.get() == 'Autor/Artista CD':
+        table_frame['text'] = 'Novo Autor/Artista CD'
+
+        livro_register_frame.pack_forget()
+        autor_register_frame.pack_forget()
+        editora_register_frame.pack_forget()
+        cd_register_frame.pack_forget()
+        dvd_register_frame.pack_forget()
+        diretor_dvd_register_frame.pack_forget()
+        distribuidora_cd_register_frame.pack_forget()
+        distribuidora_dvd_register_frame.pack_forget()
+
+        autor_artista_cd_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    elif drop_down_register.get() == 'Diretor(a) DVD':
+        table_frame['text'] = 'Novo Diretor(a) DVD'
+
+        livro_register_frame.pack_forget()
+        autor_register_frame.pack_forget()
+        editora_register_frame.pack_forget()
+        cd_register_frame.pack_forget()
+        autor_artista_cd_register_frame.pack_forget()
+        dvd_register_frame.pack_forget()
+        distribuidora_cd_register_frame.pack_forget()
+        distribuidora_dvd_register_frame.pack_forget()
+
+        diretor_dvd_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    elif drop_down_register.get() == 'Distribuidora CD':
+        table_frame['text'] = 'Nova Distribuidora CD'
+
+        livro_register_frame.pack_forget()
+        autor_register_frame.pack_forget()
+        editora_register_frame.pack_forget()
+        cd_register_frame.pack_forget()
+        dvd_register_frame.pack_forget()
+        autor_artista_cd_register_frame.pack_forget()
+        diretor_dvd_register_frame.pack_forget()
+        distribuidora_dvd_register_frame.pack_forget()
+
+        distribuidora_cd_register_frame.pack(
+            expand=True,
+            fill=BOTH,
+            padx=10,
+            pady=10,
+            anchor=N
+        )
+
+    elif drop_down_register.get() == 'Distribuidora DVD':
+        table_frame['text'] = 'Nova Distribuidora DVD'
+
+        livro_register_frame.pack_forget()
+        autor_register_frame.pack_forget()
+        editora_register_frame.pack_forget()
+        cd_register_frame.pack_forget()
+        dvd_register_frame.pack_forget()
+        autor_artista_cd_register_frame.pack_forget()
+        diretor_dvd_register_frame.pack_forget()
+        distribuidora_cd_register_frame.pack_forget()
+
+        distribuidora_dvd_register_frame.pack(
             expand=True,
             fill=BOTH,
             padx=10,
@@ -3195,6 +3315,130 @@ dt_devolucao_cd_registro.grid(
     sticky=EW
 )
 
+autor_artista_cd_register_frame = Frame(
+    table_frame
+)
+
+autor_artista_cd_register_frame.columnconfigure(0, weight=0)
+autor_artista_cd_register_frame.columnconfigure(1, weight=1)
+
+Label(
+    autor_artista_cd_register_frame,
+    text='Autor',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+nome_autor_artista_registro = Entry(
+    autor_artista_cd_register_frame,
+    font='Arial 12'
+)
+nome_autor_artista_registro.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+diretor_dvd_register_frame = Frame(
+    table_frame
+)
+
+diretor_dvd_register_frame.columnconfigure(0, weight=0)
+diretor_dvd_register_frame.columnconfigure(1, weight=1)
+
+Label(
+    diretor_dvd_register_frame,
+    text='Diretor(a)',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+nome_diretor_dvd_registro = Entry(
+    diretor_dvd_register_frame,
+    font='Arial 12'
+)
+nome_diretor_dvd_registro.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+distribuidora_cd_register_frame = Frame(
+    table_frame
+)
+
+distribuidora_cd_register_frame.columnconfigure(0, weight=0)
+distribuidora_cd_register_frame.columnconfigure(1, weight=1)
+
+Label(
+    distribuidora_cd_register_frame,
+    text='Distribuidora',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+nome_distribuidora_cd_registro = Entry(
+    distribuidora_cd_register_frame,
+    font='Arial 12'
+)
+nome_distribuidora_cd_registro.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+distribuidora_dvd_register_frame = Frame(
+    table_frame
+)
+
+distribuidora_dvd_register_frame.columnconfigure(0, weight=0)
+distribuidora_dvd_register_frame.columnconfigure(1, weight=1)
+
+Label(
+    distribuidora_dvd_register_frame,
+    text='Distribuidora',
+    font='Arial 12'
+).grid(
+    row=0,
+    column=0,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
+nome_distribuidora_dvd_registro = Entry(
+    distribuidora_dvd_register_frame,
+    font='Arial 12'
+)
+nome_distribuidora_dvd_registro.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
 # comandos do livro_register_frame
 button_register_frame = Frame(
     table_frame
@@ -3228,7 +3472,11 @@ drop_down_register = ttk.Combobox(
         'Autor',
         'Editora',
         'DVD',
-        'CD'
+        'CD',
+        'Autor/Artista CD',
+        'Diretor(a) DVD',
+        'Distribuidora CD',
+        'Distribuidora DVD'
     ),
     state='readonly',
     font='Arial 12'
