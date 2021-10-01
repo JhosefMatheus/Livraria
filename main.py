@@ -314,6 +314,14 @@ def mudar_tabela(event):
     botoes_editar_excluir_editora.pack_forget()
     editar_excluir_dvd.pack_forget()
     botoes_editar_excluir_dvd.pack_forget()
+    editar_excluir_autor_artista_cd.pack_forget()
+    botoes_editar_excluir_autor_artista_cd.pack_forget()
+    editar_excluir_diretor_dvd.pack_forget()
+    botoes_editar_excluir_diretor_dvd.pack_forget()
+    editar_excluir_distribuidora_cd.pack_forget()
+    botoes_editar_excluir_distribuidora_cd.pack_forget()
+    editar_excluir_distribuidora_dvd.pack_forget()
+    botoes_editar_excluir_distribuidora_dvd.pack_forget()
 
     carrega_tabelas()
 
@@ -751,6 +759,14 @@ def adicionar_novo():
     botoes_editar_excluir_editora.pack_forget()
     editar_excluir_dvd.pack_forget()
     botoes_editar_excluir_dvd.pack_forget()
+    editar_excluir_autor_artista_cd.pack_forget()
+    botoes_editar_excluir_autor_artista_cd.pack_forget()
+    editar_excluir_diretor_dvd.pack_forget()
+    botoes_editar_excluir_diretor_dvd.pack_forget()
+    editar_excluir_distribuidora_cd.pack_forget()
+    botoes_editar_excluir_distribuidora_cd.pack_forget()
+    editar_excluir_distribuidora_dvd.pack_forget()
+    botoes_editar_excluir_distribuidora_dvd.pack_forget()
 
     livro_register_frame.pack(
         expand=True,
@@ -1320,11 +1336,37 @@ def selecionar_livro(event):
         autor_entry_editar_excluir_livro.delete(0, END)
         editora_entry_editar_excluir_livro.delete(0, END)
         n_pages_entry_editar_excluir_livro.delete(0, END)
+        beneficiado_livro_editar_excluir.delete(0, END)
+        telefone_contato_editar_excluir_livro.delete(0, END)
+        dt_emprestimo_livro_editar_excluir.delete(0, END)
+        dt_devolucao_livro_editar_excluir.delete(0, END)
 
         titulo_entry_editar_excluir_livro.insert(0, livro_selecionado[1])
         autor_entry_editar_excluir_livro.insert(0, livro_selecionado[2])
         editora_entry_editar_excluir_livro.insert(0, livro_selecionado[3])
         n_pages_entry_editar_excluir_livro.insert(0, livro_selecionado[4])
+        situacao_livro_editar_excluir.current(
+            0 if livro_selecionado[5] == 'Disponível' else 1)
+
+        if situacao_livro_editar_excluir.get() == 'Disponível':
+            beneficiado_livro_editar_excluir.configure(state=DISABLED)
+            telefone_contato_editar_excluir_livro.configure(state=DISABLED)
+            dt_emprestimo_livro_editar_excluir.configure(state=DISABLED)
+            dt_devolucao_livro_editar_excluir.configure(state=DISABLED)
+
+        else:
+            beneficiado_livro_editar_excluir.configure(state=NORMAL)
+            beneficiado_livro_editar_excluir.insert(0, livro_selecionado[6])
+
+            telefone_contato_editar_excluir_livro.configure(state=NORMAL)
+            telefone_contato_editar_excluir_livro.insert(
+                0, livro_selecionado[7])
+
+            dt_emprestimo_livro_editar_excluir.configure(state=NORMAL)
+            dt_emprestimo_livro_editar_excluir.insert(0, livro_selecionado[8])
+
+            dt_devolucao_livro_editar_excluir.configure(state=NORMAL)
+            dt_devolucao_livro_editar_excluir.insert(0, livro_selecionado[9])
 
         pesquisa_livro.pack_forget()
 
@@ -1439,7 +1481,6 @@ def selecionar_dvd(event):
         diretor_editar_excluir_dvd.delete(0, END)
         distribuidora_editar_excluir_dvd.delete(0, END)
         tempo_editar_excluir_dvd.delete(0, END)
-        situacao_editar_excluir_dvd.delete(0, END)
         beneficiado_editar_excluir_dvd.delete(0, END)
         telefone_editar_excluir_dvd.delete(0, END)
         dt_emprestimo_editar_excluir_dvd.delete(0, END)
@@ -1449,11 +1490,27 @@ def selecionar_dvd(event):
         diretor_editar_excluir_dvd.insert(0, dvd_selecionado[2])
         distribuidora_editar_excluir_dvd.insert(0, dvd_selecionado[3])
         tempo_editar_excluir_dvd.insert(0, dvd_selecionado[4])
-        situacao_editar_excluir_dvd.insert(0, dvd_selecionado[5])
-        beneficiado_editar_excluir_dvd.insert(0, dvd_selecionado[6])
-        telefone_editar_excluir_dvd.insert(0, dvd_selecionado[7])
-        dt_emprestimo_editar_excluir_dvd.insert(0, dvd_selecionado[8])
-        dt_devolucao_editar_excluir_dvd.insert(0, dvd_selecionado[9])
+        situacao_editar_excluir_dvd.current(
+            0 if dvd_selecionado[5] == 'Disponível' else 1)
+
+        if situacao_editar_excluir_dvd.get() == 'Disponível':
+            beneficiado_editar_excluir_dvd.configure(state=DISABLED)
+            telefone_editar_excluir_dvd.configure(state=DISABLED)
+            dt_emprestimo_cd_editar_excluir.configure(state=DISABLED)
+            dt_devolucao_cd_editar_excluir.configure(state=DISABLED)
+
+        else:
+            beneficiado_editar_excluir_dvd.configure(state=NORMAL)
+            beneficiado_editar_excluir_dvd.insert(0, dvd_selecionado[6])
+
+            telefone_editar_excluir_dvd.configure(state=NORMAL)
+            telefone_editar_excluir_dvd.insert(0, dvd_selecionado[7])
+
+            dt_emprestimo_editar_excluir_dvd.configure(state=NORMAL)
+            dt_emprestimo_editar_excluir_dvd.insert(0, dvd_selecionado[8])
+
+            dt_devolucao_editar_excluir_dvd.configure(state=NORMAL)
+            dt_devolucao_editar_excluir_dvd.insert(0, dvd_selecionado[9])
 
         pesquisa_dvd.pack_forget()
 
@@ -1684,6 +1741,11 @@ def editar_livro():
     autor = autor_entry_editar_excluir_livro.get().strip()
     editora = editora_entry_editar_excluir_livro.get().strip()
     n_paginas = n_pages_entry_editar_excluir_livro.get().strip()
+    situacao = situacao_livro_editar_excluir.get().strip()
+    beneficiado = beneficiado_livro_editar_excluir.get().strip()
+    telefone = telefone_contato_editar_excluir_livro.get().strip()
+    dt_emprestimo = dt_emprestimo_livro_editar_excluir.get().strip()
+    dt_devolucao = dt_devolucao_livro_editar_excluir.get().strip()
 
     id_livro_selecionado = livro_selecionado[0]
     autor_livro_selecionado = livro_selecionado[2]
@@ -1695,8 +1757,20 @@ def editar_livro():
 
     else:
 
-        db.editar_livro(titulo, autor, editora,
-                        n_paginas, id_livro_selecionado, autor_livro_selecionado, editora_livro_selecionado)
+        db.editar_livro(
+            id_livro_selecionado,
+            titulo,
+            autor_livro_selecionado,
+            autor,
+            editora_livro_selecionado,
+            editora,
+            n_paginas,
+            situacao,
+            beneficiado,
+            telefone,
+            dt_emprestimo,
+            dt_devolucao
+        )
 
         atualiza_auto_completar()
 
@@ -2396,6 +2470,25 @@ def situacao_livro_on_click(e):
         data_devolucao.configure(state=NORMAL)
 
 
+def situacao_livro_editar_excluir_on_click(e):
+    if situacao_livro_editar_excluir.get() == 'Disponível':
+        beneficiado_livro_editar_excluir.delete(0, END)
+        telefone_contato_editar_excluir_livro.delete(0, END)
+        dt_emprestimo_livro_editar_excluir.delete(0, END)
+        dt_devolucao_livro_editar_excluir.delete(0, END)
+
+        beneficiado_livro_editar_excluir.configure(state=DISABLED)
+        telefone_contato_editar_excluir_livro.configure(state=DISABLED)
+        dt_emprestimo_livro_editar_excluir.configure(state=DISABLED)
+        dt_devolucao_livro_editar_excluir.configure(state=DISABLED)
+
+    else:
+        beneficiado_livro_editar_excluir.configure(state=NORMAL)
+        telefone_contato_editar_excluir_livro.configure(state=NORMAL)
+        dt_emprestimo_livro_editar_excluir.configure(state=NORMAL)
+        dt_devolucao_livro_editar_excluir.configure(state=NORMAL)
+
+
 def situacao_dvd_on_click(e):
     if situacao_dvd_registro.get() == 'Disponível':
         beneficiado_dvd_registro.delete(0, END)
@@ -2415,6 +2508,25 @@ def situacao_dvd_on_click(e):
         dt_devolucao_dvd_registro.configure(state=NORMAL)
 
 
+def situacao_dvd_editar_excluir_on_click(e):
+    if situacao_editar_excluir_dvd.get() == 'Disponível':
+        beneficiado_editar_excluir_dvd.delete(0, END)
+        telefone_editar_excluir_dvd.delete(0, END)
+        dt_emprestimo_editar_excluir_dvd.delete(0, END)
+        dt_devolucao_editar_excluir_dvd.delete(0, END)
+
+        beneficiado_editar_excluir_dvd.configure(state=DISABLED)
+        telefone_editar_excluir_dvd.configure(state=DISABLED)
+        dt_emprestimo_editar_excluir_dvd.configure(state=DISABLED)
+        dt_devolucao_editar_excluir_dvd.configure(state=DISABLED)
+
+    else:
+        beneficiado_editar_excluir_dvd.configure(state=NORMAL)
+        telefone_editar_excluir_dvd.configure(state=NORMAL)
+        dt_emprestimo_editar_excluir_dvd.configure(state=NORMAL)
+        dt_devolucao_editar_excluir_dvd.configure(state=NORMAL)
+
+
 def situacao_cd_on_click(e):
     if situacao_cd_registro.get() == 'Disponível':
         beneficiado_cd_registro.delete(0, END)
@@ -2432,6 +2544,25 @@ def situacao_cd_on_click(e):
         telefone_cd_registro.configure(state=NORMAL)
         dt_emprestimo_cd_registro.configure(state=NORMAL)
         dt_devolucao_cd_registro.configure(state=NORMAL)
+
+
+def situacao_cd_editar_excluir_on_click(e):
+    if situacao_cd_editar_excluir.get() == 'Disponível':
+        beneficiado_cd_editar_excluir.delete(0, END)
+        telefone_cd_editar_excluir.delete(0, END)
+        dt_emprestimo_cd_editar_excluir.delete(0, END)
+        dt_devolucao_cd_editar_excluir.delete(0, END)
+
+        beneficiado_cd_editar_excluir.configure(state=DISABLED)
+        telefone_cd_editar_excluir.configure(state=DISABLED)
+        dt_emprestimo_cd_editar_excluir.configure(state=DISABLED)
+        dt_devolucao_cd_editar_excluir.configure(state=DISABLED)
+
+    else:
+        beneficiado_cd_editar_excluir.configure(state=NORMAL)
+        telefone_cd_editar_excluir.configure(state=NORMAL)
+        dt_emprestimo_cd_editar_excluir.configure(state=NORMAL)
+        dt_devolucao_cd_editar_excluir.configure(state=NORMAL)
 
 
 root = Tk()
@@ -2478,7 +2609,7 @@ opcao_pesquisa_livro.grid(
 entrada_pesquisa_livro = AutocompleteCombobox(
     pesquisa_livro,
     font='Arial 12',
-    # completevalues=db.titulo_livros()
+    completevalues=db.titulo_livros()
 )
 entrada_pesquisa_livro.grid(
     row=0,
@@ -2493,7 +2624,7 @@ botao_pesquisar_livro = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=lambda: pesquisar_livros()
+    command=pesquisar_livros
 )
 botao_pesquisar_livro.grid(
     row=0,
@@ -2515,7 +2646,7 @@ pesquisa_autor.columnconfigure(1, weight=0)
 entrada_pesquisa_autor = AutocompleteCombobox(
     pesquisa_autor,
     font='Arial 12',
-    # completevalues=db.nome_autores()
+    completevalues=db.nome_autores()
 )
 entrada_pesquisa_autor.grid(
     row=0,
@@ -2551,7 +2682,7 @@ pesquisa_editora.columnconfigure(1, weight=0)
 entrada_pesquisa_editora = AutocompleteCombobox(
     pesquisa_editora,
     font='Arial 12',
-    # completevalues=db.nome_editoras()
+    completevalues=db.nome_editoras()
 )
 entrada_pesquisa_editora.grid(
     row=0,
@@ -2566,7 +2697,7 @@ botao_pesquisar_editora = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=lambda: pesquisar_editora()
+    command=pesquisar_editora
 )
 botao_pesquisar_editora.grid(
     row=0,
@@ -2610,7 +2741,7 @@ opcao_pesquisa_dvd.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
 entrada_pesquisa_dvd = AutocompleteCombobox(
     pesquisa_dvd,
     font='Arial 12',
-    # completevalues=db.titulo_livros()
+    completevalues=db.titulos_dvds()
 )
 entrada_pesquisa_dvd.grid(
     row=0,
@@ -2625,7 +2756,7 @@ botao_pesquisar_dvd = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=lambda: pesquisar_livros()
+    command=pesquisar_livros
 )
 botao_pesquisar_dvd.grid(
     row=0,
@@ -2669,7 +2800,7 @@ opcao_pesquisa_cd.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
 entrada_pesquisa_cd = AutocompleteCombobox(
     pesquisa_cd,
     font='Arial 12',
-    # completevalues=db.titulo_livros()
+    completevalues=db.titulos_cds()
 )
 
 entrada_pesquisa_cd.grid(
@@ -2685,7 +2816,7 @@ botao_pesquisar_cd = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=lambda: pesquisar_livros()
+    command=pesquisar_livros
 )
 
 botao_pesquisar_cd.grid(
@@ -2708,7 +2839,7 @@ pesquisa_artista_autor_cd.columnconfigure(1, weight=0)
 entrada_pesquisa_artista_autor = AutocompleteCombobox(
     pesquisa_artista_autor_cd,
     font='Arial 12',
-    # completevalues=db.nome_autores()
+    completevalues=db.nome_autores_artistas_cds()
 )
 entrada_pesquisa_artista_autor.grid(
     row=0,
@@ -2738,7 +2869,7 @@ pesquisa_diretor_dvd.columnconfigure(1, weight=0)
 entrada_pesquisa_diretor_dvd = AutocompleteCombobox(
     pesquisa_diretor_dvd,
     font='Arial 12',
-    # completevalues=db.nome_autores()
+    completevalues=db.nome_diretores_dvds()
 )
 entrada_pesquisa_diretor_dvd.grid(
     row=0,
@@ -2768,7 +2899,7 @@ pesquisa_distribuidora_cd.columnconfigure(1, weight=0)
 entrada_pesquisa_distribuidora_cd = AutocompleteCombobox(
     pesquisa_distribuidora_cd,
     font='Arial 12',
-    # completevalues=db.nome_autores()
+    completevalues=db.nome_distribuidoras_cds()
 )
 entrada_pesquisa_distribuidora_cd.grid(
     row=0,
@@ -2798,7 +2929,7 @@ pesquisa_distribuidora_dvd.columnconfigure(1, weight=0)
 entrada_pesquisa_distribuidora_dvd = AutocompleteCombobox(
     pesquisa_distribuidora_dvd,
     font='Arial 12',
-    # completevalues=db.nome_autores()
+    completevalues=db.nome_distribuidoras_dvds()
 )
 entrada_pesquisa_distribuidora_dvd.grid(
     row=0,
@@ -4121,6 +4252,8 @@ situacao_livro_editar_excluir = ttk.Combobox(
     font='Arial 12'
 )
 situacao_livro_editar_excluir.current(0)
+situacao_livro_editar_excluir.bind(
+    '<<ComboboxSelected>>', situacao_livro_editar_excluir_on_click)
 situacao_livro_editar_excluir.grid(
     row=4,
     column=1,
@@ -4506,6 +4639,8 @@ situacao_editar_excluir_dvd = ttk.Combobox(
     state='readonly'
 )
 situacao_editar_excluir_dvd.current(0)
+situacao_editar_excluir_dvd.bind(
+    '<<ComboboxSelected>>', situacao_dvd_editar_excluir_on_click)
 situacao_editar_excluir_dvd.grid(
     row=3,
     column=1,
@@ -4794,6 +4929,8 @@ situacao_cd_editar_excluir = ttk.Combobox(
     font='Arial 12',
     state='readonly',
 )
+situacao_cd_editar_excluir.bind(
+    '<<ComboboxSelected>>', situacao_cd_editar_excluir_on_click)
 situacao_cd_editar_excluir.current(0)
 situacao_cd_editar_excluir.grid(
     row=4,

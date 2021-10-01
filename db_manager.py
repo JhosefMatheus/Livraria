@@ -1,4 +1,4 @@
-import csv
+import pandas as pd
 
 
 class db_manager:
@@ -6,183 +6,322 @@ class db_manager:
         pass
 
     def get_data(self, file_name):
-        with open(file_name, mode='r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        df = pd.read_csv(file_name)
 
-            next(csv_reader)
-
-            return list(csv_reader)
+        return df.values.tolist()
 
     def add_livro(self, titulo, autor, editora, n_pag, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        file = open('livros.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('livros.csv')
 
-        id = len(list(reader))
+        id = len(df) + 1
 
-        with open('livros.csv', mode='a+', newline='') as csv_file:
-            csv_writer = csv.writer(csv_file)
+        new_row = {
+            'id': id,
+            'titulo': titulo,
+            'autor': autor,
+            'editora': editora,
+            'n_pag': n_pag,
+            'situacao': situacao,
+            'beneficiado': beneficiado,
+            'telefone': telefone,
+            'dt_emprestimo': dt_emprestimo,
+            'dt_devolucao': dt_devolucao
+        }
 
-            csv_writer.writerow([id, titulo, autor, editora, n_pag,
-                                 situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao])
+        df = df.append(new_row, ignore_index=True)
+
+        df.to_csv('livros.csv', index=False)
 
         self.add_autor(autor)
-
         self.add_editora(editora)
 
     def add_autor(self, autor):
-        file = open('autores_livros.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('autores_livros.csv')
 
-        id = len(list(reader))
+        autores = df['autor'].to_list()
 
-        if autor not in self.nome_autores():
-            with open('autores_livros.csv', mode='a+', newline='') as csv_file:
-                csv_writer = csv.writer(csv_file)
+        if autor not in autores:
+            id = len(df) + 1
 
-                csv_writer.writerow([id, autor])
+            new_row = {
+                'id': id,
+                'autor': autor
+            }
+
+            df = df.append(new_row, ignore_index=True)
+
+            df.to_csv('autores_livros.csv', index=False)
 
     def add_editora(self, editora):
-        file = open('editoras_livros.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('editoras_livros.csv')
 
-        id = len(list(reader))
+        editoras = df['editora'].to_list()
 
-        if editora not in self.nome_editoras():
-            with open('editoras_livros.csv', mode='a+', newline='') as csv_file:
-                csv_writer = csv.writer(csv_file)
+        if editora not in editoras:
+            id = len(df) + 1
 
-                csv_writer.writerow([id, editora])
+            new_row = {
+                'id': id,
+                'editora': editora
+            }
+
+            df = df.append(new_row, ignore_index=True)
+
+            df.to_csv('editoras_livros.csv', index=False)
 
     def add_dvd(self, titulo, diretor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        file = open('dvds.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('dvds.csv')
 
-        id = len(list(reader))
+        id = len(df) + 1
 
-        with open('dvds.csv', mode='a+', newline='') as csv_file:
-            csv_writer = csv.writer(csv_file)
+        new_row = {
+            'id': id,
+            'titulo': titulo,
+            'diretor': diretor,
+            'distribuidora': distribuidora,
+            'tempo': tempo,
+            'situacao': situacao,
+            'beneficiado': beneficiado,
+            'telefone': telefone,
+            'dt_emprestimo': dt_emprestimo,
+            'dt_devolucao': dt_devolucao
+        }
 
-            csv_writer.writerow([id, titulo, diretor, distribuidora, tempo,
-                                 situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao])
+        df = df.append(new_row, ignore_index=True)
+
+        df.to_csv('dvds.csv', index=False)
 
         self.add_diretor_dvd(diretor)
         self.add_distribuidora_dvd(distribuidora)
 
     def add_cd(self, titulo, artista_autor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        file = open('cds.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('cds.csv')
 
-        id = len(list(reader))
+        id = len(df) + 1
 
-        with open('cds.csv', mode='a+', newline='') as csv_file:
-            csv_writer = csv.writer(csv_file)
+        new_row = {
+            'id': id,
+            'titulo': titulo,
+            'artista_autor': artista_autor,
+            'distribuidora': distribuidora,
+            'tempo': tempo,
+            'situacao': situacao,
+            'beneficiado': beneficiado,
+            'telefone': telefone,
+            'dt_emprestimo': dt_emprestimo,
+            'dt_devolucao': dt_devolucao
+        }
 
-            csv_writer.writerow([id, titulo, artista_autor, distribuidora, tempo,
-                                 situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao])
+        df = df.append(new_row, ignore_index=True)
+
+        df.to_csv('cds.csv', index=False)
 
         self.add_autor_artista_cd(artista_autor)
         self.add_distribuidora_cd(distribuidora)
 
     def add_diretor_dvd(self, diretor):
-        file = open('diretores_dvds.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('diretores_dvds.csv')
 
-        id = len(list(reader))
+        diretores = df['diretor'].to_list()
 
-        if diretor not in self.nome_diretores_dvds():
-            with open('diretores_dvds.csv', mode='a+', newline='') as csv_file:
-                csv_writer = csv.writer(csv_file)
+        if diretor not in diretores:
+            id = len(df) + 1
 
-                csv_writer.writerow([id, diretor])
+            new_row = {
+                'id': id,
+                'diretor': diretor
+            }
+
+            df = df.append(new_row, ignore_index=True)
+
+            df.to_csv('diretores_dvds.csv', index=False)
 
     def add_autor_artista_cd(self, autor_artista):
-        file = open('autores_artistas_cds.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('autores_artistas_cds.csv')
 
-        id = len(list(reader))
+        autores_artistas = df['autor_artista'].to_list()
 
-        if autor_artista not in self.nome_autores_artistas_cds():
-            with open('autores_artistas_cds.csv', mode='a+', newline='') as csv_file:
-                csv_writer = csv.writer(csv_file)
+        if autor_artista not in autores_artistas:
+            id = len(df) + 1
 
-                csv_writer.writerow([id, autor_artista])
+            new_row = {
+                'id': id,
+                'autor_artista': autor_artista
+            }
+
+            df = df.append(new_row, ignore_index=True)
+
+            df.to_csv('autores_artistas_cds.csv', index=False)
 
     def add_distribuidora_dvd(self, distribuidora):
-        file = open('distribuidoras_dvds.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('distribuidoras_dvds.csv')
 
-        id = len(list(reader))
+        distribuidoras = df['distribuidora'].to_list()
 
-        if distribuidora not in self.nome_diretores_dvds():
-            with open('distribuidoras_dvds.csv', mode='a+', newline='') as csv_file:
-                csv_writer = csv.writer(csv_file)
+        if distribuidora not in distribuidoras:
+            id = len(df) + 1
 
-                csv_writer.writerow([id, distribuidora])
+            new_row = {
+                'id': id,
+                'distribuidora': distribuidora
+            }
+
+            df = df.append(new_row, ignore_index=True)
+
+            df.to_csv('distribuidoras_dvds.csv', index=False)
 
     def add_distribuidora_cd(self, distribuidora):
-        file = open('distribuidoras_cds.csv')
-        reader = csv.reader(file)
+        df = pd.read_csv('distribuidoras_cds.csv')
 
-        id = len(list(reader))
+        distribuidoras = df['distribuidora'].to_list()
 
-        if distribuidora not in self.nome_distribuidoras_cds():
-            with open('distribuidoras_cds.csv', mode='a+', newline='') as csv_file:
-                csv_writer = csv.writer(csv_file)
+        if distribuidora not in distribuidoras:
+            id = len(df) + 1
 
-                csv_writer.writerow([id, distribuidora])
+            new_row = {
+                'id': id,
+                'distribuidora': distribuidora
+            }
+
+            df = df.append(new_row, ignore_index=True)
+
+            df.to_csv('distribuidoras_cds.csv', index=False)
 
     def nome_autores(self):
-        with open('autores_livros.csv', mode='r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        df = pd.read_csv('autores_livros.csv')
 
-            next(csv_reader)
+        autores = df['autor'].to_list()
 
-            return [line[1] for line in csv_reader]
+        return autores
 
     def nome_editoras(self):
-        with open('editoras_livros.csv', 'r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        df = pd.read_csv('editoras_livros.csv')
 
-            next(csv_reader)
+        editoras = df['editora'].to_list()
 
-            return [line[1] for line in csv_reader]
+        return editoras
 
     def titulo_livros(self):
-        with open('livros.csv', 'r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        df = pd.read_csv('livros.csv')
 
-            next(csv_reader)
+        titulos = df['titulo'].to_list()
 
-            return [line[1] for line in csv_reader]
+        return titulos
 
     def nome_diretores_dvds(self):
-        with open('diretores_dvds.csv', 'r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        df = pd.read_csv('diretores_dvds.csv')
 
-            next(csv_reader)
+        diretores = df['diretor'].to_list()
 
-            return [line[1] for line in csv_reader]
+        return diretores
 
     def nome_autores_artistas_cds(self):
-        with open('autores_artistas_cds.csv', 'r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        df = pd.read_csv('autores_artistas_cds.csv')
 
-            next(csv_reader)
+        autores_artistas = df['autor_artista'].to_list()
 
-            return [line[1] for line in csv_reader]
+        return autores_artistas
 
     def nome_distribuidoras_dvds(self):
-        with open('distribuidoras_dvds.csv', 'r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        df = pd.read_csv('distribuidoras_dvds.csv')
 
-            next(csv_reader)
+        distribuidoras = df['distribuidora'].to_list()
 
-            return [line[1] for line in csv_reader]
+        return distribuidoras
 
     def nome_distribuidoras_cds(self):
-        with open('distribuidoras_cds.csv', 'r') as csv_file:
-            csv_reader = csv.reader(csv_file)
+        df = pd.read_csv('distribuidoras_cds.csv')
 
-            next(csv_reader)
+        distribuidoras = df['distribuidora'].to_list()
 
-            return [line[1] for line in csv_reader]
+        return distribuidoras
+
+    def titulos_dvds(self):
+        df = pd.read_csv('dvds.csv')
+
+        titulos = df['titulo'].to_list()
+
+        return titulos
+
+    def titulos_cds(self):
+        df = pd.read_csv('cds.csv')
+
+        titulos = df['titulo'].to_list()
+
+        return titulos
+
+    def editar_livro(self, id, titulo, autor_selecionado, novo_autor, editora_selecionada, nova_editora, n_pag, situacao, beneficiado, tel, dt_emprestimo, dt_devolucao):
+        df_livros = pd.read_csv('livros.csv')
+
+        df_livros.loc[id-1, 'titulo'] = titulo
+        df_livros.loc[id-1, 'autor'] = novo_autor
+        df_livros.loc[id-1, 'editora'] = nova_editora
+        df_livros.loc[id-1, 'n_pag'] = n_pag
+        df_livros.loc[id-1, 'situacao'] = situacao
+        df_livros.loc[id-1, 'beneficiado'] = beneficiado
+        df_livros.loc[id-1, 'telefone'] = tel
+        df_livros.loc[id-1, 'dt_emprestimo'] = dt_emprestimo
+        df_livros.loc[id-1, 'dt_devolucao'] = dt_devolucao
+
+        df_livros.to_csv('livros.csv', index=False)
+
+        self.add_autor(novo_autor)
+        self.add_editora(nova_editora)
+
+        df_livros = pd.read_csv('livros.csv')
+
+        autores = df_livros['autor']
+        editoras = df_livros['editora']
+
+        if autor_selecionado not in autores:
+            df_autores_livros = pd.read_csv('autores_livros.csv')
+
+            id_autor = df_autores_livros.index[df_autores_livros['autor'] == autor_selecionado].tolist(
+            )
+
+            df_autores_livros.drop(id_autor, axis=0, inplace=True)
+
+            df_autores_livros.to_csv('autores_livros.csv', index=False)
+
+        if editora_selecionada not in editoras:
+            df_editoras_livros = pd.read_csv('editoras_livros.csv')
+
+            id_editora = df_editoras_livros.index[df_editoras_livros['editora'] == editora_selecionada].tolist(
+            )
+
+            df_editoras_livros.drop(id_editora, axis=0, inplace=True)
+
+            df_editoras_livros.to_csv('editoras_livros.csv', index=False)
+
+    def excluir_livro(self):
+        pass
+
+    def editar_autor_livro(self):
+        pass
+
+    def excluir_autor_livro(self):
+        df = pd.read_csv('autores_livros.csv')
+
+    def editar_editora_livro(self):
+        pass
+
+    def excluir_editora_livro(self):
+        pass
+
+    def editar_dvd(self):
+        pass
+
+    def editar_diretor_dvd(self):
+        pass
+
+    def editar_distribuidora_dvd(self):
+        pass
+
+    def editar_cd(self):
+        pass
+
+    def editar_autor_artista_cd(self):
+        pass
+
+    def editar_distribuidora_cd(self):
+        pass

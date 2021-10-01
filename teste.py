@@ -1,3 +1,7 @@
-from db_manager import db_manager
+import pandas as pd
 
-db = db_manager()
+df = pd.read_csv('autores_livros.csv')
+
+autores = df['autor'].to_list()
+
+print(autores)
