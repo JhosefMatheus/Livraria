@@ -1867,8 +1867,8 @@ def editar_autor():
         messagebox.showinfo(
             'Valor inválido', 'O valor digitado para nome do autor está em branco')
     else:
-        db.editar_autor(id_autor_selecionado,
-                        nome_autor_selecionado, novo_autor)
+        db.editar_autor_livro(id_autor_selecionado,
+                              nome_autor_selecionado, novo_autor)
 
         atualiza_auto_completar()
 
@@ -1884,7 +1884,7 @@ def excluir_autor():
     id_autor, nome_autor = tabela_autores.item(
         tabela_autores.focus())['values']
 
-    db.excluir_autor(id_autor, nome_autor)
+    db.excluir_autor_livro(id_autor, nome_autor)
 
     atualiza_auto_completar()
 
@@ -1960,7 +1960,7 @@ def editar_editora():
             'Valor inválido', 'Valores digitado está em branco')
 
     else:
-        db.editar_editora(
+        db.editar_editora_livro(
             id_editora_selecionada, nome_editora_selecionada, nova_editora)
 
         atualiza_auto_completar()
@@ -1977,7 +1977,7 @@ def excluir_editora():
     id_editora, nome_editora = tabela_editoras.item(
         tabela_editoras.focus())['values']
 
-    db.excluir_editora(id_editora, nome_editora)
+    db.excluir_editora_livro(id_editora, nome_editora)
 
     atualiza_auto_completar()
 
