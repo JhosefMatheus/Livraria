@@ -13,7 +13,7 @@ class db_manager:
     def add_livro(self, titulo, autor, editora, n_pag, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df = pd.read_csv('livros.csv')
 
-        id = len(df) + 1
+        id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
         new_row = {
             'id': id,
@@ -38,10 +38,8 @@ class db_manager:
     def add_autor(self, autor):
         df = pd.read_csv('autores_livros.csv')
 
-        autores = df['autor'].to_list()
-
-        if autor not in autores:
-            id = len(df) + 1
+        if autor not in self.nome_autores():
+            id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
             new_row = {
                 'id': id,
@@ -58,7 +56,7 @@ class db_manager:
         editoras = df['editora'].to_list()
 
         if editora not in editoras:
-            id = len(df) + 1
+            id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
             new_row = {
                 'id': id,
@@ -72,7 +70,7 @@ class db_manager:
     def add_dvd(self, titulo, diretor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df = pd.read_csv('dvds.csv')
 
-        id = len(df) + 1
+        id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
         new_row = {
             'id': id,
@@ -97,7 +95,7 @@ class db_manager:
     def add_cd(self, titulo, artista_autor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df = pd.read_csv('cds.csv')
 
-        id = len(df) + 1
+        id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
         new_row = {
             'id': id,
@@ -125,7 +123,7 @@ class db_manager:
         diretores = df['diretor'].to_list()
 
         if diretor not in diretores:
-            id = len(df) + 1
+            id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
             new_row = {
                 'id': id,
@@ -142,7 +140,7 @@ class db_manager:
         autores_artistas = df['autor_artista'].to_list()
 
         if autor_artista not in autores_artistas:
-            id = len(df) + 1
+            id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
             new_row = {
                 'id': id,
@@ -159,7 +157,7 @@ class db_manager:
         distribuidoras = df['distribuidora'].to_list()
 
         if distribuidora not in distribuidoras:
-            id = len(df) + 1
+            id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
             new_row = {
                 'id': id,
@@ -176,7 +174,7 @@ class db_manager:
         distribuidoras = df['distribuidora'].to_list()
 
         if distribuidora not in distribuidoras:
-            id = len(df) + 1
+            id = len(df) + 1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
 
             new_row = {
                 'id': id,
@@ -270,8 +268,8 @@ class db_manager:
 
         df_livros = pd.read_csv('livros.csv')
 
-        autores = df_livros['autor']
-        editoras = df_livros['editora']
+        autores = df_livros['autor'].to_list()
+        editoras = df_livros['editora'].to_list()
 
         if autor_selecionado not in autores:
             df_autores_livros = pd.read_csv('autores_livros.csv')
@@ -300,7 +298,7 @@ class db_manager:
         pass
 
     def excluir_autor_livro(self):
-        df = pd.read_csv('autores_livros.csv')
+        pass
 
     def editar_editora_livro(self):
         pass
