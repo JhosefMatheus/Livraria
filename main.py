@@ -2036,6 +2036,66 @@ def cancelar_edicao_editora():
     drop_down.current(0)
 
 
+def editar_dvd():
+    dvd_selecionado = tabela_dvds.item(tabela_dvds.focus())['values']
+
+    id_dvd_selecionado = dvd_selecionado[0]
+    diretor_dvd_selecionado = dvd_selecionado[2]
+    distribuidora_dvd_selecionado = dvd_selecionado[3]
+
+    titulo = titulo_editar_excluir_dvd.get().strip()
+    diretor = diretor_editar_excluir_dvd.get().strip()
+    distribuidora = distribuidora_editar_excluir_dvd.get().strip()
+    tempo = tempo_editar_excluir_dvd.get().strip()
+    situacao = situacao_editar_excluir_dvd.get()
+    beneficiado = beneficiado_editar_excluir_dvd.get().strip()
+    telefone = telefone_editar_excluir_dvd.get().strip()
+    dt_emprestimo = dt_emprestimo_editar_excluir_dvd.get()
+    dt_devolucao = dt_devolucao_editar_excluir_dvd.get()
+
+    if len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0:
+        messagebox.showinfo('Valores inválidos',
+                            'Algum dos valores digitados pode estar em branco')
+
+    else:
+        db.editar_dvd(
+            id_dvd_selecionado,
+            titulo,
+            diretor_dvd_selecionado,
+            diretor,
+            distribuidora_dvd_selecionado,
+            distribuidora,
+            tempo,
+            situacao,
+            beneficiado,
+            telefone,
+            dt_emprestimo,
+            dt_devolucao
+        )
+
+        atualiza_auto_completar()
+
+        carrega_tabelas()
+
+        cancelar_edicao_dvd()
+
+
+def excluir_dvd():
+    dvd_selecionado = tabela_dvds.item(tabela_dvds.focus())['values']
+
+    id = dvd_selecionado[0]
+    diretor = dvd_selecionado[2]
+    distribuidora = dvd_selecionado[3]
+
+    db.excluir_dvd(id, diretor, distribuidora)
+
+    atualiza_auto_completar()
+
+    carrega_tabelas()
+
+    cancelar_edicao_dvd()
+
+
 def cancelar_edicao_dvd():
     tabela_dvds.selection_remove(tabela_dvds.focus())
 
@@ -2088,6 +2148,66 @@ def cancelar_edicao_dvd():
     )
 
     drop_down.current(0)
+
+
+def editar_cd():
+    cd_selecionado = tabela_cds.item(tabela_cds.focus())['values']
+
+    id_cd_selecionado = cd_selecionado[0]
+    autor_artista_cd_selecionado = cd_selecionado[2]
+    distribuidora_cd_selecionado = cd_selecionado[3]
+
+    titulo = titulo_cd_editar_excluir.get().strip()
+    autor_artista = autor_artista_cd_editar_excluir.get().strip()
+    distribuidora = distribuidora_cd_editar_excluir.get().strip()
+    tempo = tempo_cd_editar_excluir.get().strip()
+    situacao = situacao_cd_editar_excluir.get()
+    beneficiado = beneficiado_cd_editar_excluir.get().strip()
+    telefone = telefone_cd_editar_excluir.get().strip()
+    dt_emprestimo = dt_emprestimo_cd_editar_excluir.get().strip()
+    dt_devolucao = dt_devolucao_cd_editar_excluir.get().strip()
+
+    if len(titulo) == 0 or len(autor_artista) == 0 or len(distribuidora) == 0 or len(tempo) == 0:
+        messagebox.showinfo('Valores inválidos',
+                            'Algum dos valores digitados está vazio')
+
+    else:
+        db.editar_cd(
+            id_cd_selecionado,
+            titulo,
+            autor_artista_cd_selecionado,
+            autor_artista,
+            distribuidora_cd_selecionado,
+            distribuidora,
+            tempo,
+            situacao,
+            beneficiado,
+            telefone,
+            dt_emprestimo,
+            dt_devolucao
+        )
+
+        atualiza_auto_completar()
+
+        carrega_tabelas()
+
+        cancelar_edicao_cd()
+
+
+def excluir_cd():
+    cd_selecionado = tabela_cds.item(tabela_cds.focus())['values']
+
+    id = cd_selecionado[0]
+    autor_artista = cd_selecionado[2]
+    distribuidora = cd_selecionado[3]
+
+    db.excluir_cd(id, autor_artista, distribuidora)
+
+    atualiza_auto_completar()
+
+    carrega_tabelas()
+
+    cancelar_edicao_cd()
 
 
 def cancelar_edicao_cd():
@@ -2143,6 +2263,26 @@ def cancelar_edicao_cd():
     drop_down.current(0)
 
 
+def editar_artista_autor_cd():
+    artista_autor_selecionado = tabela_autores_artistas_cds.item(
+        tabela_autores_artistas_cds.focus())['values'][1]
+
+    novo_artista_autor = nome_autor_artista_editar_excluir_cd.get().strip()
+
+    if len(novo_artista_autor) == 0:
+        messagebox('Valor digitado inválido', 'Nome do artista está em branco')
+
+    else:
+        db.editar_autor_artista_cd(
+            artista_autor_selecionado, novo_artista_autor)
+
+        atualiza_auto_completar()
+
+        carrega_tabelas()
+
+        cancelar_edicao_artista_autor_cd()
+
+
 def cancelar_edicao_artista_autor_cd():
     tabela_autores_artistas_cds.selection_remove(
         tabela_autores_artistas_cds.focus())
@@ -2190,6 +2330,25 @@ def cancelar_edicao_artista_autor_cd():
     drop_down.current(0)
 
 
+def editar_diretor_dvd():
+    diretor_selecionado = tabela_diretores_dvds.item(
+        tabela_diretores_dvds.focus())['values'][1]
+
+    novo_diretor = nome_diretor_dvd_editar_excluir.get().strip()
+
+    if len(novo_diretor) == 0:
+        messagebox.showinfo('Valor inválido', 'Valor digitado está em branco')
+
+    else:
+        db.editar_diretor_dvd(diretor_selecionado, novo_diretor)
+
+        atualiza_auto_completar()
+
+        carrega_tabelas()
+
+        cancelar_edicao_diretor_dvd()
+
+
 def cancelar_edicao_diretor_dvd():
     tabela_diretores_dvds.selection_remove(tabela_diretores_dvds.focus())
     tabela_diretores_dvds.focus('')
@@ -2233,6 +2392,26 @@ def cancelar_edicao_diretor_dvd():
     )
 
     drop_down.current(0)
+
+
+def editar_distribuidora_cd():
+    distribuidora_selecionada = tabela_distribuidoras_cds.item(
+        tabela_distribuidoras_cds.focus())['values'][1]
+
+    nova_distribuidora = nome_distribuidora_cd_editar_excluir.get().strip()
+
+    if len(nova_distribuidora) == 0:
+        messagebox.showinfo('Valor inválido', 'Valor digitado está em branco')
+
+    else:
+        db.editar_distribuidora_cd(
+            distribuidora_selecionada, nova_distribuidora)
+
+        atualiza_auto_completar()
+
+        carrega_tabelas()
+
+        cancelar_edicao_distribuidora_cd()
 
 
 def cancelar_edicao_distribuidora_cd():
@@ -2279,6 +2458,25 @@ def cancelar_edicao_distribuidora_cd():
     )
 
     drop_down.current(0)
+
+
+def editar_distribuidora_dvd():
+    distribuidora_selecionada = tabela_distribuidoras_dvds.item(
+        tabela_distribuidoras_dvds.focus())['values'][1]
+    nova_distribuidora = nome_distribuidora_dvd_editar_excluir.get().strip()
+
+    if len(nova_distribuidora) == 0:
+        messagebox.showinfo('Valor inválido', 'Nome de distribuidora vazio')
+
+    else:
+        db.editar_distribuidora_dvd(
+            distribuidora_selecionada, nova_distribuidora)
+
+        atualiza_auto_completar()
+
+        carrega_tabelas()
+
+        cancelar_edicao_distribuidora_dvd()
 
 
 def cancelar_edicao_distribuidora_dvd():
@@ -4610,7 +4808,7 @@ tempo_editar_excluir_dvd = Entry(
     font='Arial 12'
 )
 tempo_editar_excluir_dvd.grid(
-    row=2,
+    row=3,
     column=1,
     padx=10,
     pady=10,
@@ -4765,7 +4963,7 @@ botao_editar_dvd = Button(
     text='Editar',
     font='Arial 12',
     relief=GROOVE,
-    command=cancelar_edicao_dvd
+    command=editar_dvd
 )
 botao_editar_dvd.grid(
     row=0,
@@ -4780,7 +4978,7 @@ botao_excluir_dvd = Button(
     text='Excluir',
     font='Arial 12',
     relief=GROOVE,
-    command=cancelar_edicao_dvd
+    command=excluir_dvd
 )
 botao_excluir_dvd.grid(
     row=0,
@@ -5055,7 +5253,7 @@ botao_editar_cd = Button(
     text='Editar',
     font='Arial 12',
     relief=GROOVE,
-    command=cancelar_edicao_cd
+    command=editar_cd
 )
 botao_editar_cd.grid(
     row=0,
@@ -5070,7 +5268,7 @@ botao_excluir_cd = Button(
     text='Excluir',
     font='Arial 12',
     relief=GROOVE,
-    command=cancelar_edicao_cd
+    command=excluir_cd
 )
 botao_excluir_cd.grid(
     row=0,
@@ -5139,7 +5337,7 @@ botao_editar_autor_artista_cd = Button(
     text='Editar',
     font='Arial 12',
     relief=GROOVE,
-    command=cancelar_edicao_artista_autor_cd
+    command=editar_artista_autor_cd
 )
 botao_editar_autor_artista_cd.grid(
     row=0,
@@ -5223,7 +5421,7 @@ botao_editar_diretor_dvd = Button(
     text='Editar',
     font='Arial 12',
     relief=GROOVE,
-    command=cancelar_edicao_diretor_dvd
+    command=editar_diretor_dvd
 )
 botao_editar_diretor_dvd.grid(
     row=0,
@@ -5307,7 +5505,7 @@ botao_editar_distribuidora_cd = Button(
     text='Editar',
     font='Arial 12',
     relief=GROOVE,
-    command=cancelar_edicao_distribuidora_cd
+    command=editar_distribuidora_cd
 )
 botao_editar_distribuidora_cd.grid(
     row=0,
@@ -5391,7 +5589,7 @@ botao_editar_distribuidora_dvd = Button(
     text='Editar',
     font='Arial 12',
     relief=GROOVE,
-    command=cancelar_edicao_distribuidora_dvd
+    command=editar_distribuidora_dvd
 )
 botao_editar_distribuidora_dvd.grid(
     row=0,
