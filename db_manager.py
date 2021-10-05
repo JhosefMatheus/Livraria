@@ -8,6 +8,8 @@ class db_manager:
     def get_data(self, file_name):
         df = pd.read_csv(file_name)
 
+        df = df.fillna('')
+
         return df.values.tolist()
 
     def add_livro(self, titulo, autor, editora, n_pag, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
@@ -211,7 +213,7 @@ class db_manager:
     def titulo_livros(self):
         df = pd.read_csv('livros.csv')
 
-        titulos = df['titulo'].to_list()
+        titulos = df['titulo'].unique().tolist()
 
         return titulos
 
@@ -246,14 +248,14 @@ class db_manager:
     def titulos_dvds(self):
         df = pd.read_csv('dvds.csv')
 
-        titulos = df['titulo'].to_list()
+        titulos = df['titulo'].unique().tolist()
 
         return titulos
 
     def titulos_cds(self):
         df = pd.read_csv('cds.csv')
 
-        titulos = df['titulo'].to_list()
+        titulos = df['titulo'].unique().tolist()
 
         return titulos
 
@@ -574,3 +576,105 @@ class db_manager:
 
         df_cds.to_csv('cds.csv', index=False)
         df_distribuidoras.to_csv('distribuidoras_cds.csv', index=False)
+
+    def pesquisar_livro(self, entrada, campo_pesquisa):
+        df = pd.read_csv('livros.csv')
+
+        if campo_pesquisa == 'Título':
+            resultado = df.loc[df['titulo'] ==
+                               entrada].fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Autor':
+            resultado = df.loc[df['autor'] ==
+                               entrada].fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Editora':
+            resultado = df.loc[df['editora'] ==
+                               entrada].fillna('').values.tolist()
+
+            return resultado
+
+    def pesquisar_autor(self, entrada):
+        df = pd.read_csv('autores_livros.csv')
+
+        resultado = df.loc[df['autor'] == entrada].fillna('').values.tolist()
+
+        return resultado
+
+    def pesquisar_editora(self, entrada):
+        df = pd.read_csv('editoras_livros.csv')
+
+        resultado = df.loc[df['editora'] == entrada].fillna('').values.tolist()
+
+        return resultado
+
+    def pesquisar_cd(self, entrada, campo_pesquisa):
+        df = pd.read_csv('cds.csv')
+
+        if campo_pesquisa == 'Título':
+            resultado = df.loc[df['titulo'] ==
+                               entrada].fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Artista/Autor':
+            resultado = df.loc[df['artista_autor'] ==
+                               entrada].fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Distribuidora':
+            resultado = df.loc[df['distribuidora'] ==
+                               entrada].fillna('').values.tolist()
+
+            return resultado
+
+    def pesquisar_dvd(self, entrada, campo_pesquisa):
+        df = pd.read_csv('dvds.csv')
+
+        if campo_pesquisa == 'Título':
+            resultado = df.loc[df['titulo'] == entrada].fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Diretor':
+            resultado = df.loc[df['diretor'] == entrada].fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Distribuidora':
+            resultado = df.loc[df['distribuidora'] == entrada].fillna('').values.tolist()
+
+            return resultado
+
+    def pesquisar_autor_artista_cd(self, entrada):
+        df = pd.read_csv('autores_artistas_cds.csv')
+
+        resultado = df.loc[df['autor_artista'] == entrada].fillna('').values.tolist()
+
+        return resultado
+
+    def pesquisar_diretor_dvd(self, entrada):
+        df = pd.read_csv('diretores_dvds.csv')
+
+        resultado = df.loc[df['diretor'] == entrada].fillna('').values.tolist()
+
+        return resultado
+
+    def pesquisar_distribuidora_cd(self, entrada):
+        df = pd.read_csv('distribuidoras_cds.csv')
+
+        resultado = df.loc[df['distribuidora'] == entrada].fillna('').values.tolist()
+
+        return resultado
+
+    def pesquisar_distribuidora_dvd(self, entrada):
+        df = pd.read_csv('distribuidoras_dvds.csv')
+
+        resultado = df.loc[df['distribuidora'] == entrada].fillna('').values.tolist()
+
+        return resultado

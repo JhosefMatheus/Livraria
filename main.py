@@ -2530,31 +2530,70 @@ def atualiza_auto_completar():
     Esta função atualiza todos os campos de auto-completar presentes no programa.
     '''
     autor_entry_registro_livro['completevalues'] = db.nome_autores()
+    autor_entry_registro_autor['completevalues'] = db.nome_autores()
     autor_entry_editar_excluir_livro['completevalues'] = db.nome_autores(
     )
     autor_entry_editar_excluir_autor['completevalues'] = db.nome_autores(
     )
 
     editora_entry_registro_livro['completevalues'] = db.nome_editoras()
+    editora_entry_registro_editora['completevalues'] = db.nome_editoras()
     editora_entry_editar_excluir_livro['completevalues'] = db.nome_editoras(
     )
     editora_entry_editar_excluir_editora['completevalues'] = db.nome_editoras(
     )
 
-    entrada_pesquisa_livro['completevalues'] = db.nome_autores()
-    entrada_pesquisa_livro['completevalues'] = db.nome_editoras()
+    artista_autor_cd_registro['completevalues'] = db.nome_autores_artistas_cds(
+    )
+    nome_autor_artista_registro['completevalues'] = db.nome_autores_artistas_cds(
+    )
+    autor_artista_cd_editar_excluir['completevalues'] = db.nome_autores_artistas_cds(
+    )
+    nome_autor_artista_editar_excluir_cd['completevalues'] = db.nome_autores_artistas_cds(
+    )
+
+    diretor_dvd_registro['completevalues'] = db.nome_diretores_dvds()
+    nome_diretor_dvd_registro['completevalues'] = db.nome_diretores_dvds()
+    diretor_editar_excluir_dvd['completevalues'] = db.nome_diretores_dvds()
+    nome_diretor_dvd_editar_excluir['completevalues'] = db.nome_diretores_dvds(
+    )
+
+    distribuidora_cd_registro['completevalues'] = db.nome_distribuidoras_cds()
+    nome_distribuidora_cd_registro['completevalues'] = db.nome_distribuidoras_cds(
+    )
+    distribuidora_cd_editar_excluir['completevalues'] = db.nome_distribuidoras_cds(
+    )
+    nome_distribuidora_cd_editar_excluir['completevalues'] = db.nome_distribuidoras_cds(
+    )
+
+    distribuidora_dvd_registro['completevalues'] = db.nome_distribuidoras_dvds(
+    )
+    nome_distribuidora_dvd_registro['completevalues'] = db.nome_distribuidoras_dvds(
+    )
+    distribuidora_editar_excluir_dvd['completevalues'] = db.nome_distribuidoras_dvds(
+    )
+    nome_distribuidora_dvd_editar_excluir['completevalues'] = db.nome_distribuidoras_dvds(
+    )
+
     entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
-
     entrada_pesquisa_autor['completevalues'] = db.nome_autores()
-
     entrada_pesquisa_editora['completevalues'] = db.nome_editoras()
+    entrada_pesquisa_cd['completevalues'] = db.titulos_cds()
+    entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds()
+    entrada_pesquisa_artista_autor['completevalues'] = db.nome_autores_artistas_cds(
+    )
+    entrada_pesquisa_diretor_dvd['completevalues'] = db.nome_diretores_dvds()
+    entrada_pesquisa_distribuidora_cd['completevalues'] = db.nome_distribuidoras_cds(
+    )
+    entrada_pesquisa_distribuidora_dvd['completevalues'] = db.nome_distribuidoras_dvds(
+    )
 
 
-def muda_opcao_pesquisa(e):
+def muda_opcao_pesquisa_livro(e):
     '''
     Muda os valores de auto completar do programa de acordo com a opção escolhida.
     '''
-    if opcao_pesquisa_livro.get() == 'Livro':
+    if opcao_pesquisa_livro.get() == 'Título':
         entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
 
     elif opcao_pesquisa_livro.get() == 'Autor':
@@ -2564,13 +2603,35 @@ def muda_opcao_pesquisa(e):
         entrada_pesquisa_livro['completevalues'] = db.nome_editoras()
 
 
+def muda_opcao_pesquisa_cd(e):
+    if opcao_pesquisa_cd.get() == 'Título':
+        entrada_pesquisa_cd['completevalues'] = db.titulos_cds()
+
+    elif opcao_pesquisa_cd.get() == 'Artista/Autor':
+        entrada_pesquisa_cd['completevalues'] = db.nome_autores_artistas_cds()
+
+    elif opcao_pesquisa_cd.get() == 'Distribuidora':
+        entrada_pesquisa_cd['completevalues'] = db.nome_distribuidoras_cds()
+
+
+def muda_opcao_pesquisa_dvd(e):
+    if opcao_pesquisa_dvd.get() == 'Título':
+        entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds()
+
+    elif opcao_pesquisa_dvd.get() == 'Diretor':
+        entrada_pesquisa_dvd['completevalues'] = db.nome_diretores_dvds()
+
+    elif opcao_pesquisa_dvd.get() == 'Distribuidora':
+        entrada_pesquisa_dvd['completevalues'] = db.nome_distribuidoras_dvds()
+
+
 def pesquisar_livros():
     '''
     Exibe na tabela livros o resultado da pesquisa feita de acordo com o dado de entrada e a opção
     de pesquisa.
     '''
     livros = db.pesquisar_livro(
-        opcao_pesquisa_livro.get(), entrada_pesquisa_livro.get())
+        entrada_pesquisa_livro.get().strip(), opcao_pesquisa_livro.get())
 
     for livro in tabela_livros.get_children():
         tabela_livros.delete(livro)
@@ -2583,16 +2644,50 @@ def pesquisar_livros():
         autor = livro[2]
         editora = livro[3]
         n_paginas = livro[4]
-        proprietario = livro[5]
+        situacao = livro[5]
+        beneficiado = livro[6]
+        telefone = livro[7]
+        dt_emprestimo = livro[8]
+        dt_devolucao = livro[9]
 
         if count % 2 == 0:
 
-            tabela_livros.insert('', END, values=(
-                id, titulo, autor, editora, n_paginas, proprietario), tags=('evenrow',))
+            tabela_livros.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    autor,
+                    editora,
+                    n_paginas,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('evenrow',)
+            )
 
         else:
-            tabela_livros.insert('', END, values=(
-                id, titulo, autor, editora, n_paginas, proprietario), tags=('oddrow',))
+            tabela_livros.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    autor,
+                    editora,
+                    n_paginas,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('oddrow',)
+            )
 
         count += 1
 
@@ -2601,7 +2696,7 @@ def pesquisar_autor():
     '''
     Exibe na tabela autores o resultado da pesquisa feita de acordo com o dado de entrada.
     '''
-    autores = db.pesquisar_autor(entrada_pesquisa_autor.get())
+    autores = db.pesquisar_autor(entrada_pesquisa_autor.get().strip())
 
     for autor in tabela_autores.get_children():
         tabela_autores.delete(autor)
@@ -2627,7 +2722,7 @@ def pesquisar_editora():
     '''
     Exibe na tabela editoras o resultado da pesquisa feita de acordo com o dado de entrada.
     '''
-    editoras = db.pesquisar_editora(entrada_pesquisa_editora.get())
+    editoras = db.pesquisar_editora(entrada_pesquisa_editora.get().strip())
 
     for editora in tabela_editoras.get_children():
         tabela_editoras.delete(editora)
@@ -2645,6 +2740,282 @@ def pesquisar_editora():
         else:
             tabela_editoras.insert('', END, values=(
                 id, nome_editora), tags=('oddrow',))
+
+        count += 1
+
+
+def pesquisar_cd():
+    cds = db.pesquisar_cd(
+        entrada_pesquisa_cd.get().strip(), opcao_pesquisa_cd.get())
+
+    for cd in tabela_cds.get_children():
+        tabela_cds.delete(cd)
+
+    count = 0
+
+    for cd in cds:
+        id = cd[0]
+        titulo = cd[1]
+        autor_artista = cd[2]
+        distribuidora = cd[3]
+        tempo = cd[4]
+        situacao = cd[5]
+        beneficiado = cd[6]
+        telefone = cd[7]
+        dt_emprestimo = cd[8]
+        dt_devolucao = cd[9]
+
+        if count % 2 == 0:
+            tabela_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    autor_artista,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    autor_artista,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
+
+
+def pesquisar_dvd():
+    dvds = db.pesquisar_dvd(
+        entrada_pesquisa_dvd.get().strip(), opcao_pesquisa_dvd.get())
+
+    for dvd in tabela_dvds.get_children():
+        tabela_dvds.delete(dvd)
+
+    count = 0
+
+    for dvd in dvds:
+        id = dvd[0]
+        titulo = dvd[1]
+        diretor = dvd[2]
+        distribuidora = dvd[3]
+        tempo = dvd[4]
+        situacao = dvd[5]
+        beneficiado = dvd[6]
+        telefone = dvd[7]
+        dt_emprestimo = dvd[8]
+        dt_devolucao = dvd[9]
+
+        if count % 2 == 0:
+            tabela_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    diretor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    diretor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
+
+
+def pesquisar_autor_artista_cd():
+    autores_artistas = db.pesquisar_autor_artista_cd(
+        entrada_pesquisa_artista_autor.get().strip())
+
+    for autor_artista in tabela_autores_artistas_cds.get_children():
+        tabela_autores_artistas_cds.delete(autor_artista)
+
+    for autor_artista in autores_artistas:
+        id = autor_artista[0]
+        nome = autor_artista[1]
+
+        count = 0
+
+        if count % 2 == 0:
+            tabela_autores_artistas_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    nome
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_autores_artistas_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    nome
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
+
+
+def pesquisar_diretor_dvd():
+    diretores = db.pesquisar_diretor_dvd(
+        entrada_pesquisa_diretor_dvd.get().strip())
+
+    for diretor in tabela_diretores_dvds.get_children():
+        tabela_diretores_dvds.delete(diretor)
+
+    for diretor in diretores:
+        id = diretor[0]
+        nome = diretor[1]
+
+        count = 0
+
+        if count % 2 == 0:
+            tabela_diretores_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    nome
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_diretores_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    nome
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
+
+
+def pesquisar_distribuidora_cd():
+    distribuidoras = db.pesquisar_distribuidora_cd(
+        entrada_pesquisa_distribuidora_cd.get().strip())
+
+    for distribuidora in tabela_distribuidoras_cds.get_children():
+        tabela_distribuidoras_cds.delete(distribuidora)
+
+    for distribuidora in distribuidoras:
+        id = distribuidora[0]
+        nome = distribuidora[1]
+
+        count = 0
+
+        if count % 2 == 0:
+            tabela_distribuidoras_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    nome
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_distribuidoras_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    nome
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
+
+
+def pesquisar_distribuidora_dvd():
+    distribuidoras = db.pesquisar_distribuidora_dvd(
+        entrada_pesquisa_distribuidora_dvd.get().strip())
+
+    for distribuidora in tabela_distribuidoras_dvds.get_children():
+        tabela_distribuidoras_dvds.delete(distribuidora)
+
+    for distribuidora in distribuidoras:
+        id = distribuidora[0]
+        nome = distribuidora[1]
+
+        count = 0
+
+        if count % 2 == 0:
+            tabela_distribuidoras_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    nome
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_distribuidoras_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    nome
+                ),
+                tags=('oddrow',)
+            )
 
         count += 1
 
@@ -2787,7 +3158,7 @@ pesquisa_livro.pack(
 opcao_pesquisa_livro = ttk.Combobox(
     pesquisa_livro,
     values=(
-        'Livro',
+        'Título',
         'Autor',
         'Editora'
     ),
@@ -2795,7 +3166,7 @@ opcao_pesquisa_livro = ttk.Combobox(
     font='Arial 12'
 )
 opcao_pesquisa_livro.current(0)
-opcao_pesquisa_livro.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
+opcao_pesquisa_livro.bind('<<ComboboxSelected>>', muda_opcao_pesquisa_livro)
 opcao_pesquisa_livro.grid(
     row=0,
     column=0,
@@ -2918,7 +3289,7 @@ pesquisa_dvd.columnconfigure(2, weight=0)
 opcao_pesquisa_dvd = ttk.Combobox(
     pesquisa_dvd,
     values=(
-        'Titulo',
+        'Título',
         'Diretor',
         'Distribuidora'
     ),
@@ -2934,7 +3305,7 @@ opcao_pesquisa_dvd.grid(
     sticky=EW
 )
 opcao_pesquisa_dvd.current(0)
-opcao_pesquisa_dvd.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
+opcao_pesquisa_dvd.bind('<<ComboboxSelected>>', muda_opcao_pesquisa_dvd)
 
 entrada_pesquisa_dvd = AutocompleteCombobox(
     pesquisa_dvd,
@@ -2954,7 +3325,7 @@ botao_pesquisar_dvd = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=pesquisar_livros
+    command=pesquisar_dvd
 )
 botao_pesquisar_dvd.grid(
     row=0,
@@ -2977,7 +3348,7 @@ pesquisa_cd.columnconfigure(2, weight=0)
 opcao_pesquisa_cd = ttk.Combobox(
     pesquisa_cd,
     values=(
-        'Titulo',
+        'Título',
         'Artista/Autor',
         'Distribuidora'
     ),
@@ -2993,7 +3364,7 @@ opcao_pesquisa_cd.grid(
     sticky=EW
 )
 opcao_pesquisa_cd.current(0)
-opcao_pesquisa_cd.bind('<<ComboboxSelected>>', muda_opcao_pesquisa)
+opcao_pesquisa_cd.bind('<<ComboboxSelected>>', muda_opcao_pesquisa_cd)
 
 entrada_pesquisa_cd = AutocompleteCombobox(
     pesquisa_cd,
@@ -3014,7 +3385,7 @@ botao_pesquisar_cd = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=pesquisar_livros
+    command=pesquisar_cd
 )
 
 botao_pesquisar_cd.grid(
@@ -3052,7 +3423,14 @@ botao_pesquisar_artista_autor = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=pesquisar_autor
+    command=pesquisar_autor_artista_cd
+)
+botao_pesquisar_artista_autor.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
 pesquisa_diretor_dvd = LabelFrame(
@@ -3082,8 +3460,16 @@ botao_pesquisar_diretor_dvd = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=pesquisar_autor
+    command=pesquisar_diretor_dvd
 )
+botao_pesquisar_diretor_dvd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
+)
+
 
 pesquisa_distribuidora_cd = LabelFrame(
     root,
@@ -3112,7 +3498,14 @@ botao_pesquisar_distribuidora_cd = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=pesquisar_autor
+    command=pesquisar_distribuidora_cd
+)
+botao_pesquisar_distribuidora_cd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
 pesquisa_distribuidora_dvd = LabelFrame(
@@ -3142,7 +3535,14 @@ botao_pesquisar_distribuidora_dvd = Button(
     font='Arial 12',
     text='Pesquisar',
     relief=GROOVE,
-    command=pesquisar_autor
+    command=pesquisar_distribuidora_dvd
+)
+botao_pesquisar_distribuidora_dvd.grid(
+    row=0,
+    column=1,
+    padx=10,
+    pady=10,
+    sticky=EW
 )
 
 style = ttk.Style()
@@ -3512,7 +3912,7 @@ autor_label_registro_livro.grid(row=1, column=0, padx=10, pady=10)
 autor_entry_registro_livro = AutocompleteCombobox(
     livro_register_frame,
     font='Arial 12',
-    # completevalues=db.nome_autores()
+    completevalues=db.nome_autores()
 )
 autor_entry_registro_livro.grid(row=1, column=1, padx=10, pady=10, sticky=EW)
 
@@ -3526,7 +3926,7 @@ editora_label_registro_livro.grid(row=2, column=0, padx=10, pady=10)
 editora_entry_registro_livro = AutocompleteCombobox(
     livro_register_frame,
     font='Arial 12',
-    # completevalues=db.nome_editoras()
+    completevalues=db.nome_editoras()
 )
 editora_entry_registro_livro.grid(row=2, column=1, padx=10, pady=10, sticky=EW)
 
@@ -3692,9 +4092,10 @@ autor_label_registro_autor = Label(
 )
 autor_label_registro_autor.grid(row=0, column=0, padx=10, pady=10)
 
-autor_entry_registro_autor = Entry(
+autor_entry_registro_autor = AutocompleteCombobox(
     autor_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_autores()
 )
 autor_entry_registro_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
@@ -3712,9 +4113,10 @@ editora_label_registro_editora = Label(
 )
 editora_label_registro_editora.grid(row=0, column=0, padx=10, pady=10)
 
-editora_entry_registro_editora = Entry(
+editora_entry_registro_editora = AutocompleteCombobox(
     editora_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_editoras()
 )
 editora_entry_registro_editora.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -3761,9 +4163,10 @@ Label(
     sticky=EW
 )
 
-diretor_dvd_registro = Entry(
+diretor_dvd_registro = AutocompleteCombobox(
     dvd_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_diretores_dvds()
 )
 diretor_dvd_registro.grid(
     row=1,
@@ -3785,9 +4188,10 @@ Label(
     sticky=EW
 )
 
-distribuidora_dvd_registro = Entry(
+distribuidora_dvd_registro = AutocompleteCombobox(
     dvd_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_distribuidoras_dvds()
 )
 distribuidora_dvd_registro.grid(
     row=2,
@@ -3998,9 +4402,10 @@ Label(
     sticky=EW
 )
 
-artista_autor_cd_registro = Entry(
+artista_autor_cd_registro = AutocompleteCombobox(
     cd_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_autores_artistas_cds()
 )
 artista_autor_cd_registro.grid(
     row=1,
@@ -4022,9 +4427,10 @@ Label(
     sticky=EW
 )
 
-distribuidora_cd_registro = Entry(
+distribuidora_cd_registro = AutocompleteCombobox(
     cd_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_distribuidoras_cds()
 )
 distribuidora_cd_registro.grid(
     row=2,
@@ -4212,9 +4618,10 @@ Label(
     sticky=EW
 )
 
-nome_autor_artista_registro = Entry(
+nome_autor_artista_registro = AutocompleteCombobox(
     autor_artista_cd_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_autores_artistas_cds()
 )
 nome_autor_artista_registro.grid(
     row=0,
@@ -4243,9 +4650,10 @@ Label(
     sticky=EW
 )
 
-nome_diretor_dvd_registro = Entry(
+nome_diretor_dvd_registro = AutocompleteCombobox(
     diretor_dvd_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_diretores_dvds()
 )
 nome_diretor_dvd_registro.grid(
     row=0,
@@ -4274,9 +4682,10 @@ Label(
     sticky=EW
 )
 
-nome_distribuidora_cd_registro = Entry(
+nome_distribuidora_cd_registro = AutocompleteCombobox(
     distribuidora_cd_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_distribuidoras_cds()
 )
 nome_distribuidora_cd_registro.grid(
     row=0,
@@ -4305,9 +4714,10 @@ Label(
     sticky=EW
 )
 
-nome_distribuidora_dvd_registro = Entry(
+nome_distribuidora_dvd_registro = AutocompleteCombobox(
     distribuidora_dvd_register_frame,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_distribuidoras_dvds()
 )
 nome_distribuidora_dvd_registro.grid(
     row=0,
@@ -4394,7 +4804,7 @@ autor_label_editar_excluir_livro.grid(row=1, column=0, padx=10, pady=10)
 autor_entry_editar_excluir_livro = AutocompleteCombobox(
     editar_excluir_livro,
     font='Arial 12',
-    # completevalues=db.nome_autores()
+    completevalues=db.nome_autores()
 )
 autor_entry_editar_excluir_livro.grid(
     row=1, column=1, padx=10, pady=10, sticky=EW)
@@ -4409,7 +4819,7 @@ editora_label_editar_excluir_livro.grid(row=2, column=0, padx=10, pady=10)
 editora_entry_editar_excluir_livro = AutocompleteCombobox(
     editar_excluir_livro,
     font='Arial 12',
-    # completevalues=db.nome_editoras()
+    completevalues=db.nome_editoras()
 )
 editora_entry_editar_excluir_livro.grid(
     row=2, column=1, padx=10, pady=10, sticky=EW)
@@ -4615,7 +5025,7 @@ autor_label_editar_excluir_autor.grid(row=0, column=0, padx=10, pady=10)
 autor_entry_editar_excluir_autor = AutocompleteCombobox(
     editar_excluir_autor,
     font='Arial 12',
-    # completevalues=db.nome_autores()
+    completevalues=db.nome_autores()
 )
 autor_entry_editar_excluir_autor.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -4671,7 +5081,7 @@ editora_label_editar_excluir_editora.grid(row=0, column=0, padx=10, pady=10)
 editora_entry_editar_excluir_editora = AutocompleteCombobox(
     editar_excluir_editora,
     font='Arial 12',
-    # completevalues=db.nome_editoras()
+    completevalues=db.nome_editoras()
 )
 editora_entry_editar_excluir_editora.grid(
     row=0, column=1, padx=10, pady=10, sticky=EW)
@@ -4755,9 +5165,10 @@ Label(
     sticky=EW
 )
 
-diretor_editar_excluir_dvd = Entry(
+diretor_editar_excluir_dvd = AutocompleteCombobox(
     editar_excluir_dvd,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_diretores_dvds()
 )
 diretor_editar_excluir_dvd.grid(
     row=1,
@@ -4779,9 +5190,10 @@ Label(
     sticky=EW
 )
 
-distribuidora_editar_excluir_dvd = Entry(
+distribuidora_editar_excluir_dvd = AutocompleteCombobox(
     editar_excluir_dvd,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_distribuidoras_dvds()
 )
 distribuidora_editar_excluir_dvd.grid(
     row=2,
@@ -5046,9 +5458,10 @@ Label(
     sticky=EW
 )
 
-autor_artista_cd_editar_excluir = Entry(
+autor_artista_cd_editar_excluir = AutocompleteCombobox(
     editar_excluir_cd,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_autores_artistas_cds()
 )
 autor_artista_cd_editar_excluir.grid(
     row=1,
@@ -5070,9 +5483,10 @@ Label(
     stick=EW
 )
 
-distribuidora_cd_editar_excluir = Entry(
+distribuidora_cd_editar_excluir = AutocompleteCombobox(
     editar_excluir_cd,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_distribuidoras_cds()
 )
 distribuidora_cd_editar_excluir.grid(
     row=2,
@@ -5312,9 +5726,10 @@ Label(
     sticky=EW
 )
 
-nome_autor_artista_editar_excluir_cd = Entry(
+nome_autor_artista_editar_excluir_cd = AutocompleteCombobox(
     editar_excluir_autor_artista_cd,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_autores_artistas_cds()
 )
 nome_autor_artista_editar_excluir_cd.grid(
     row=0,
@@ -5396,9 +5811,10 @@ Label(
     sticky=EW
 )
 
-nome_diretor_dvd_editar_excluir = Entry(
+nome_diretor_dvd_editar_excluir = AutocompleteCombobox(
     editar_excluir_diretor_dvd,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_diretores_dvds()
 )
 nome_diretor_dvd_editar_excluir.grid(
     row=0,
@@ -5480,9 +5896,10 @@ Label(
     sticky=EW
 )
 
-nome_distribuidora_cd_editar_excluir = Entry(
+nome_distribuidora_cd_editar_excluir = AutocompleteCombobox(
     editar_excluir_distribuidora_cd,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_distribuidoras_cds()
 )
 nome_distribuidora_cd_editar_excluir.grid(
     row=0,
@@ -5564,9 +5981,10 @@ Label(
     sticky=EW
 )
 
-nome_distribuidora_dvd_editar_excluir = Entry(
+nome_distribuidora_dvd_editar_excluir = AutocompleteCombobox(
     editar_excluir_distribuidora_dvd,
-    font='Arial 12'
+    font='Arial 12',
+    completevalues=db.nome_distribuidoras_dvds()
 )
 nome_distribuidora_dvd_editar_excluir.grid(
     row=0,
