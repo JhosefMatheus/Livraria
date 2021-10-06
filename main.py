@@ -2593,36 +2593,111 @@ def muda_opcao_pesquisa_livro(e):
     '''
     Muda os valores de auto completar do programa de acordo com a opção escolhida.
     '''
-    if opcao_pesquisa_livro.get() == 'Título':
+    if opcao_pesquisa_livro.get() == 'Título (Todos)':
         entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
 
-    elif opcao_pesquisa_livro.get() == 'Autor':
+    elif opcao_pesquisa_livro.get() == 'Autor (Todos)':
         entrada_pesquisa_livro['completevalues'] = db.nome_autores()
 
-    elif opcao_pesquisa_livro.get() == 'Editora':
+    elif opcao_pesquisa_livro.get() == 'Editora (Todos)':
         entrada_pesquisa_livro['completevalues'] = db.nome_editoras()
+
+    elif opcao_pesquisa_livro.get() == 'Título (Disponíveis)':
+        entrada_pesquisa_livro['completevalues'] = db.titulos_livros_disponiveis(
+        )
+
+    elif opcao_pesquisa_livro.get() == 'Autor (Disponíveis)':
+        entrada_pesquisa_livro['completevalues'] = db.autores_livros_disponiveis(
+        )
+
+    elif opcao_pesquisa_livro.get() == 'Editora (Disponíveis)':
+        entrada_pesquisa_livro['completevalues'] = db.editoras_livros_disponiveis(
+        )
+
+    elif opcao_pesquisa_livro.get() == 'Título (Emprestados)':
+        entrada_pesquisa_livro['completevalues'] = db.titulos_livros_emprestados(
+        )
+
+    elif opcao_pesquisa_livro.get() == 'Autor (Emprestados)':
+        entrada_pesquisa_livro['completevalues'] = db.autores_livros_emprestados(
+        )
+
+    elif opcao_pesquisa_livro.get() == 'Editora (Emprestados)':
+        entrada_pesquisa_livro['completevalues'] = db.editoras_livros_emprestados(
+        )
+
+    elif opcao_pesquisa_livro.get() == 'Beneficiado':
+        entrada_pesquisa_livro['completevalues'] = db.beneficiados_livros()
 
 
 def muda_opcao_pesquisa_cd(e):
-    if opcao_pesquisa_cd.get() == 'Título':
+    if opcao_pesquisa_cd.get() == 'Título (Todos)':
         entrada_pesquisa_cd['completevalues'] = db.titulos_cds()
 
-    elif opcao_pesquisa_cd.get() == 'Artista/Autor':
+    elif opcao_pesquisa_cd.get() == 'Artista/Autor (Todos)':
         entrada_pesquisa_cd['completevalues'] = db.nome_autores_artistas_cds()
 
-    elif opcao_pesquisa_cd.get() == 'Distribuidora':
+    elif opcao_pesquisa_cd.get() == 'Distribuidora (Todos)':
         entrada_pesquisa_cd['completevalues'] = db.nome_distribuidoras_cds()
+
+    elif opcao_pesquisa_cd.get() == 'Título (Disponíveis)':
+        entrada_pesquisa_cd['completevalues'] = db.titulos_cds_disponiveis()
+
+    elif opcao_pesquisa_cd.get() == 'Artista/Autor (Disponíveis)':
+        entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_disponiveis(
+        )
+
+    elif opcao_pesquisa_cd.get() == 'Distribuidora (Disponíveis)':
+        entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_disponiveis(
+        )
+
+    elif opcao_pesquisa_cd.get() == 'Título (Emprestados)':
+        entrada_pesquisa_cd['completevalues'] = db.titulos_cds_emprestados()
+
+    elif opcao_pesquisa_cd.get() == 'Artista/Autor (Emprestados)':
+        entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_emprestados(
+        )
+
+    elif opcao_pesquisa_cd.get() == 'Distribuidora (Emprestados)':
+        entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_emprestados(
+        )
+
+    elif opcao_pesquisa_cd.get() == 'Beneficiado':
+        entrada_pesquisa_cd['completevalues'] = db.beneficiados_cds()
 
 
 def muda_opcao_pesquisa_dvd(e):
-    if opcao_pesquisa_dvd.get() == 'Título':
+    if opcao_pesquisa_dvd.get() == 'Título (Todos)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds()
 
-    elif opcao_pesquisa_dvd.get() == 'Diretor':
+    elif opcao_pesquisa_dvd.get() == 'Diretor (Todos)':
         entrada_pesquisa_dvd['completevalues'] = db.nome_diretores_dvds()
 
-    elif opcao_pesquisa_dvd.get() == 'Distribuidora':
+    elif opcao_pesquisa_dvd.get() == 'Distribuidora (Todos)':
         entrada_pesquisa_dvd['completevalues'] = db.nome_distribuidoras_dvds()
+
+    elif opcao_pesquisa_dvd.get() == 'Título (Disponíveis)':
+        entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_disponiveis()
+
+    elif opcao_pesquisa_dvd.get() == 'Diretores (Disponíveis)':
+        entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_disponiveis()
+
+    elif opcao_pesquisa_dvd.get() == 'Distribuidoras (Disponíveis)':
+        entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_disponiveis(
+        )
+
+    elif opcao_pesquisa_dvd.get() == 'Título (Emprestados)':
+        entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_emprestados()
+
+    elif opcao_pesquisa_dvd.get() == 'Diretores (Emprestados)':
+        entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_emprestados()
+
+    elif opcao_pesquisa_dvd.get() == 'Distribuidoras (Emprestados)':
+        entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_emprestados(
+        )
+
+    elif opcao_pesquisa_dvd.get() == 'Beneficiado':
+        entrada_pesquisa_dvd['completevalues'] = db.beneficiados_dvds()
 
 
 def pesquisar_livros():
@@ -3158,9 +3233,16 @@ pesquisa_livro.pack(
 opcao_pesquisa_livro = ttk.Combobox(
     pesquisa_livro,
     values=(
-        'Título',
-        'Autor',
-        'Editora'
+        'Título (Todos)',
+        'Autor (Todos)',
+        'Editora (Todos)',
+        'Título (Disponíveis)',
+        'Autor (Disponíveis)',
+        'Editora (Disponíveis)',
+        'Título (Emprestados)',
+        'Autor (Emprestados)',
+        'Editora (Emprestados)',
+        'Beneficiado'
     ),
     state='readonly',
     font='Arial 12'
@@ -3289,9 +3371,16 @@ pesquisa_dvd.columnconfigure(2, weight=0)
 opcao_pesquisa_dvd = ttk.Combobox(
     pesquisa_dvd,
     values=(
-        'Título',
-        'Diretor',
-        'Distribuidora'
+        'Título (Todos)',
+        'Diretor (Todos)',
+        'Distribuidora (Todos)',
+        'Título (Disponíveis)',
+        'Diretor (Disponíveis)',
+        'Distribuidora (Disponíveis)',
+        'Título (Emprestados)',
+        'Diretor (Emprestados)',
+        'Distribuidora (Emprestados)',
+        'Beneficiado'
     ),
     state='readonly',
     font='Arial 12'
@@ -3348,9 +3437,16 @@ pesquisa_cd.columnconfigure(2, weight=0)
 opcao_pesquisa_cd = ttk.Combobox(
     pesquisa_cd,
     values=(
-        'Título',
-        'Artista/Autor',
-        'Distribuidora'
+        'Título (Todos)',
+        'Artista/Autor (Todos)',
+        'Distribuidora (Todos)',
+        'Título (Disponíveis)',
+        'Artista/Autor (Disponíveis)',
+        'Distribuidora (Disponíveis)',
+        'Título (Emprestados)',
+        'Artista/Autor (Emprestados)',
+        'Distribuidora (Emprestados)',
+        'Beneficiado'
     ),
     state='readonly',
     font='Arial 12'
