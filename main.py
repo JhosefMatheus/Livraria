@@ -1877,22 +1877,6 @@ def editar_autor():
         carrega_tabelas()
 
 
-def excluir_autor():
-    '''
-    Esta função o exclui o autor selecionado.
-    '''
-    id_autor, nome_autor = tabela_autores.item(
-        tabela_autores.focus())['values']
-
-    db.excluir_autor_livro(id_autor, nome_autor)
-
-    atualiza_auto_completar()
-
-    cancelar_edicao_autor()
-
-    carrega_tabelas()
-
-
 def cancelar_edicao_autor():
     '''
     Esta função fecha a tela de edição, limpa todos os campos da mesma e retira o autor selecionado
@@ -1968,22 +1952,6 @@ def editar_editora():
         cancelar_edicao_editora()
 
         carrega_tabelas()
-
-
-def excluir_editora():
-    '''
-    Esta função é responsável por excluir a editora selecionada.
-    '''
-    id_editora, nome_editora = tabela_editoras.item(
-        tabela_editoras.focus())['values']
-
-    db.excluir_editora_livro(id_editora, nome_editora)
-
-    atualiza_auto_completar()
-
-    cancelar_edicao_editora()
-
-    carrega_tabelas()
 
 
 def cancelar_edicao_editora():
@@ -2626,6 +2594,18 @@ def muda_opcao_pesquisa_livro(e):
         entrada_pesquisa_livro['completevalues'] = db.editoras_livros_emprestados(
         )
 
+    elif opcao_pesquisa_livro.get() == 'Título (Empréstimo Expirado)':
+        entrada_pesquisa_livro['completevalues'] = db.titulos_livros_emprestimo_expirado(
+        )
+
+    elif opcao_pesquisa_livro.get() == 'Autor (Empréstimo Expirado)':
+        entrada_pesquisa_livro['completevalues'] = db.autores_livros_emprestimo_expirado(
+        )
+
+    elif opcao_pesquisa_livro.get() == 'Editora (Empréstimo Expirado)':
+        entrada_pesquisa_livro['completevalues'] = db.editoras_livros_emprestimo_expirado(
+        )
+
     elif opcao_pesquisa_livro.get() == 'Beneficiado':
         entrada_pesquisa_livro['completevalues'] = db.beneficiados_livros()
 
@@ -2662,6 +2642,18 @@ def muda_opcao_pesquisa_cd(e):
         entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_emprestados(
         )
 
+    elif opcao_pesquisa_cd.get() == 'Título (Empréstimo Expirado)':
+        entrada_pesquisa_cd['completevalues'] = db.titulos_cds_emprestimo_expirado(
+        )
+
+    elif opcao_pesquisa_cd.get() == 'Artista/Autor (Empréstimo Expirado)':
+        entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_emprestimo_expirado(
+        )
+
+    elif opcao_pesquisa_cd.get() == 'Distribuidoras (Empréstimo Expirado)':
+        entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_emprestimo_expirado(
+        )
+
     elif opcao_pesquisa_cd.get() == 'Beneficiado':
         entrada_pesquisa_cd['completevalues'] = db.beneficiados_cds()
 
@@ -2679,21 +2671,33 @@ def muda_opcao_pesquisa_dvd(e):
     elif opcao_pesquisa_dvd.get() == 'Título (Disponíveis)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_disponiveis()
 
-    elif opcao_pesquisa_dvd.get() == 'Diretores (Disponíveis)':
+    elif opcao_pesquisa_dvd.get() == 'Diretor (Disponíveis)':
         entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_disponiveis()
 
-    elif opcao_pesquisa_dvd.get() == 'Distribuidoras (Disponíveis)':
+    elif opcao_pesquisa_dvd.get() == 'Distribuidora (Disponíveis)':
         entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_disponiveis(
         )
 
     elif opcao_pesquisa_dvd.get() == 'Título (Emprestados)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_emprestados()
 
-    elif opcao_pesquisa_dvd.get() == 'Diretores (Emprestados)':
+    elif opcao_pesquisa_dvd.get() == 'Diretor (Emprestados)':
         entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_emprestados()
 
-    elif opcao_pesquisa_dvd.get() == 'Distribuidoras (Emprestados)':
+    elif opcao_pesquisa_dvd.get() == 'Distribuidora (Emprestados)':
         entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_emprestados(
+        )
+
+    elif opcao_pesquisa_dvd.get() == 'Título (Empréstimo Expirado)':
+        entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_emprestimo_expirado(
+        )
+
+    elif opcao_pesquisa_dvd.get() == 'Diretor (Empréstimo Expirado)':
+        entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_emprestimo_expirado(
+        )
+
+    elif opcao_pesquisa_dvd.get() == 'Distribuidora (Empréstimo Expirado)':
+        entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_emprestimo_expirado(
         )
 
     elif opcao_pesquisa_dvd.get() == 'Beneficiado':
@@ -3242,6 +3246,9 @@ opcao_pesquisa_livro = ttk.Combobox(
         'Título (Emprestados)',
         'Autor (Emprestados)',
         'Editora (Emprestados)',
+        'Título (Empréstimo Expirado)',
+        'Autor (Empréstimo Expirado)',
+        'Editora (Empréstimo Expirado)',
         'Beneficiado'
     ),
     state='readonly',
@@ -3380,6 +3387,9 @@ opcao_pesquisa_dvd = ttk.Combobox(
         'Título (Emprestados)',
         'Diretor (Emprestados)',
         'Distribuidora (Emprestados)',
+        'Título (Empréstimo Expirado)',
+        'Diretor (Empréstimo Expirado)',
+        'Distribuidora (Empréstimo Expirado)',
         'Beneficiado'
     ),
     state='readonly',
@@ -3446,6 +3456,9 @@ opcao_pesquisa_cd = ttk.Combobox(
         'Título (Emprestados)',
         'Artista/Autor (Emprestados)',
         'Distribuidora (Emprestados)',
+        'Título (Empréstimo Expirado)',
+        'Artista/Autor (Empréstimo Expirado)',
+        'Distribuidora (Empréstimo Expirado)',
         'Beneficiado'
     ),
     state='readonly',
@@ -4140,7 +4153,7 @@ data_emprestimo = DateEntry(
     state=DISABLED
 )
 data_emprestimo.grid(
-    row=8,
+    row=7,
     column=1,
     padx=10,
     pady=10,
@@ -4167,7 +4180,7 @@ data_devolucao = DateEntry(
     state=DISABLED
 )
 data_devolucao.grid(
-    row=7,
+    row=8,
     column=1,
     padx=10,
     pady=10,
@@ -5132,7 +5145,6 @@ botoes_editar_excluir_autor = Frame(
 
 botoes_editar_excluir_autor.columnconfigure(0, weight=1)
 botoes_editar_excluir_autor.columnconfigure(1, weight=1)
-botoes_editar_excluir_autor.columnconfigure(2, weight=1)
 
 botao_editar_autor = Button(
     botoes_editar_excluir_autor,
@@ -5143,15 +5155,6 @@ botao_editar_autor = Button(
 )
 botao_editar_autor.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
-botao_excluir_autor = Button(
-    botoes_editar_excluir_autor,
-    text='Excluir',
-    relief=GROOVE,
-    command=excluir_autor,
-    font='Arial 12'
-)
-botao_excluir_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
-
 botao_cancelar_edicao_autor = Button(
     botoes_editar_excluir_autor,
     text='Cancelar',
@@ -5159,7 +5162,7 @@ botao_cancelar_edicao_autor = Button(
     command=cancelar_edicao_autor,
     font='Arial 12'
 )
-botao_cancelar_edicao_autor.grid(row=0, column=2, padx=10, pady=10, sticky=EW)
+botao_cancelar_edicao_autor.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
 
 editar_excluir_editora = Frame(
     table_frame
@@ -5188,7 +5191,6 @@ botoes_editar_excluir_editora = Frame(
 
 botoes_editar_excluir_editora.columnconfigure(0, weight=1)
 botoes_editar_excluir_editora.columnconfigure(1, weight=1)
-botoes_editar_excluir_editora.columnconfigure(2, weight=1)
 
 botao_editar_editora = Button(
     botoes_editar_excluir_editora,
@@ -5199,15 +5201,6 @@ botao_editar_editora = Button(
 )
 botao_editar_editora.grid(row=0, column=0, padx=10, pady=10, sticky=EW)
 
-botao_excluir_editora = Button(
-    botoes_editar_excluir_editora,
-    text='Excluir',
-    relief=GROOVE,
-    command=excluir_editora,
-    font='Arial 12'
-)
-botao_excluir_editora.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
-
 botao_cancelar_edicao_editora = Button(
     botoes_editar_excluir_editora,
     text='Cancelar',
@@ -5216,7 +5209,7 @@ botao_cancelar_edicao_editora = Button(
     font='Arial 12'
 )
 botao_cancelar_edicao_editora.grid(
-    row=0, column=2, padx=10, pady=10, sticky=EW)
+    row=0, column=1, padx=10, pady=10, sticky=EW)
 
 editar_excluir_dvd = Frame(
     table_frame
@@ -5841,7 +5834,6 @@ botoes_editar_excluir_autor_artista_cd = Frame(
 
 botoes_editar_excluir_autor_artista_cd.columnconfigure(0, weight=1)
 botoes_editar_excluir_autor_artista_cd.columnconfigure(1, weight=1)
-botoes_editar_excluir_autor_artista_cd.columnconfigure(2, weight=1)
 
 botao_editar_autor_artista_cd = Button(
     botoes_editar_excluir_autor_artista_cd,
@@ -5858,21 +5850,6 @@ botao_editar_autor_artista_cd.grid(
     sticky=EW
 )
 
-botao_excluir_autor_artista_cd = Button(
-    botoes_editar_excluir_autor_artista_cd,
-    text='Excluir',
-    font='Arial 12',
-    relief=GROOVE,
-    command=cancelar_edicao_artista_autor_cd
-)
-botao_excluir_autor_artista_cd.grid(
-    row=0,
-    column=1,
-    padx=10,
-    pady=10,
-    sticky=EW
-)
-
 botao_cancelar_edicao_autor_artista_cd = Button(
     botoes_editar_excluir_autor_artista_cd,
     text='Cancelar',
@@ -5882,7 +5859,7 @@ botao_cancelar_edicao_autor_artista_cd = Button(
 )
 botao_cancelar_edicao_autor_artista_cd.grid(
     row=0,
-    column=2,
+    column=1,
     padx=10,
     pady=10,
     sticky=EW
@@ -5926,7 +5903,6 @@ botoes_editar_excluir_diretor_dvd = Frame(
 
 botoes_editar_excluir_diretor_dvd.columnconfigure(0, weight=1)
 botoes_editar_excluir_diretor_dvd.columnconfigure(1, weight=1)
-botoes_editar_excluir_diretor_dvd.columnconfigure(2, weight=1)
 
 botao_editar_diretor_dvd = Button(
     botoes_editar_excluir_diretor_dvd,
@@ -5943,21 +5919,6 @@ botao_editar_diretor_dvd.grid(
     sticky=EW
 )
 
-botao_excluir_diretor_dvd = Button(
-    botoes_editar_excluir_diretor_dvd,
-    text='Excluir',
-    font='Arial 12',
-    relief=GROOVE,
-    command=cancelar_edicao_diretor_dvd
-)
-botao_excluir_diretor_dvd.grid(
-    row=0,
-    column=1,
-    padx=10,
-    pady=10,
-    sticky=EW
-)
-
 botao_cancelar_edicao_diretor_dvd = Button(
     botoes_editar_excluir_diretor_dvd,
     text='Cancelar',
@@ -5967,7 +5928,7 @@ botao_cancelar_edicao_diretor_dvd = Button(
 )
 botao_cancelar_edicao_diretor_dvd.grid(
     row=0,
-    column=2,
+    column=1,
     padx=10,
     pady=10,
     sticky=EW
@@ -6011,7 +5972,6 @@ botoes_editar_excluir_distribuidora_cd = Frame(
 
 botoes_editar_excluir_distribuidora_cd.columnconfigure(0, weight=1)
 botoes_editar_excluir_distribuidora_cd.columnconfigure(1, weight=1)
-botoes_editar_excluir_distribuidora_cd.columnconfigure(2, weight=1)
 
 botao_editar_distribuidora_cd = Button(
     botoes_editar_excluir_distribuidora_cd,
@@ -6028,21 +5988,6 @@ botao_editar_distribuidora_cd.grid(
     sticky=EW
 )
 
-botao_excluir_distribuidora_cd = Button(
-    botoes_editar_excluir_distribuidora_cd,
-    text='Excluir',
-    font='Arial 12',
-    relief=GROOVE,
-    command=cancelar_edicao_distribuidora_cd
-)
-botao_excluir_distribuidora_cd.grid(
-    row=0,
-    column=1,
-    padx=10,
-    pady=10,
-    sticky=EW
-)
-
 botao_cancelar_edicao_distribuidora_cd = Button(
     botoes_editar_excluir_distribuidora_cd,
     text='Cancelar',
@@ -6052,7 +5997,7 @@ botao_cancelar_edicao_distribuidora_cd = Button(
 )
 botao_cancelar_edicao_distribuidora_cd.grid(
     row=0,
-    column=2,
+    column=1,
     padx=10,
     pady=10,
     sticky=EW
@@ -6096,7 +6041,6 @@ botoes_editar_excluir_distribuidora_dvd = Frame(
 
 botoes_editar_excluir_distribuidora_dvd.columnconfigure(0, weight=1)
 botoes_editar_excluir_distribuidora_dvd.columnconfigure(1, weight=1)
-botoes_editar_excluir_distribuidora_dvd.columnconfigure(2, weight=1)
 
 botao_editar_distribuidora_dvd = Button(
     botoes_editar_excluir_distribuidora_dvd,
@@ -6113,21 +6057,6 @@ botao_editar_distribuidora_dvd.grid(
     sticky=EW
 )
 
-botao_excluir_distribuidora_dvd = Button(
-    botoes_editar_excluir_distribuidora_dvd,
-    text='Excluir',
-    font='Arial 12',
-    relief=GROOVE,
-    command=cancelar_edicao_distribuidora_dvd
-)
-botao_excluir_distribuidora_dvd.grid(
-    row=0,
-    column=1,
-    padx=10,
-    pady=10,
-    sticky=EW
-)
-
 botao_cancelar_edicao_distribuidora_dvd = Button(
     botoes_editar_excluir_distribuidora_dvd,
     text='Cancelar',
@@ -6137,7 +6066,7 @@ botao_cancelar_edicao_distribuidora_dvd = Button(
 )
 botao_cancelar_edicao_distribuidora_dvd.grid(
     row=0,
-    column=2,
+    column=1,
     padx=10,
     pady=10,
     sticky=EW

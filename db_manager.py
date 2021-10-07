@@ -1,4 +1,5 @@
 import pandas as pd
+from datetime import date
 
 
 class db_manager:
@@ -424,6 +425,78 @@ class db_manager:
 
         return beneficiados
 
+    def titulos_livros_emprestimo_expirado(self):
+        df = pd.read_csv('livros.csv')
+
+        titulos = df['titulo'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+
+        return titulos
+
+    def autores_livros_emprestimo_expirado(self):
+        df = pd.read_csv('livros.csv')
+
+        autores = df['autor'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+
+        return autores
+
+    def editoras_livros_emprestimo_expirado(self):
+        df = pd.read_csv('livros.csv')
+
+        editoras = df['editora'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+
+        return editoras
+
+    def titulos_cds_emprestimo_expirado(self):
+        df = pd.read_csv('cds.csv')
+
+        titulos = df['titulo'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+
+        return titulos
+
+    def autores_artistas_cds_emprestimo_expirado(self):
+        df = pd.read_csv('cds.csv')
+
+        autores_artistas = df['artista_autor'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+
+        return autores_artistas
+
+    def distribuidoras_cds_emprestimo_expirado(self):
+        df = pd.read_csv('cds.csv')
+
+        distribuidoras = df['distribuidora'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+
+        return distribuidoras
+
+    def titulos_dvds_emprestimo_expirado(self):
+        df = pd.read_csv('dvds.csv')
+
+        titulos = df['titulo'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+
+        return titulos
+
+    def diretores_dvds_emprestimo_expirado(self):
+        df = pd.read_csv('dvds.csv')
+
+        diretores = df['diretor'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+        return diretores
+
+    def distribuidoras_dvds_emprestimo_expirado(self):
+        df = pd.read_csv('cds.csv')
+
+        distribuidoras = df['distribuidora'].where(pd.to_datetime(
+            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+        return distribuidoras
+
     def editar_livro(self, id, titulo, autor_selecionado, novo_autor, editora_selecionada, nova_editora, n_pag, situacao, beneficiado, tel, dt_emprestimo, dt_devolucao):
         df_livros = pd.read_csv('livros.csv')
 
@@ -509,20 +582,6 @@ class db_manager:
         df_livros.to_csv('livros.csv', index=False)
         df_autores_livros.to_csv('autores_livros.csv', index=False)
 
-    def excluir_autor_livro(self, autor):
-        df_livros = pd.read_csv('livros.csv')
-        df_autores_livros = pd.read_csv('autores_livros.csv')
-
-        id_autor = df_autores_livros.index[df_autores_livros['autor'] == autor].tolist(
-        )
-
-        df_autores_livros.drop(id_autor, axis=0, inplace=True)
-
-        df_livros.loc[df_livros['autor'] == autor, 'autor'] = 'Desconhecido(a)'
-
-        df_autores_livros.to_csv('autores_livros.csv', index=False)
-        df_livros.to_csv('livros.csv', index=False)
-
     def editar_editora_livro(self, id, editora_selecionada, nova_editora):
         df_livros = pd.read_csv('livros.csv')
         df_editoras_livros = pd.read_csv('editoras_livros.csv')
@@ -531,21 +590,6 @@ class db_manager:
 
         df_livros.loc[df_livros['editora'] ==
                       editora_selecionada, 'editora'] = nova_editora
-
-        df_livros.to_csv('livros.csv', index=False)
-        df_editoras_livros.to_csv('editoras_livros.csv', index=False)
-
-    def excluir_editora_livro(self, editora):
-        df_livros = pd.read_csv('livros.csv')
-        df_editoras_livros = pd.read_csv('editoras_livros.csv')
-
-        id_editora = df_editoras_livros.index[df_editoras_livros['editora'] == editora].tolist(
-        )
-
-        df_editoras_livros.drop(id_editora, axis=0, inplace=True)
-
-        df_livros.loc[df_livros['editora'] ==
-                      editora, 'editora'] = 'Desconhecida'
 
         df_livros.to_csv('livros.csv', index=False)
         df_editoras_livros.to_csv('editoras_livros.csv', index=False)
@@ -622,31 +666,6 @@ class db_manager:
 
         df_dvds.to_csv('dvds.csv', index=False)
 
-    def editar_diretor_dvd(self, diretor_selecionado, novo_diretor):
-        df_dvds = pd.read_csv('dvds.csv')
-        df_diretores = pd.read_csv('diretores_dvds.csv')
-
-        df_dvds.loc[df_dvds['diretor'] ==
-                    diretor_selecionado, 'diretor'] = novo_diretor
-
-        df_diretores.loc[df_diretores['diretor'] ==
-                         diretor_selecionado, 'diretor'] = novo_diretor
-
-        df_dvds.to_csv('dvds.csv', index=False)
-        df_diretores.to_csv('diretores_dvds.csv', index=False)
-
-    def editar_distribuidora_dvd(self, distribuidora_selecionada, nova_distribuidora):
-        df_dvds = pd.read_csv('dvds.csv')
-        df_distribuidoras = pd.read_csv('distribuidoras_dvds.csv')
-
-        df_dvds.loc[df_dvds['distribuidora'] ==
-                    distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
-        df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
-                              distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
-
-        df_dvds.to_csv('dvds.csv', index=False)
-        df_distribuidoras.to_csv('distribuidoras_dvds.csv', index=False)
-
     def editar_cd(self, id, titulo, autor_artista_selecionado, novo_autor_artista, distribuidora_selecionada, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df_cds = pd.read_csv('cds.csv')
 
@@ -718,30 +737,6 @@ class db_manager:
 
         df_cds.to_csv('cds.csv', index=False)
 
-    def editar_autor_artista_cd(self, autor_artista_selecionado, novo_autor_artista):
-        df_cds = pd.read_csv('cds.csv')
-        df_autores_artistas = pd.read_csv('autores_artistas_cds.csv')
-
-        df_cds.loc[df_cds['artista_autor'] ==
-                   autor_artista_selecionado, 'artista_autor'] = novo_autor_artista
-        df_autores_artistas.loc[df_autores_artistas['autor_artista']
-                                == autor_artista_selecionado, 'autor_artista'] = novo_autor_artista
-
-        df_cds.to_csv('cds.csv', index=False)
-        df_autores_artistas.to_csv('autores_artistas_cds.csv', index=False)
-
-    def editar_distribuidora_cd(self, distribuidora_selecionada, nova_distribuidora):
-        df_cds = pd.read_csv('cds.csv')
-        df_distribuidoras = pd.read_csv('distribuidoras_cds.csv')
-
-        df_cds.loc[df_cds['distribuidora'] == distribuidora_selecionada,
-                   'distribuidora'] = nova_distribuidora
-        df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
-                              distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
-
-        df_cds.to_csv('cds.csv', index=False)
-        df_distribuidoras.to_csv('distribuidoras_cds.csv', index=False)
-
     def pesquisar_livro(self, entrada, campo_pesquisa):
         df = pd.read_csv('livros.csv')
 
@@ -763,45 +758,64 @@ class db_manager:
 
             return resultado
 
-        elif campo_pesquisa == 'Título (Disponível)':
+        elif campo_pesquisa == 'Título (Disponíveis)':
             resultado = df.loc[df['titulo'] == entrada].where(
                 df['situacao'] == 'Disponível').fillna('').values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Autor (Disponível)':
+        elif campo_pesquisa == 'Autor (Disponíveis)':
             resultado = df.loc[df['autor'] == entrada].where(
                 df['situacao'] == 'Disponível').fillna('').values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Editora (Disponível)':
+        elif campo_pesquisa == 'Editora (Disponíveis)':
             resultado = df.loc[df['editora'] == entrada].where(
                 df['situacao'] == 'Disponível').fillna('').values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Título (Emprestado)':
+        elif campo_pesquisa == 'Título (Emprestados)':
             resultado = df.loc[df['titulo'] == entrada].where(
-                df['situacao'] == 'Emprestado').fillna('').values.tolist()
+                df['situacao'] == 'Emprestado').dropna().values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Autor (Emprestado)':
+        elif campo_pesquisa == 'Autor (Emprestados)':
             resultado = df.loc[df['autor'] == entrada].where(
-                df['situaoca'] == 'Emprestado').fillna('').values.tolist()
+                df['situacao'] == 'Emprestado').dropna().values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Editora (Emprestado)':
+        elif campo_pesquisa == 'Editora (Emprestados)':
             resultado = df.loc[df['editora'] == entrada].where(
-                df['situacao'] == 'Emprestado').fillna('').values.tolist()
+                df['situacao'] == 'Emprestado').dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Título (Empréstimo Expirado)':
+            resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Autor (Empréstimo Expirado)':
+            resultado = df.loc[df['autor'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Editora (Empréstimo Expirado)':
+            resultado = df.loc[df['editora'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
         elif campo_pesquisa == 'Beneficiado':
-            resultado = df.loc[df['beneficiado'] ==
-                               entrada].fillna('').values.tolist()
+            resultado = df.loc[df['beneficiado'] == entrada].values.tolist()
+
+            return resultado
 
     def pesquisar_autor(self, entrada):
         df = pd.read_csv('autores_livros.csv')
@@ -820,42 +834,160 @@ class db_manager:
     def pesquisar_cd(self, entrada, campo_pesquisa):
         df = pd.read_csv('cds.csv')
 
-        if campo_pesquisa == 'Título':
+        if campo_pesquisa == 'Título (Todos)':
             resultado = df.loc[df['titulo'] ==
                                entrada].fillna('').values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Artista/Autor':
+        elif campo_pesquisa == 'Artista/Autor (Todos)':
             resultado = df.loc[df['artista_autor'] ==
                                entrada].fillna('').values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Distribuidora':
+        elif campo_pesquisa == 'Distribuidora (Todos)':
             resultado = df.loc[df['distribuidora'] ==
                                entrada].fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Título (Disponíveis)':
+            resultado = df.loc[df['titulo'] ==
+                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Artista/Autor (Disponíveis)':
+            resultado = df.loc[df['artista_autor'] ==
+                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Distribuidora (Disponíveis)':
+            resultado = df.loc[df['distribuidora'] ==
+                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Título (Emprestados)':
+            resultado = df.loc[df['titulo'] ==
+                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Artista/Autor (Emprestados)':
+            resultado = df.loc[df['artista_autor'] ==
+                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Distribuidora (Emprestados)':
+            resultado = df.loc[df['distribuidora'] ==
+                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Título (Empréstimo Expirado)':
+            resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Artista/Autor (Empréstimo Expirado)':
+            resultado = df.loc[df['artista_autor'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
+            resultado = df.loc[df['distribuidora'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Beneficiado':
+            resultado = df.loc[df['beneficiado'] == entrada].values.tolist()
 
             return resultado
 
     def pesquisar_dvd(self, entrada, campo_pesquisa):
         df = pd.read_csv('dvds.csv')
 
-        if campo_pesquisa == 'Título':
+        if campo_pesquisa == 'Título (Todos)':
             resultado = df.loc[df['titulo'] ==
                                entrada].fillna('').values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Diretor':
+        elif campo_pesquisa == 'Diretor (Todos)':
             resultado = df.loc[df['diretor'] ==
                                entrada].fillna('').values.tolist()
 
             return resultado
 
-        elif campo_pesquisa == 'Distribuidora':
+        elif campo_pesquisa == 'Distribuidora (Todos)':
             resultado = df.loc[df['distribuidora'] ==
                                entrada].fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Título (Disponíveis)':
+            resultado = df.loc[df['titulo'] ==
+                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Diretor (Disponíveis)':
+            resultado = df.loc[df['diretor'] ==
+                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Distribuidora (Disponíveis)':
+            resultado = df.loc[df['distribuidora'] ==
+                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Título (Emprestados)':
+            resultado = df.loc[df['titulo'] ==
+                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Diretor (Emprestados)':
+            resultado = df.loc[df['diretor'] ==
+                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Distribuidora (Emprestados)':
+            resultado = df.loc[df['distribuidora'] ==
+                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Título (Empréstimo Expirado)':
+            resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Diretor (Empréstimo Expirado)':
+            resultado = df.loc[df['diretor'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
+            resultado = df.loc[df['distribuidora'] == entrada].where(pd.to_datetime(
+                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+
+            return resultado
+
+        elif campo_pesquisa == 'Beneficiado':
+            resultado = df.loc[df['beneficiado'] == entrada].values.tolist()
 
             return resultado
 
