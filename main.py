@@ -1122,12 +1122,22 @@ def adicionar_registro():
         dt_emprestimo = data_emprestimo.get().strip()
         dt_devolucao = data_devolucao.get().strip()
 
-        if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_pages) == 0 or not n_pages.isdigit():
-            messagebox.showinfo('Valores inválidos',
-                                'Algum dos valores digitados está inválido!')
+        if situacao == 'Disponível':
+            if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_pages) == 0 or not n_pages.isdigit():
+                messagebox.showinfo('Valores inválidos',
+                                    'Algum dos valores digitados está inválido!')
+            else:
+                db.add_livro(titulo, autor, editora, n_pages, situacao,
+                             beneficiado, telefone, dt_emprestimo, dt_devolucao)
+
         else:
-            db.add_livro(titulo, autor, editora, n_pages, situacao,
-                         beneficiado, telefone, dt_emprestimo, dt_devolucao)
+            if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_pages) == 0 or not n_pages.isdigit() or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
+                messagebox.showinfo(
+                    'Valores inválidos', 'Algum dos valores digitados está inválido!')
+
+            else:
+                db.add_livro(titulo, autor, editora, n_pages, situacao,
+                             beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
             titulo_entry_registro_livro.delete(0, END)
             autor_entry_registro_livro.delete(0, END)
@@ -1189,32 +1199,44 @@ def adicionar_registro():
         dt_emprestimo = dt_emprestimo_dvd_registro.get().strip()
         dt_devolucao = dt_devolucao_dvd_registro.get().strip()
 
-        if (len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0):
-            messagebox.showinfo(
-                'Valor inválido', 'Algum dos valores digitados está em branco')
+        if situacao == 'Disponível':
+
+            if (len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0):
+                messagebox.showinfo(
+                    'Valor inválido', 'Algum dos valores digitados está em branco')
+
+            else:
+                db.add_dvd(titulo, diretor, distribuidora, tempo, situacao,
+                           beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
         else:
-            db.add_dvd(titulo, diretor, distribuidora, tempo, situacao,
-                       beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-            titulo_dvd_registro.delete(0, END)
-            diretor_dvd_registro.delete(0, END)
-            distribuidora_dvd_registro.delete(0, END)
-            tempo_dvd_registro.delete(0, END)
-            situacao_dvd_registro.current(0)
-            beneficiado_dvd_registro.delete(0, END)
-            beneficiado_dvd_registro.configure(state=DISABLED)
-            telefone_dvd_registro.delete(0, END)
-            telefone_dvd_registro.configure(state=DISABLED)
-            dt_emprestimo_dvd_registro.delete(0, END)
-            dt_emprestimo_dvd_registro.configure(state=DISABLED)
-            dt_devolucao_dvd_registro.delete(0, END)
-            dt_devolucao_dvd_registro.configure(state=DISABLED)
+            if len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0 or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
+                messagebox.showinfo(
+                    'Valor inváldio', 'Algum dos valores digitados está em branco')
 
-            atualiza_auto_completar()
+            else:
+                db.add_dvd(titulo, diretor, distribuidora, tempo, situacao,
+                           beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-            carrega_tabelas()
-            cancelar_registro()
+        titulo_dvd_registro.delete(0, END)
+        diretor_dvd_registro.delete(0, END)
+        distribuidora_dvd_registro.delete(0, END)
+        tempo_dvd_registro.delete(0, END)
+        situacao_dvd_registro.current(0)
+        beneficiado_dvd_registro.delete(0, END)
+        beneficiado_dvd_registro.configure(state=DISABLED)
+        telefone_dvd_registro.delete(0, END)
+        telefone_dvd_registro.configure(state=DISABLED)
+        dt_emprestimo_dvd_registro.delete(0, END)
+        dt_emprestimo_dvd_registro.configure(state=DISABLED)
+        dt_devolucao_dvd_registro.delete(0, END)
+        dt_devolucao_dvd_registro.configure(state=DISABLED)
+
+        atualiza_auto_completar()
+
+        carrega_tabelas()
+        cancelar_registro()
 
     elif drop_down_register.get() == 'CD':
         titulo = titulo_cd_registro.get().strip()
@@ -1227,32 +1249,43 @@ def adicionar_registro():
         dt_emprestimo = dt_emprestimo_cd_registro.get().strip()
         dt_devolucao = dt_devolucao_cd_registro.get().strip()
 
-        if (len(titulo) == 0 or len(artista_autor) == 0 or len(distribuidora) == 0 or len(tempo) == 0):
-            messagebox.showinfo(
-                'Valor inválido', 'Algum dos valores digitados está em branco')
+        if situacao == 'Disponível':
+
+            if (len(titulo) == 0 or len(artista_autor) == 0 or len(distribuidora) == 0 or len(tempo) == 0):
+                messagebox.showinfo(
+                    'Valor inválido', 'Algum dos valores digitados está em branco')
+
+            else:
+                db.add_cd(titulo, artista_autor, distribuidora, tempo, situacao,
+                          beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
         else:
-            db.add_cd(titulo, artista_autor, distribuidora, tempo, situacao,
-                      beneficiado, telefone, dt_emprestimo, dt_devolucao)
+            if len(titulo) == 0 or len(artista_autor) == 0 or len(distribuidora) == 0 or len(tempo) == 0 or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
+                messagebox.showinfo(
+                    'Valor inválido', 'Algum dos valores digitados está em branco')
 
-            titulo_cd_registro.delete(0, END)
-            artista_autor_cd_registro.delete(0, END)
-            distribuidora_cd_registro.delete(0, END)
-            tempo_cd_registro.delete(0, END)
-            situacao_cd_registro.current(0)
-            beneficiado_cd_registro.delete(0, END)
-            beneficiado_cd_registro.configure(state=DISABLED)
-            telefone_cd_registro.delete(0, END)
-            telefone_cd_registro.configure(state=DISABLED)
-            dt_emprestimo_cd_registro.delete(0, END)
-            dt_emprestimo_cd_registro.configure(state=DISABLED)
-            dt_devolucao_cd_registro.delete(0, END)
-            dt_devolucao_cd_registro.configure(state=DISABLED)
+            else:
+                db.add_cd(titulo, artista_autor, distribuidora, tempo, situacao,
+                          beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-            atualiza_auto_completar()
+        titulo_cd_registro.delete(0, END)
+        artista_autor_cd_registro.delete(0, END)
+        distribuidora_cd_registro.delete(0, END)
+        tempo_cd_registro.delete(0, END)
+        situacao_cd_registro.current(0)
+        beneficiado_cd_registro.delete(0, END)
+        beneficiado_cd_registro.configure(state=DISABLED)
+        telefone_cd_registro.delete(0, END)
+        telefone_cd_registro.configure(state=DISABLED)
+        dt_emprestimo_cd_registro.delete(0, END)
+        dt_emprestimo_cd_registro.configure(state=DISABLED)
+        dt_devolucao_cd_registro.delete(0, END)
+        dt_devolucao_cd_registro.configure(state=DISABLED)
 
-            carrega_tabelas()
-            cancelar_registro()
+        atualiza_auto_completar()
+
+        carrega_tabelas()
+        cancelar_registro()
 
     elif drop_down_register.get() == 'Autor/Artista CD':
         nome_autor_artista = nome_autor_artista_registro.get().strip()
@@ -1364,9 +1397,11 @@ def selecionar_livro(event):
 
             dt_emprestimo_livro_editar_excluir.configure(state=NORMAL)
             dt_emprestimo_livro_editar_excluir.insert(0, livro_selecionado[8])
+            dt_emprestimo_livro_editar_excluir.configure(state='readonly')
 
             dt_devolucao_livro_editar_excluir.configure(state=NORMAL)
             dt_devolucao_livro_editar_excluir.insert(0, livro_selecionado[9])
+            dt_devolucao_livro_editar_excluir.configure(state='readonly')
 
         pesquisa_livro.pack_forget()
 
@@ -1508,9 +1543,11 @@ def selecionar_dvd(event):
 
             dt_emprestimo_editar_excluir_dvd.configure(state=NORMAL)
             dt_emprestimo_editar_excluir_dvd.insert(0, dvd_selecionado[8])
+            dt_emprestimo_editar_excluir_dvd.configure(state='readonly')
 
             dt_devolucao_editar_excluir_dvd.configure(state=NORMAL)
             dt_devolucao_editar_excluir_dvd.insert(0, dvd_selecionado[9])
+            dt_devolucao_editar_excluir_dvd.configure(state='readonly')
 
         pesquisa_dvd.pack_forget()
 
@@ -1573,9 +1610,11 @@ def selecionar_cd(event):
 
             dt_emprestimo_cd_editar_excluir.configure(state=NORMAL)
             dt_emprestimo_cd_editar_excluir.insert(0, cd_selecionado[8])
+            dt_emprestimo_cd_editar_excluir.configure(state='readonly')
 
             dt_devolucao_cd_editar_excluir.configure(state=NORMAL)
             dt_devolucao_cd_editar_excluir.insert(0, cd_selecionado[9])
+            dt_devolucao_cd_editar_excluir.configure(state='readonly')
 
         pesquisa_cd.pack_forget()
         tabela_cds.pack_forget()
@@ -1751,32 +1790,61 @@ def editar_livro():
     autor_livro_selecionado = livro_selecionado[2]
     editora_livro_selecionado = livro_selecionado[3]
 
-    if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_paginas) == 0 or not n_paginas.isdigit():
-        messagebox.showinfo(
-            'Valores inválidos', 'Algum dos valores digitados é um valor inválido ou está em branco')
+    if situacao == 'Disponível':
 
+        if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_paginas) == 0 or not n_paginas.isdigit():
+            messagebox.showinfo(
+                'Valores inválidos', 'Algum dos valores digitados é um valor inválido ou está em branco')
+
+        else:
+
+            db.editar_livro(
+                id_livro_selecionado,
+                titulo,
+                autor_livro_selecionado,
+                autor,
+                editora_livro_selecionado,
+                editora,
+                n_paginas,
+                situacao,
+                beneficiado,
+                telefone,
+                dt_emprestimo,
+                dt_devolucao
+            )
+
+            atualiza_auto_completar()
+
+            cancelar_edicao_livro()
+
+            carrega_tabelas()
     else:
 
-        db.editar_livro(
-            id_livro_selecionado,
-            titulo,
-            autor_livro_selecionado,
-            autor,
-            editora_livro_selecionado,
-            editora,
-            n_paginas,
-            situacao,
-            beneficiado,
-            telefone,
-            dt_emprestimo,
-            dt_devolucao
-        )
+        if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_paginas) == 0 or not n_paginas.isdigit() or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
+            messagebox.showinfo(
+                'Valores inválidos', 'Algum dos valores digitados é um valor inválido ou está em branco')
 
-        atualiza_auto_completar()
+        else:
+            db.editar_livro(
+                id_livro_selecionado,
+                titulo,
+                autor_livro_selecionado,
+                autor,
+                editora_livro_selecionado,
+                editora,
+                n_paginas,
+                situacao,
+                beneficiado,
+                telefone,
+                dt_emprestimo,
+                dt_devolucao
+            )
 
-        cancelar_edicao_livro()
+            atualiza_auto_completar()
 
-        carrega_tabelas()
+            cancelar_edicao_livro()
+
+            carrega_tabelas()
 
 
 def cancelar_edicao_livro():
@@ -2021,31 +2089,59 @@ def editar_dvd():
     dt_emprestimo = dt_emprestimo_editar_excluir_dvd.get()
     dt_devolucao = dt_devolucao_editar_excluir_dvd.get()
 
-    if len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0:
-        messagebox.showinfo('Valores inválidos',
-                            'Algum dos valores digitados pode estar em branco')
+    if situacao == 'Disponível':
 
+        if len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0:
+            messagebox.showinfo('Valores inválidos',
+                                'Algum dos valores digitados pode estar em branco')
+
+        else:
+            db.editar_dvd(
+                id_dvd_selecionado,
+                titulo,
+                diretor_dvd_selecionado,
+                diretor,
+                distribuidora_dvd_selecionado,
+                distribuidora,
+                tempo,
+                situacao,
+                beneficiado,
+                telefone,
+                dt_emprestimo,
+                dt_devolucao
+            )
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+
+            cancelar_edicao_dvd()
     else:
-        db.editar_dvd(
-            id_dvd_selecionado,
-            titulo,
-            diretor_dvd_selecionado,
-            diretor,
-            distribuidora_dvd_selecionado,
-            distribuidora,
-            tempo,
-            situacao,
-            beneficiado,
-            telefone,
-            dt_emprestimo,
-            dt_devolucao
-        )
 
-        atualiza_auto_completar()
+        if len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0 or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
+            messagebox.showinfo(
+                'Valores inválidos', 'Algum dos valores digitados pode estar em branco')
 
-        carrega_tabelas()
+        else:
+            db.editar_dvd(
+                id_dvd_selecionado,
+                titulo,
+                diretor_dvd_selecionado,
+                diretor,
+                distribuidora_dvd_selecionado,
+                distribuidora,
+                tempo,
+                situacao,
+                beneficiado,
+                telefone,
+                dt_emprestimo,
+                dt_devolucao
+            )
 
-        cancelar_edicao_dvd()
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+
+            cancelar_edicao_dvd()
 
 
 def excluir_dvd():
@@ -2135,31 +2231,59 @@ def editar_cd():
     dt_emprestimo = dt_emprestimo_cd_editar_excluir.get().strip()
     dt_devolucao = dt_devolucao_cd_editar_excluir.get().strip()
 
-    if len(titulo) == 0 or len(autor_artista) == 0 or len(distribuidora) == 0 or len(tempo) == 0:
-        messagebox.showinfo('Valores inválidos',
-                            'Algum dos valores digitados está vazio')
+    if situacao == 'Disponível':
 
+        if len(titulo) == 0 or len(autor_artista) == 0 or len(distribuidora) == 0 or len(tempo) == 0:
+            messagebox.showinfo('Valores inválidos',
+                                'Algum dos valores digitados está vazio')
+
+        else:
+            db.editar_cd(
+                id_cd_selecionado,
+                titulo,
+                autor_artista_cd_selecionado,
+                autor_artista,
+                distribuidora_cd_selecionado,
+                distribuidora,
+                tempo,
+                situacao,
+                beneficiado,
+                telefone,
+                dt_emprestimo,
+                dt_devolucao
+            )
+
+            atualiza_auto_completar()
+
+            carrega_tabelas()
+
+            cancelar_edicao_cd()
     else:
-        db.editar_cd(
-            id_cd_selecionado,
-            titulo,
-            autor_artista_cd_selecionado,
-            autor_artista,
-            distribuidora_cd_selecionado,
-            distribuidora,
-            tempo,
-            situacao,
-            beneficiado,
-            telefone,
-            dt_emprestimo,
-            dt_devolucao
-        )
+        if len(titulo) == 0 or len(autor_artista) == 0 or len(distribuidora) == 0 or len(tempo) == 0 or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
+            messagebox.showinfo('Valores inválidos',
+                                'Algum dos valores digitados está vazio')
 
-        atualiza_auto_completar()
+        else:
+            db.editar_cd(
+                id_cd_selecionado,
+                titulo,
+                autor_artista_cd_selecionado,
+                autor_artista,
+                distribuidora_cd_selecionado,
+                distribuidora,
+                tempo,
+                situacao,
+                beneficiado,
+                telefone,
+                dt_emprestimo,
+                dt_devolucao
+            )
 
-        carrega_tabelas()
+            atualiza_auto_completar()
 
-        cancelar_edicao_cd()
+            carrega_tabelas()
+
+            cancelar_edicao_cd()
 
 
 def excluir_cd():
@@ -2598,16 +2722,83 @@ def muda_opcao_pesquisa_livro(e):
         entrada_pesquisa_livro['completevalues'] = db.titulos_livros_emprestimo_expirado(
         )
 
+        set_emprestimos_expirados_livros()
+
     elif opcao_pesquisa_livro.get() == 'Autor (Empréstimo Expirado)':
         entrada_pesquisa_livro['completevalues'] = db.autores_livros_emprestimo_expirado(
         )
+
+        set_emprestimos_expirados_livros()
 
     elif opcao_pesquisa_livro.get() == 'Editora (Empréstimo Expirado)':
         entrada_pesquisa_livro['completevalues'] = db.editoras_livros_emprestimo_expirado(
         )
 
+        set_emprestimos_expirados_livros()
+
     elif opcao_pesquisa_livro.get() == 'Beneficiado':
         entrada_pesquisa_livro['completevalues'] = db.beneficiados_livros()
+
+
+def set_emprestimos_expirados_livros():
+    livros = db.get_livros_emprestimos_expirados()
+
+    for livro in tabela_livros.get_children():
+        tabela_livros.delete(livro)
+
+    count = 0
+
+    for livro in livros:
+        id = livro[0]
+        titulo = livro[1]
+        autor = livro[2]
+        editora = livro[3]
+        n_pag = livro[4]
+        situacao = livro[5]
+        beneficiado = livro[6]
+        telefone = livro[7]
+        dt_emprestimo = livro[8]
+        dt_devolucao = livro[9]
+
+        if count % 2 == 0:
+            tabela_livros.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    autor,
+                    editora,
+                    n_pag,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_livros.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    autor,
+                    editora,
+                    n_pag,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
 
 
 def muda_opcao_pesquisa_cd(e):
@@ -2646,16 +2837,81 @@ def muda_opcao_pesquisa_cd(e):
         entrada_pesquisa_cd['completevalues'] = db.titulos_cds_emprestimo_expirado(
         )
 
+        set_emprestimos_expirados_cds()
+
     elif opcao_pesquisa_cd.get() == 'Artista/Autor (Empréstimo Expirado)':
         entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_emprestimo_expirado(
         )
+        set_emprestimos_expirados_cds()
 
     elif opcao_pesquisa_cd.get() == 'Distribuidoras (Empréstimo Expirado)':
         entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_emprestimo_expirado(
         )
+        set_emprestimos_expirados_cds()
 
     elif opcao_pesquisa_cd.get() == 'Beneficiado':
         entrada_pesquisa_cd['completevalues'] = db.beneficiados_cds()
+
+
+def set_emprestimos_expirados_cds():
+    cds = db.get_cds_emprestimos_expirados()
+
+    for cd in tabela_cds.get_children():
+        tabela_cds.delete(cd)
+
+    count = 0
+
+    for cd in cds:
+        id = cds[0]
+        titulo = cds[1]
+        artista_autor = cds[2]
+        distribuidora = cds[3]
+        tempo = cds[4]
+        situacao = cds[5]
+        beneficiado = cds[6]
+        telefone = cds[7]
+        dt_emprestimo = cds[8]
+        dt_devolucao = cds[9]
+
+        if count % 2 == 0:
+            tabela_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    artista_autor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_cds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    artista_autor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
 
 
 def muda_opcao_pesquisa_dvd(e):
@@ -2691,17 +2947,81 @@ def muda_opcao_pesquisa_dvd(e):
     elif opcao_pesquisa_dvd.get() == 'Título (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_emprestimo_expirado(
         )
+        set_emprestimos_expirados_dvds()
 
     elif opcao_pesquisa_dvd.get() == 'Diretor (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_emprestimo_expirado(
         )
+        set_emprestimos_expirados_dvds()
 
     elif opcao_pesquisa_dvd.get() == 'Distribuidora (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_emprestimo_expirado(
         )
+        set_emprestimos_expirados_dvds()
 
     elif opcao_pesquisa_dvd.get() == 'Beneficiado':
         entrada_pesquisa_dvd['completevalues'] = db.beneficiados_dvds()
+
+
+def set_emprestimos_expirados_dvds():
+    dvds = db.get_dvds_emprestimos_expirados()
+
+    for dvd in tabela_dvds.get_children():
+        tabela_dvds.delete(dvd)
+
+    count = 0
+
+    for dvd in dvds:
+        id = dvd[0]
+        titulo = dvd[1]
+        diretor = dvd[2]
+        distribuidora = dvd[3]
+        tempo = dvd[4]
+        situacao = dvd[5]
+        beneficiado = dvd[6]
+        telefone = dvd[7]
+        dt_emprestimo = dvd[8]
+        dt_devolucao = dvd[9]
+
+        if count % 2 == 0:
+            tabela_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    diretor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('evenrow',)
+            )
+
+        else:
+            tabela_dvds.insert(
+                '',
+                END,
+                values=(
+                    id,
+                    titulo,
+                    diretor,
+                    distribuidora,
+                    tempo,
+                    situacao,
+                    beneficiado,
+                    telefone,
+                    dt_emprestimo,
+                    dt_devolucao
+                ),
+                tags=('oddrow',)
+            )
+
+        count += 1
 
 
 def pesquisar_livros():
@@ -3103,7 +3423,10 @@ def situacao_livro_on_click(e):
     if situacao_livro.get() == 'Disponível':
         beneficiado_livro.delete(0, END)
         telefone_contato.delete(0, END)
+
+        data_emprestimo.configure(state=NORMAL)
         data_emprestimo.delete(0, END)
+        data_devolucao.configure(state=NORMAL)
         data_devolucao.delete(0, END)
 
         beneficiado_livro.configure(state=DISABLED)
@@ -3114,15 +3437,18 @@ def situacao_livro_on_click(e):
     else:
         beneficiado_livro.configure(state=NORMAL)
         telefone_contato.configure(state=NORMAL)
-        data_emprestimo.configure(state=NORMAL)
-        data_devolucao.configure(state=NORMAL)
+        data_emprestimo.configure(state='readonly')
+        data_devolucao.configure(state='readonly')
 
 
 def situacao_livro_editar_excluir_on_click(e):
     if situacao_livro_editar_excluir.get() == 'Disponível':
         beneficiado_livro_editar_excluir.delete(0, END)
         telefone_contato_editar_excluir_livro.delete(0, END)
+
+        dt_emprestimo_livro_editar_excluir.configure(state=NORMAL)
         dt_emprestimo_livro_editar_excluir.delete(0, END)
+        dt_devolucao_livro_editar_excluir.configure(state=NORMAL)
         dt_devolucao_livro_editar_excluir.delete(0, END)
 
         beneficiado_livro_editar_excluir.configure(state=DISABLED)
@@ -3133,15 +3459,18 @@ def situacao_livro_editar_excluir_on_click(e):
     else:
         beneficiado_livro_editar_excluir.configure(state=NORMAL)
         telefone_contato_editar_excluir_livro.configure(state=NORMAL)
-        dt_emprestimo_livro_editar_excluir.configure(state=NORMAL)
-        dt_devolucao_livro_editar_excluir.configure(state=NORMAL)
+        dt_emprestimo_livro_editar_excluir.configure(state='readonly')
+        dt_devolucao_livro_editar_excluir.configure(state='readonly')
 
 
 def situacao_dvd_on_click(e):
     if situacao_dvd_registro.get() == 'Disponível':
         beneficiado_dvd_registro.delete(0, END)
         telefone_dvd_registro.delete(0, END)
+
+        dt_emprestimo_dvd_registro.configure(state=NORMAL)
         dt_emprestimo_dvd_registro.delete(0, END)
+        dt_devolucao_dvd_registro.configure(state=NORMAL)
         dt_devolucao_dvd_registro.delete(0, END)
 
         beneficiado_dvd_registro.configure(state=DISABLED)
@@ -3152,15 +3481,18 @@ def situacao_dvd_on_click(e):
     else:
         beneficiado_dvd_registro.configure(state=NORMAL)
         telefone_dvd_registro.configure(state=NORMAL)
-        dt_emprestimo_dvd_registro.configure(state=NORMAL)
-        dt_devolucao_dvd_registro.configure(state=NORMAL)
+        dt_emprestimo_dvd_registro.configure(state='readonly')
+        dt_devolucao_dvd_registro.configure(state='readonly')
 
 
 def situacao_dvd_editar_excluir_on_click(e):
     if situacao_editar_excluir_dvd.get() == 'Disponível':
         beneficiado_editar_excluir_dvd.delete(0, END)
         telefone_editar_excluir_dvd.delete(0, END)
+
+        dt_emprestimo_editar_excluir_dvd.configure(state=NORMAL)
         dt_emprestimo_editar_excluir_dvd.delete(0, END)
+        dt_devolucao_editar_excluir_dvd.configure(state=NORMAL)
         dt_devolucao_editar_excluir_dvd.delete(0, END)
 
         beneficiado_editar_excluir_dvd.configure(state=DISABLED)
@@ -3171,15 +3503,18 @@ def situacao_dvd_editar_excluir_on_click(e):
     else:
         beneficiado_editar_excluir_dvd.configure(state=NORMAL)
         telefone_editar_excluir_dvd.configure(state=NORMAL)
-        dt_emprestimo_editar_excluir_dvd.configure(state=NORMAL)
-        dt_devolucao_editar_excluir_dvd.configure(state=NORMAL)
+        dt_emprestimo_editar_excluir_dvd.configure(state='readonly')
+        dt_devolucao_editar_excluir_dvd.configure(state='readonly')
 
 
 def situacao_cd_on_click(e):
     if situacao_cd_registro.get() == 'Disponível':
         beneficiado_cd_registro.delete(0, END)
         telefone_cd_registro.delete(0, END)
+
+        dt_emprestimo_cd_registro.configure(state=NORMAL)
         dt_emprestimo_cd_registro.delete(0, END)
+        dt_emprestimo_cd_registro.configure(state=NORMAL)
         dt_devolucao_cd_registro.delete(0, END)
 
         beneficiado_cd_registro.configure(state=DISABLED)
@@ -3190,15 +3525,18 @@ def situacao_cd_on_click(e):
     else:
         beneficiado_cd_registro.configure(state=NORMAL)
         telefone_cd_registro.configure(state=NORMAL)
-        dt_emprestimo_cd_registro.configure(state=NORMAL)
-        dt_devolucao_cd_registro.configure(state=NORMAL)
+        dt_emprestimo_cd_registro.configure(state='readonly')
+        dt_devolucao_cd_registro.configure(state='readonly')
 
 
 def situacao_cd_editar_excluir_on_click(e):
     if situacao_cd_editar_excluir.get() == 'Disponível':
         beneficiado_cd_editar_excluir.delete(0, END)
         telefone_cd_editar_excluir.delete(0, END)
+
+        dt_emprestimo_cd_editar_excluir.configure(state=NORMAL)
         dt_emprestimo_cd_editar_excluir.delete(0, END)
+        dt_devolucao_cd_editar_excluir.configure(state=NORMAL)
         dt_devolucao_cd_editar_excluir.delete(0, END)
 
         beneficiado_cd_editar_excluir.configure(state=DISABLED)
@@ -3209,8 +3547,8 @@ def situacao_cd_editar_excluir_on_click(e):
     else:
         beneficiado_cd_editar_excluir.configure(state=NORMAL)
         telefone_cd_editar_excluir.configure(state=NORMAL)
-        dt_emprestimo_cd_editar_excluir.configure(state=NORMAL)
-        dt_devolucao_cd_editar_excluir.configure(state=NORMAL)
+        dt_emprestimo_cd_editar_excluir.configure(state='readonly')
+        dt_devolucao_cd_editar_excluir.configure(state='readonly')
 
 
 root = Tk()
@@ -5321,7 +5659,7 @@ Label(
     text='Situação',
     font='Arial 12'
 ).grid(
-    row=3,
+    row=4,
     column=0,
     padx=10,
     pady=10,
@@ -5341,7 +5679,7 @@ situacao_editar_excluir_dvd.current(0)
 situacao_editar_excluir_dvd.bind(
     '<<ComboboxSelected>>', situacao_dvd_editar_excluir_on_click)
 situacao_editar_excluir_dvd.grid(
-    row=3,
+    row=4,
     column=1,
     padx=10,
     pady=10,
@@ -5353,7 +5691,7 @@ Label(
     text='Beneficiado',
     font='Arial 12'
 ).grid(
-    row=4,
+    row=5,
     column=0,
     padx=10,
     pady=10,
@@ -5366,7 +5704,7 @@ beneficiado_editar_excluir_dvd = Entry(
     state=DISABLED
 )
 beneficiado_editar_excluir_dvd.grid(
-    row=4,
+    row=5,
     column=1,
     padx=10,
     pady=10,
@@ -5378,7 +5716,7 @@ Label(
     text='Telefone',
     font='Arial 12'
 ).grid(
-    row=5,
+    row=6,
     column=0,
     padx=10,
     pady=10,
@@ -5390,7 +5728,7 @@ telefone_editar_excluir_dvd = Entry(
     font='Arial 12'
 )
 telefone_editar_excluir_dvd.grid(
-    row=5,
+    row=6,
     column=1,
     padx=10,
     pady=10,
@@ -5402,7 +5740,7 @@ Label(
     text='Data de Empréstimo',
     font='Arial 12'
 ).grid(
-    row=6,
+    row=7,
     column=0,
     padx=10,
     pady=10,
@@ -5417,7 +5755,7 @@ dt_emprestimo_editar_excluir_dvd = DateEntry(
     state=DISABLED
 )
 dt_emprestimo_editar_excluir_dvd.grid(
-    row=6,
+    row=7,
     column=1,
     padx=10,
     pady=10,
@@ -5429,7 +5767,7 @@ Label(
     text='Data de devolução',
     font='Arial 12'
 ).grid(
-    row=7,
+    row=8,
     column=0,
     padx=10,
     pady=10,
@@ -5444,7 +5782,7 @@ dt_devolucao_editar_excluir_dvd = DateEntry(
     state=DISABLED
 )
 dt_devolucao_editar_excluir_dvd.grid(
-    row=7,
+    row=8,
     column=1,
     padx=10,
     pady=10,

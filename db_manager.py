@@ -1021,3 +1021,27 @@ class db_manager:
                            entrada].fillna('').values.tolist()
 
         return resultado
+
+    def get_livros_emprestimos_expirados(self):
+        df = pd.read_csv('livros.csv')
+
+        livros = df.where(pd.to_datetime(df['dt_devolucao'].dropna(
+        )).dt.date < date.today()).dropna(axis=0, how='all').values.tolist()
+
+        return livros
+
+    def get_cds_emprestimos_expirados(self):
+        df = pd.read_csv('cds.csv')
+
+        cds = df.where(pd.to_datetime(df['dt_devolucao'].dropna(
+        )).dt.date < date.today()).dropna(axis=0, how='all').values.tolist()
+
+        return cds
+
+    def get_dvds_emprestimos_expirados(self):
+        df = pd.read_csv('dvds.csv')
+
+        dvds = df.where(pd.to_datetime(df['dt_devolucao'].dropna(
+        )).dt.date < date.today()).dropna(axis=0, how='all').values.tolist()
+
+        return dvds
