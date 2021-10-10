@@ -1130,6 +1130,27 @@ def adicionar_registro():
                 db.add_livro(titulo, autor, editora, n_pages, situacao,
                              beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
+                titulo_entry_registro_livro.delete(0, END)
+                autor_entry_registro_livro.delete(0, END)
+                editora_entry_registro_livro.delete(0, END)
+                n_pages_entry_registro_livro.delete(0, END)
+                situacao_livro.current(0)
+                beneficiado_livro.delete(0, END)
+                beneficiado_livro.configure(state=DISABLED)
+                telefone_contato.delete(0, END)
+                telefone_contato.configure(state=DISABLED)
+                data_emprestimo.configure(state=NORMAL)
+                data_emprestimo.delete(0, END)
+                data_emprestimo.configure(state=DISABLED)
+                data_devolucao.configure(state=NORMAL)
+                data_devolucao.delete(0, END)
+                data_devolucao.configure(state=DISABLED)
+
+                atualiza_auto_completar()
+
+                carrega_tabelas()
+                cancelar_registro()
+
         else:
             if len(titulo) == 0 or len(autor) == 0 or len(editora) == 0 or len(n_pages) == 0 or not n_pages.isdigit() or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
                 messagebox.showinfo(
@@ -1139,24 +1160,26 @@ def adicionar_registro():
                 db.add_livro(titulo, autor, editora, n_pages, situacao,
                              beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-            titulo_entry_registro_livro.delete(0, END)
-            autor_entry_registro_livro.delete(0, END)
-            editora_entry_registro_livro.delete(0, END)
-            n_pages_entry_registro_livro.delete(0, END)
-            situacao_livro.current(0)
-            beneficiado_livro.delete(0, END)
-            beneficiado_livro.configure(state=DISABLED)
-            telefone_contato.delete(0, END)
-            telefone_contato.configure(state=DISABLED)
-            data_emprestimo.delete(0, END)
-            data_emprestimo.configure(state=DISABLED)
-            data_devolucao.delete(0, END)
-            data_devolucao.configure(state=DISABLED)
+                titulo_entry_registro_livro.delete(0, END)
+                autor_entry_registro_livro.delete(0, END)
+                editora_entry_registro_livro.delete(0, END)
+                n_pages_entry_registro_livro.delete(0, END)
+                situacao_livro.current(0)
+                beneficiado_livro.delete(0, END)
+                beneficiado_livro.configure(state=DISABLED)
+                telefone_contato.delete(0, END)
+                telefone_contato.configure(state=DISABLED)
+                data_emprestimo.configure(state=NORMAL)
+                data_emprestimo.delete(0, END)
+                data_emprestimo.configure(state=DISABLED)
+                data_devolucao.configure(state=NORMAL)
+                data_devolucao.delete(0, END)
+                data_devolucao.configure(state=DISABLED)
 
-            atualiza_auto_completar()
+                atualiza_auto_completar()
 
-            carrega_tabelas()
-            cancelar_registro()
+                carrega_tabelas()
+                cancelar_registro()
 
     elif drop_down_register.get() == 'Autor':
         autor = autor_entry_registro_autor.get().strip()
@@ -1209,6 +1232,27 @@ def adicionar_registro():
                 db.add_dvd(titulo, diretor, distribuidora, tempo, situacao,
                            beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
+                titulo_dvd_registro.delete(0, END)
+                diretor_dvd_registro.delete(0, END)
+                distribuidora_dvd_registro.delete(0, END)
+                tempo_dvd_registro.delete(0, END)
+                situacao_dvd_registro.current(0)
+                beneficiado_dvd_registro.delete(0, END)
+                beneficiado_dvd_registro.configure(state=DISABLED)
+                telefone_dvd_registro.delete(0, END)
+                telefone_dvd_registro.configure(state=DISABLED)
+                dt_emprestimo_dvd_registro.configure(state=NORMAL)
+                dt_emprestimo_dvd_registro.delete(0, END)
+                dt_emprestimo_dvd_registro.configure(state=DISABLED)
+                dt_devolucao_dvd_registro.configure(state=NORMAL)
+                dt_devolucao_dvd_registro.delete(0, END)
+                dt_devolucao_dvd_registro.configure(state=DISABLED)
+
+                atualiza_auto_completar()
+
+                carrega_tabelas()
+                cancelar_registro()
+
         else:
 
             if len(titulo) == 0 or len(diretor) == 0 or len(distribuidora) == 0 or len(tempo) == 0 or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
@@ -1219,24 +1263,26 @@ def adicionar_registro():
                 db.add_dvd(titulo, diretor, distribuidora, tempo, situacao,
                            beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-        titulo_dvd_registro.delete(0, END)
-        diretor_dvd_registro.delete(0, END)
-        distribuidora_dvd_registro.delete(0, END)
-        tempo_dvd_registro.delete(0, END)
-        situacao_dvd_registro.current(0)
-        beneficiado_dvd_registro.delete(0, END)
-        beneficiado_dvd_registro.configure(state=DISABLED)
-        telefone_dvd_registro.delete(0, END)
-        telefone_dvd_registro.configure(state=DISABLED)
-        dt_emprestimo_dvd_registro.delete(0, END)
-        dt_emprestimo_dvd_registro.configure(state=DISABLED)
-        dt_devolucao_dvd_registro.delete(0, END)
-        dt_devolucao_dvd_registro.configure(state=DISABLED)
+                titulo_dvd_registro.delete(0, END)
+                diretor_dvd_registro.delete(0, END)
+                distribuidora_dvd_registro.delete(0, END)
+                tempo_dvd_registro.delete(0, END)
+                situacao_dvd_registro.current(0)
+                beneficiado_dvd_registro.delete(0, END)
+                beneficiado_dvd_registro.configure(state=DISABLED)
+                telefone_dvd_registro.delete(0, END)
+                telefone_dvd_registro.configure(state=DISABLED)
+                dt_emprestimo_dvd_registro.configure(state=NORMAL)
+                dt_emprestimo_dvd_registro.delete(0, END)
+                dt_emprestimo_dvd_registro.configure(state=DISABLED)
+                dt_devolucao_dvd_registro.configure(state=NORMAL)
+                dt_devolucao_dvd_registro.delete(0, END)
+                dt_devolucao_dvd_registro.configure(state=DISABLED)
 
-        atualiza_auto_completar()
+                atualiza_auto_completar()
 
-        carrega_tabelas()
-        cancelar_registro()
+                carrega_tabelas()
+                cancelar_registro()
 
     elif drop_down_register.get() == 'CD':
         titulo = titulo_cd_registro.get().strip()
@@ -1259,6 +1305,27 @@ def adicionar_registro():
                 db.add_cd(titulo, artista_autor, distribuidora, tempo, situacao,
                           beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
+                titulo_cd_registro.delete(0, END)
+                artista_autor_cd_registro.delete(0, END)
+                distribuidora_cd_registro.delete(0, END)
+                tempo_cd_registro.delete(0, END)
+                situacao_cd_registro.current(0)
+                beneficiado_cd_registro.delete(0, END)
+                beneficiado_cd_registro.configure(state=DISABLED)
+                telefone_cd_registro.delete(0, END)
+                telefone_cd_registro.configure(state=DISABLED)
+                dt_emprestimo_cd_registro.configure(state=NORMAL)
+                dt_emprestimo_cd_registro.delete(0, END)
+                dt_emprestimo_cd_registro.configure(state=DISABLED)
+                dt_devolucao_cd_registro.configure(state=NORMAL)
+                dt_devolucao_cd_registro.delete(0, END)
+                dt_devolucao_cd_registro.configure(state=DISABLED)
+
+                atualiza_auto_completar()
+
+                carrega_tabelas()
+                cancelar_registro()
+
         else:
             if len(titulo) == 0 or len(artista_autor) == 0 or len(distribuidora) == 0 or len(tempo) == 0 or len(beneficiado) == 0 or len(telefone) == 0 or len(dt_emprestimo) == 0 or len(dt_devolucao) == 0:
                 messagebox.showinfo(
@@ -1268,24 +1335,26 @@ def adicionar_registro():
                 db.add_cd(titulo, artista_autor, distribuidora, tempo, situacao,
                           beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-        titulo_cd_registro.delete(0, END)
-        artista_autor_cd_registro.delete(0, END)
-        distribuidora_cd_registro.delete(0, END)
-        tempo_cd_registro.delete(0, END)
-        situacao_cd_registro.current(0)
-        beneficiado_cd_registro.delete(0, END)
-        beneficiado_cd_registro.configure(state=DISABLED)
-        telefone_cd_registro.delete(0, END)
-        telefone_cd_registro.configure(state=DISABLED)
-        dt_emprestimo_cd_registro.delete(0, END)
-        dt_emprestimo_cd_registro.configure(state=DISABLED)
-        dt_devolucao_cd_registro.delete(0, END)
-        dt_devolucao_cd_registro.configure(state=DISABLED)
+                titulo_cd_registro.delete(0, END)
+                artista_autor_cd_registro.delete(0, END)
+                distribuidora_cd_registro.delete(0, END)
+                tempo_cd_registro.delete(0, END)
+                situacao_cd_registro.current(0)
+                beneficiado_cd_registro.delete(0, END)
+                beneficiado_cd_registro.configure(state=DISABLED)
+                telefone_cd_registro.delete(0, END)
+                telefone_cd_registro.configure(state=DISABLED)
+                dt_emprestimo_cd_registro.configure(state=NORMAL)
+                dt_emprestimo_cd_registro.delete(0, END)
+                dt_emprestimo_cd_registro.configure(state=DISABLED)
+                dt_devolucao_cd_registro.configure(state=NORMAL)
+                dt_devolucao_cd_registro.delete(0, END)
+                dt_devolucao_cd_registro.configure(state=DISABLED)
 
-        atualiza_auto_completar()
+                atualiza_auto_completar()
 
-        carrega_tabelas()
-        cancelar_registro()
+                carrega_tabelas()
+                cancelar_registro()
 
     elif drop_down_register.get() == 'Autor/Artista CD':
         nome_autor_artista = nome_autor_artista_registro.get().strip()
@@ -1371,8 +1440,12 @@ def selecionar_livro(event):
         n_pages_entry_editar_excluir_livro.delete(0, END)
         beneficiado_livro_editar_excluir.delete(0, END)
         telefone_contato_editar_excluir_livro.delete(0, END)
+        dt_emprestimo_livro_editar_excluir.configure(state=NORMAL)
         dt_emprestimo_livro_editar_excluir.delete(0, END)
+        dt_emprestimo_livro_editar_excluir.configure(state=DISABLED)
+        dt_devolucao_livro_editar_excluir.configure(state=NORMAL)
         dt_devolucao_livro_editar_excluir.delete(0, END)
+        dt_devolucao_livro_editar_excluir.configure(state=DISABLED)
 
         titulo_entry_editar_excluir_livro.insert(0, livro_selecionado[1])
         autor_entry_editar_excluir_livro.insert(0, livro_selecionado[2])
@@ -1518,8 +1591,12 @@ def selecionar_dvd(event):
         tempo_editar_excluir_dvd.delete(0, END)
         beneficiado_editar_excluir_dvd.delete(0, END)
         telefone_editar_excluir_dvd.delete(0, END)
+        dt_emprestimo_editar_excluir_dvd.configure(state=NORMAL)
         dt_emprestimo_editar_excluir_dvd.delete(0, END)
+        dt_emprestimo_editar_excluir_dvd.configure(state=DISABLED)
+        dt_devolucao_editar_excluir_dvd.configure(state=NORMAL)
         dt_devolucao_editar_excluir_dvd.delete(0, END)
+        dt_devolucao_editar_excluir_dvd.configure(state=DISABLED)
 
         titulo_editar_excluir_dvd.insert(0, dvd_selecionado[1])
         diretor_editar_excluir_dvd.insert(0, dvd_selecionado[2])
@@ -1585,8 +1662,12 @@ def selecionar_cd(event):
         tempo_cd_editar_excluir.delete(0, END)
         beneficiado_cd_editar_excluir.delete(0, END)
         telefone_cd_editar_excluir.delete(0, END)
+        dt_emprestimo_cd_editar_excluir.configure(state=NORMAL)
         dt_emprestimo_cd_editar_excluir.delete(0, END)
+        dt_emprestimo_cd_editar_excluir.configure(state=DISABLED)
+        dt_devolucao_cd_editar_excluir.configure(state=NORMAL)
         dt_devolucao_cd_editar_excluir.delete(0, END)
+        dt_devolucao_cd_editar_excluir.configure(state=DISABLED)
 
         titulo_cd_editar_excluir.insert(0, cd_selecionado[1])
         autor_artista_cd_editar_excluir.insert(0, cd_selecionado[2])
@@ -2722,83 +2803,16 @@ def muda_opcao_pesquisa_livro(e):
         entrada_pesquisa_livro['completevalues'] = db.titulos_livros_emprestimo_expirado(
         )
 
-        set_emprestimos_expirados_livros()
-
     elif opcao_pesquisa_livro.get() == 'Autor (Empréstimo Expirado)':
         entrada_pesquisa_livro['completevalues'] = db.autores_livros_emprestimo_expirado(
         )
-
-        set_emprestimos_expirados_livros()
 
     elif opcao_pesquisa_livro.get() == 'Editora (Empréstimo Expirado)':
         entrada_pesquisa_livro['completevalues'] = db.editoras_livros_emprestimo_expirado(
         )
 
-        set_emprestimos_expirados_livros()
-
     elif opcao_pesquisa_livro.get() == 'Beneficiado':
         entrada_pesquisa_livro['completevalues'] = db.beneficiados_livros()
-
-
-def set_emprestimos_expirados_livros():
-    livros = db.get_livros_emprestimos_expirados()
-
-    for livro in tabela_livros.get_children():
-        tabela_livros.delete(livro)
-
-    count = 0
-
-    for livro in livros:
-        id = livro[0]
-        titulo = livro[1]
-        autor = livro[2]
-        editora = livro[3]
-        n_pag = livro[4]
-        situacao = livro[5]
-        beneficiado = livro[6]
-        telefone = livro[7]
-        dt_emprestimo = livro[8]
-        dt_devolucao = livro[9]
-
-        if count % 2 == 0:
-            tabela_livros.insert(
-                '',
-                END,
-                values=(
-                    id,
-                    titulo,
-                    autor,
-                    editora,
-                    n_pag,
-                    situacao,
-                    beneficiado,
-                    telefone,
-                    dt_emprestimo,
-                    dt_devolucao
-                ),
-                tags=('evenrow',)
-            )
-
-        else:
-            tabela_livros.insert(
-                '',
-                END,
-                values=(
-                    id,
-                    titulo,
-                    autor,
-                    editora,
-                    n_pag,
-                    situacao,
-                    beneficiado,
-                    telefone,
-                    dt_emprestimo,
-                    dt_devolucao
-                ),
-                tags=('oddrow',)
-            )
-
-        count += 1
 
 
 def muda_opcao_pesquisa_cd(e):
@@ -2837,81 +2851,16 @@ def muda_opcao_pesquisa_cd(e):
         entrada_pesquisa_cd['completevalues'] = db.titulos_cds_emprestimo_expirado(
         )
 
-        set_emprestimos_expirados_cds()
-
     elif opcao_pesquisa_cd.get() == 'Artista/Autor (Empréstimo Expirado)':
         entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_emprestimo_expirado(
         )
-        set_emprestimos_expirados_cds()
 
     elif opcao_pesquisa_cd.get() == 'Distribuidoras (Empréstimo Expirado)':
         entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_emprestimo_expirado(
         )
-        set_emprestimos_expirados_cds()
 
     elif opcao_pesquisa_cd.get() == 'Beneficiado':
         entrada_pesquisa_cd['completevalues'] = db.beneficiados_cds()
-
-
-def set_emprestimos_expirados_cds():
-    cds = db.get_cds_emprestimos_expirados()
-
-    for cd in tabela_cds.get_children():
-        tabela_cds.delete(cd)
-
-    count = 0
-
-    for cd in cds:
-        id = cds[0]
-        titulo = cds[1]
-        artista_autor = cds[2]
-        distribuidora = cds[3]
-        tempo = cds[4]
-        situacao = cds[5]
-        beneficiado = cds[6]
-        telefone = cds[7]
-        dt_emprestimo = cds[8]
-        dt_devolucao = cds[9]
-
-        if count % 2 == 0:
-            tabela_cds.insert(
-                '',
-                END,
-                values=(
-                    id,
-                    titulo,
-                    artista_autor,
-                    distribuidora,
-                    tempo,
-                    situacao,
-                    beneficiado,
-                    telefone,
-                    dt_emprestimo,
-                    dt_devolucao
-                ),
-                tags=('evenrow',)
-            )
-
-        else:
-            tabela_cds.insert(
-                '',
-                END,
-                values=(
-                    id,
-                    titulo,
-                    artista_autor,
-                    distribuidora,
-                    tempo,
-                    situacao,
-                    beneficiado,
-                    telefone,
-                    dt_emprestimo,
-                    dt_devolucao
-                ),
-                tags=('oddrow',)
-            )
-
-        count += 1
 
 
 def muda_opcao_pesquisa_dvd(e):
@@ -2947,81 +2896,16 @@ def muda_opcao_pesquisa_dvd(e):
     elif opcao_pesquisa_dvd.get() == 'Título (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_emprestimo_expirado(
         )
-        set_emprestimos_expirados_dvds()
 
     elif opcao_pesquisa_dvd.get() == 'Diretor (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_emprestimo_expirado(
         )
-        set_emprestimos_expirados_dvds()
 
     elif opcao_pesquisa_dvd.get() == 'Distribuidora (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_emprestimo_expirado(
         )
-        set_emprestimos_expirados_dvds()
-
     elif opcao_pesquisa_dvd.get() == 'Beneficiado':
         entrada_pesquisa_dvd['completevalues'] = db.beneficiados_dvds()
-
-
-def set_emprestimos_expirados_dvds():
-    dvds = db.get_dvds_emprestimos_expirados()
-
-    for dvd in tabela_dvds.get_children():
-        tabela_dvds.delete(dvd)
-
-    count = 0
-
-    for dvd in dvds:
-        id = dvd[0]
-        titulo = dvd[1]
-        diretor = dvd[2]
-        distribuidora = dvd[3]
-        tempo = dvd[4]
-        situacao = dvd[5]
-        beneficiado = dvd[6]
-        telefone = dvd[7]
-        dt_emprestimo = dvd[8]
-        dt_devolucao = dvd[9]
-
-        if count % 2 == 0:
-            tabela_dvds.insert(
-                '',
-                END,
-                values=(
-                    id,
-                    titulo,
-                    diretor,
-                    distribuidora,
-                    tempo,
-                    situacao,
-                    beneficiado,
-                    telefone,
-                    dt_emprestimo,
-                    dt_devolucao
-                ),
-                tags=('evenrow',)
-            )
-
-        else:
-            tabela_dvds.insert(
-                '',
-                END,
-                values=(
-                    id,
-                    titulo,
-                    diretor,
-                    distribuidora,
-                    tempo,
-                    situacao,
-                    beneficiado,
-                    telefone,
-                    dt_emprestimo,
-                    dt_devolucao
-                ),
-                tags=('oddrow',)
-            )
-
-        count += 1
 
 
 def pesquisar_livros():
