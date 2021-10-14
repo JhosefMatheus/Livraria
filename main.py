@@ -14,15 +14,15 @@ def carrega_tabelas():
     Função responsável por carregar a treeview tabela_livros, tabela_autores, tabela_editoras
     sempre que alguma alteração é feita em uma dessas tabelas.
     '''
-    livros = db.get_data('livros.csv')
-    autores = db.get_data('autores_livros.csv')
-    editoras = db.get_data('editoras_livros.csv')
-    dvds = db.get_data('dvds.csv')
-    cds = db.get_data('cds.csv')
-    autores_artistas_cds = db.get_data('autores_artistas_cds.csv')
-    diretores_dvds = db.get_data('diretores_dvds.csv')
-    distribuidoras_cds = db.get_data('distribuidoras_cds.csv')
-    distribuidoras_dvds = db.get_data('distribuidoras_dvds.csv')
+    livros = db.get_livros()
+    autores = db.get_autores()
+    editoras = db.get_editoras()
+    dvds = db.get_dvds()
+    cds = db.get_cds()
+    autores_artistas_cds = db.get_artistas()
+    diretores_dvds = db.get_diretores()
+    distribuidoras_cds = db.get_distribuidoras_cds()
+    distribuidoras_dvds = db.get_distribuidoras_dvds()
 
     for livro in tabela_livros.get_children():
         tabela_livros.delete(livro)

@@ -6,12 +6,70 @@ class db_manager:
     def __init__(self):
         pass
 
-    def get_data(self, file_name):
-        df = pd.read_csv(file_name)
+    def get_livros(self):
+        df = pd.read_csv('livros.csv')
 
-        df = df.fillna('')
+        livros = df.loc[:, 'id':'dt_devolucao'].fillna('').values.tolist()
 
-        return df.values.tolist()
+        return livros
+
+    def get_cds(self):
+        df = pd.read_csv('cds.csv')
+
+        cds = df.loc[:, 'id':'dt_devolucao'].fillna('').values.tolist()
+
+        return cds
+
+    def get_dvds(self):
+        df = pd.read_csv('dvds.csv')
+
+        dvds = df.loc[:, 'id':'dt_devolucao'].fillna('').values.tolist()
+
+        return dvds
+
+    def get_artistas(self):
+        df = pd.read_csv('autores_artistas_cds.csv')
+
+        artistas = df.loc[:, 'id':'autor_artista'].fillna('').values.tolist()
+
+        return artistas
+
+    def get_autores(self):
+        df = pd.read_csv('autores_livros.csv')
+
+        autores = df.loc[:, 'id':'autor'].fillna('').values.tolist()
+
+        return autores
+
+    def get_editoras(self):
+        df = pd.read_csv('editoras_livros.csv')
+
+        editoras = df.loc[:, 'id':'editora'].fillna('').values.tolist()
+
+        return editoras
+
+    def get_diretores(self):
+        df = pd.read_csv('diretores_dvds.csv')
+
+        diretores = df.loc[:, 'id':'diretor'].fillna('').values.tolist()
+
+        return diretores
+
+    def get_distribuidoras_cds(self):
+        df = pd.read_csv('distribuidoras_cds.csv')
+
+        distribuidoras = df.loc[:, 'id':'distribuidora'].fillna(
+            '').values.tolist()
+
+        return distribuidoras
+
+    def get_distribuidoras_dvds(self):
+        df = pd.read_csv('distribuidoras_dvds.csv')
+
+        distribuidoras = df.loc[:, 'id':'distribuidora'].fillna(
+            '').values.tolist()
+
+        return distribuidoras
 
     def add_livro(self, titulo, autor, editora, n_pag, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df = pd.read_csv('livros.csv')
@@ -74,7 +132,7 @@ class db_manager:
             df.to_csv('editoras_livros.csv', index=False)
 
     def add_dvd(self, titulo, diretor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         id = len(df) + \
             1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
@@ -100,7 +158,7 @@ class db_manager:
         self.add_distribuidora_dvd(distribuidora)
 
     def add_cd(self, titulo, artista_autor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         id = len(df) + \
             1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
@@ -126,7 +184,7 @@ class db_manager:
         self.add_distribuidora_cd(distribuidora)
 
     def add_diretor_dvd(self, diretor):
-        df = pd.read_csv('diretores_dvds.csv')
+        df = pd.read_csv('diretores_dvds.csv', index_col=False)
 
         diretores = df['diretor'].to_list()
 
@@ -144,7 +202,7 @@ class db_manager:
             df.to_csv('diretores_dvds.csv', index=False)
 
     def add_autor_artista_cd(self, autor_artista):
-        df = pd.read_csv('autores_artistas_cds.csv')
+        df = pd.read_csv('autores_artistas_cds.csv', index_col=False)
 
         autores_artistas = df['autor_artista'].to_list()
 
@@ -162,7 +220,7 @@ class db_manager:
             df.to_csv('autores_artistas_cds.csv', index=False)
 
     def add_distribuidora_dvd(self, distribuidora):
-        df = pd.read_csv('distribuidoras_dvds.csv')
+        df = pd.read_csv('distribuidoras_dvds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].to_list()
 
@@ -180,7 +238,7 @@ class db_manager:
             df.to_csv('distribuidoras_dvds.csv', index=False)
 
     def add_distribuidora_cd(self, distribuidora):
-        df = pd.read_csv('distribuidoras_cds.csv')
+        df = pd.read_csv('distribuidoras_cds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].to_list()
 
@@ -226,42 +284,42 @@ class db_manager:
         return diretores
 
     def nome_autores_artistas_cds(self):
-        df = pd.read_csv('autores_artistas_cds.csv')
+        df = pd.read_csv('autores_artistas_cds.csv', index_col=False)
 
         autores_artistas = df['autor_artista'].to_list()
 
         return autores_artistas
 
     def nome_distribuidoras_dvds(self):
-        df = pd.read_csv('distribuidoras_dvds.csv')
+        df = pd.read_csv('distribuidoras_dvds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].to_list()
 
         return distribuidoras
 
     def nome_distribuidoras_cds(self):
-        df = pd.read_csv('distribuidoras_cds.csv')
+        df = pd.read_csv('distribuidoras_cds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].to_list()
 
         return distribuidoras
 
     def titulos_dvds(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         titulos = df['titulo'].unique().tolist()
 
         return titulos
 
     def titulos_cds(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         titulos = df['titulo'].unique().tolist()
 
         return titulos
 
     def titulos_livros_disponiveis(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         titulos = df['titulo'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -269,7 +327,7 @@ class db_manager:
         return titulos
 
     def autores_livros_disponiveis(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         autores = df['autor'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -277,7 +335,7 @@ class db_manager:
         return autores
 
     def editoras_livros_disponiveis(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         editoras = df['editora'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -285,7 +343,7 @@ class db_manager:
         return editoras
 
     def titulos_livros_emprestados(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         titulos = df['titulo'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -293,7 +351,7 @@ class db_manager:
         return titulos
 
     def autores_livros_emprestados(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         autores = df['autor'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -301,7 +359,7 @@ class db_manager:
         return autores
 
     def editoras_livros_emprestados(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         editoras = df['editora'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -309,7 +367,7 @@ class db_manager:
         return editoras
 
     def titulos_cds_disponiveis(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         titulos = df['titulo'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -317,7 +375,7 @@ class db_manager:
         return titulos
 
     def autores_artistas_cds_disponiveis(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         autores_artistas = df['artista_autor'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -325,7 +383,7 @@ class db_manager:
         return autores_artistas
 
     def distribuidoras_cds_disponiveis(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -333,7 +391,7 @@ class db_manager:
         return distribuidoras
 
     def titulos_cds_emprestados(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         titulos = df['titulo'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -341,7 +399,7 @@ class db_manager:
         return titulos
 
     def autores_artistas_cds_emprestados(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         autores_artistas = df['artista_autor'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -349,7 +407,7 @@ class db_manager:
         return autores_artistas
 
     def distribuidoras_cds_emprestados(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -357,7 +415,7 @@ class db_manager:
         return distribuidoras
 
     def titulos_dvds_disponiveis(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         titulos = df['titulo'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -365,7 +423,7 @@ class db_manager:
         return titulos
 
     def diretores_dvds_disponiveis(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         diretores = df['diretor'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -373,7 +431,7 @@ class db_manager:
         return diretores
 
     def distribuidoras_dvds_disponiveis(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(
             df['situacao'] == 'Disponível').dropna().unique().tolist()
@@ -381,7 +439,7 @@ class db_manager:
         return distribuidoras
 
     def titulos_dvds_emprestados(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         titulos = df['titulo'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -389,7 +447,7 @@ class db_manager:
         return titulos
 
     def diretores_dvds_emprestados(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         diretores = df['diretor'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -397,7 +455,7 @@ class db_manager:
         return diretores
 
     def distribuidoras_dvds_emprestados(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(
             df['situacao'] == 'Emprestado').dropna().unique().tolist()
@@ -405,28 +463,28 @@ class db_manager:
         return distribuidoras
 
     def beneficiados_livros(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         beneficiados = df['beneficiado'].dropna().unique().tolist()
 
         return beneficiados
 
     def beneficiados_cds(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         beneficiados = df['beneficiado'].dropna().unique().tolist()
 
         return beneficiados
 
     def beneficiados_dvds(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         beneficiados = df['beneficiado'].dropna().unique().tolist()
 
         return beneficiados
 
     def titulos_livros_emprestimo_expirado(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         titulos = df['titulo'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
@@ -434,7 +492,7 @@ class db_manager:
         return titulos
 
     def autores_livros_emprestimo_expirado(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         autores = df['autor'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
@@ -442,7 +500,7 @@ class db_manager:
         return autores
 
     def editoras_livros_emprestimo_expirado(self):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         editoras = df['editora'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
@@ -450,7 +508,7 @@ class db_manager:
         return editoras
 
     def titulos_cds_emprestimo_expirado(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         titulos = df['titulo'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
@@ -458,7 +516,7 @@ class db_manager:
         return titulos
 
     def autores_artistas_cds_emprestimo_expirado(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         autores_artistas = df['artista_autor'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
@@ -466,7 +524,7 @@ class db_manager:
         return autores_artistas
 
     def distribuidoras_cds_emprestimo_expirado(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
@@ -474,7 +532,7 @@ class db_manager:
         return distribuidoras
 
     def titulos_dvds_emprestimo_expirado(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         titulos = df['titulo'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
@@ -482,7 +540,7 @@ class db_manager:
         return titulos
 
     def diretores_dvds_emprestimo_expirado(self):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         diretores = df['diretor'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
@@ -490,7 +548,7 @@ class db_manager:
         return diretores
 
     def distribuidoras_dvds_emprestimo_expirado(self):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(pd.to_datetime(
             df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
@@ -498,7 +556,7 @@ class db_manager:
         return distribuidoras
 
     def editar_livro(self, id, titulo, autor_selecionado, novo_autor, editora_selecionada, nova_editora, n_pag, situacao, beneficiado, tel, dt_emprestimo, dt_devolucao):
-        df_livros = pd.read_csv('livros.csv')
+        df_livros = pd.read_csv('livros.csv', index_col=False)
 
         df_livros.loc[id-1, 'titulo'] = titulo
         df_livros.loc[id-1, 'autor'] = novo_autor
@@ -510,40 +568,37 @@ class db_manager:
         df_livros.loc[id-1, 'dt_emprestimo'] = dt_emprestimo
         df_livros.loc[id-1, 'dt_devolucao'] = dt_devolucao
 
-        df_livros.to_csv('livros.csv', index=False)
-
         self.add_autor(novo_autor)
         self.add_editora(nova_editora)
-
-        df_livros = pd.read_csv('livros.csv')
 
         autores = df_livros['autor'].to_list()
         editoras = df_livros['editora'].to_list()
 
         if autor_selecionado not in autores:
-            df_autores_livros = pd.read_csv('autores_livros.csv')
+            df_autores_livros = pd.read_csv(
+                'autores_livros.csv', index_col=False)
 
-            id_autor = df_autores_livros.index[df_autores_livros['autor'] == autor_selecionado].tolist(
-            )
-
-            df_autores_livros.drop(id_autor, axis=0, inplace=True)
+            df_autores_livros = df_autores_livros.loc[df_autores_livros['autor']
+                                                      != autor_selecionado]
 
             df_autores_livros.to_csv('autores_livros.csv', index=False)
 
         if editora_selecionada not in editoras:
-            df_editoras_livros = pd.read_csv('editoras_livros.csv')
+            df_editoras_livros = pd.read_csv(
+                'editoras_livros.csv', index_col=False)
 
-            id_editora = df_editoras_livros.index[df_editoras_livros['editora'] == editora_selecionada].tolist(
-            )
-
-            df_editoras_livros.drop(id_editora, axis=0, inplace=True)
+            df_editoras_livros = df_editoras_livros.loc[df_editoras_livros['editora']
+                                                        != editora_selecionada]
 
             df_editoras_livros.to_csv('editoras_livros.csv', index=False)
 
+        df_livros.to_csv('livros.csv', index=False)
+
     def excluir_livro(self, id, autor_selecionado, editora_selecionada):
-        df_livros = pd.read_csv('livros.csv')
-        df_autores_livros = pd.read_csv('autores_livros.csv')
-        df_editoras_livros = pd.read_csv('editoras_livros.csv')
+        df_livros = pd.read_csv('livros.csv', index_col=False)
+        df_autores_livros = pd.read_csv('autores_livros.csv', index_col=False)
+        df_editoras_livros = pd.read_csv(
+            'editoras_livros.csv', index_col=False)
 
         df_livros = df_livros.loc[df_livros['id'] != id]
 
@@ -565,8 +620,8 @@ class db_manager:
         df_livros.to_csv('livros.csv', index=False)
 
     def editar_autor_livro(self, id, autor_selecionado, novo_autor):
-        df_livros = pd.read_csv('livros.csv')
-        df_autores_livros = pd.read_csv('autores_livros.csv')
+        df_livros = pd.read_csv('livros.csv', index_col=False)
+        df_autores_livros = pd.read_csv('autores_livros.csv', index_col=False)
 
         df_autores_livros.loc[id - 1, 'autor'] = novo_autor
 
@@ -577,8 +632,9 @@ class db_manager:
         df_autores_livros.to_csv('autores_livros.csv', index=False)
 
     def editar_editora_livro(self, id, editora_selecionada, nova_editora):
-        df_livros = pd.read_csv('livros.csv')
-        df_editoras_livros = pd.read_csv('editoras_livros.csv')
+        df_livros = pd.read_csv('livros.csv', index_col=False)
+        df_editoras_livros = pd.read_csv(
+            'editoras_livros.csv', index_col=False)
 
         df_editoras_livros.loc[id - 1, 'editora'] = nova_editora
 
@@ -589,7 +645,7 @@ class db_manager:
         df_editoras_livros.to_csv('editoras_livros.csv', index=False)
 
     def editar_dvd(self, id, titulo, diretor_selecionado, novo_diretor, distribuidora_selecionada, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df_dvds = pd.read_csv('dvds.csv')
+        df_dvds = pd.read_csv('dvds.csv', index_col=False)
 
         df_dvds.loc[id-1, 'titulo'] = titulo
         df_dvds.loc[id-1, 'diretor'] = novo_diretor
@@ -608,22 +664,20 @@ class db_manager:
         distribuidoras = df_dvds['distribuidora'].to_list()
 
         if diretor_selecionado not in diretores:
-            df_diretores_dvds = pd.read_csv('diretores_dvds.csv')
+            df_diretores_dvds = pd.read_csv(
+                'diretores_dvds.csv', index_col=False)
 
-            id_diretor = df_diretores_dvds.index[df_diretores_dvds['diretor'] == diretor_selecionado].tolist(
-            )
-
-            df_diretores_dvds.drop(id_diretor, axis=0, inplace=True)
+            df_diretores_dvds = df_diretores_dvds.loc[df_diretores_dvds['diretor']
+                                                      != diretor_selecionado]
 
             df_diretores_dvds.to_csv('diretores_dvds.csv', index=False)
 
         if distribuidora_selecionada not in distribuidoras:
-            df_distribuidoras_dvds = pd.read_csv('distribuidoras_dvds.csv')
+            df_distribuidoras_dvds = pd.read_csv(
+                'distribuidoras_dvds.csv', index_col=False)
 
-            id_distribuidora = df_distribuidoras_dvds.index[df_distribuidoras_dvds['distribuidora'] == distribuidora_selecionada].tolist(
-            )
-
-            df_distribuidoras_dvds.drop(id_distribuidora, axis=0, inplace=True)
+            df_distribuidoras_dvds = df_distribuidoras_dvds.loc[
+                df_distribuidoras_dvds['distribuidora'] != distribuidora_selecionada]
 
             df_distribuidoras_dvds.to_csv(
                 'distribuidoras_dvds.csv', index=False)
@@ -631,37 +685,30 @@ class db_manager:
         df_dvds.to_csv('dvds.csv', index=False)
 
     def excluir_dvd(self, id, diretor, distribuidora):
-        df_dvds = pd.read_csv('dvds.csv')
-        df_diretores = pd.read_csv('diretores_dvds.csv')
-        df_distribuidoras = pd.read_csv('distribuidoras_dvds.csv')
+        df_dvds = pd.read_csv('dvds.csv', index_col=False)
+        df_diretores = pd.read_csv('diretores_dvds.csv', index_col=False)
+        df_distribuidoras = pd.read_csv(
+            'distribuidoras_dvds.csv', index_col=False)
 
-        id_dvd = df_dvds.index[df_dvds['id'] == id].tolist()
-
-        df_dvds.drop(id_dvd, axis=0, inplace=True)
+        df_dvds = df_dvds.loc[df_dvds['id'] != id]
 
         diretores = df_dvds['diretor'].to_list()
         distribuidoras = df_dvds['distribuidora'].to_list()
 
         if diretor not in diretores:
-            id_diretor = df_diretores.index[df_diretores['diretor'] == diretor].tolist(
-            )
-
-            df_diretores.drop(id_diretor, axis=0, inplace=True)
+            df_diretores = df_diretores.loc[df_diretores['diretor'] != diretor]
 
             df_diretores.to_csv('diretores_dvds.csv')
 
         if distribuidora not in distribuidoras:
-            id_distribuidora = df_distribuidoras.index[df_distribuidoras['distribuidora'] == distribuidora].tolist(
-            )
-
-            df_distribuidoras.drop(id_distribuidora, axis=0, inplace=True)
+            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora'] != distribuidora]
 
             df_distribuidoras.to_csv('distribuidoras_dvds.csv')
 
         df_dvds.to_csv('dvds.csv', index=False)
 
     def editar_cd(self, id, titulo, autor_artista_selecionado, novo_autor_artista, distribuidora_selecionada, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df_cds = pd.read_csv('cds.csv')
+        df_cds = pd.read_csv('cds.csv', index_col=False)
 
         df_cds.loc[id-1, 'titulo'] = titulo
         df_cds.loc[id-1, 'artista_autor'] = novo_autor_artista
@@ -680,59 +727,52 @@ class db_manager:
         distribuidoras = df_cds['distribuidora'].to_list()
 
         if autor_artista_selecionado not in autores_artistas:
-            df_autor_artista = pd.read_csv('autores_artistas_cds.csv')
+            df_autor_artista = pd.read_csv(
+                'autores_artistas_cds.csv', index_col=False)
 
-            id_autor_artista = df_autor_artista.index[df_autor_artista['autor_artista']
-                                                      == autor_artista_selecionado].tolist()
-
-            df_autor_artista.drop(id_autor_artista, axis=0, inplace=True)
+            df_autor_artista = df_autor_artista.loc[df_autor_artista['autor_artista']
+                                                    != autor_artista_selecionado]
 
             df_autor_artista.to_csv('autores_artistas_cds.csv', index=False)
 
         if distribuidora_selecionada not in distribuidoras:
-            df_distribuidoras = pd.read_csv('distribuidoras_cds.csv')
+            df_distribuidoras = pd.read_csv(
+                'distribuidoras_cds.csv', index_col=False)
 
-            id_distribuidora = df_distribuidoras.index[df_distribuidoras['distribuidora']
-                                                       == distribuidora_selecionada].tolist()
-
-            df_distribuidoras.drop(id_distribuidora, axis=0, inplace=True)
+            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora']
+                                                      != distribuidora_selecionada]
 
             df_distribuidoras.to_csv('distribuidoras_cds.csv', index=False)
 
         df_cds.to_csv('cds.csv', index=False)
 
     def excluir_cd(self, id, autor_artista, distribuidora):
-        df_cds = pd.read_csv('cds.csv')
-        df_autores_artistas = pd.read_csv('autores_artistas_cds.csv')
-        df_distribuidoras = pd.read_csv('distribuidoras_cds.csv')
+        df_cds = pd.read_csv('cds.csv', index_col=False)
+        df_autores_artistas = pd.read_csv(
+            'autores_artistas_cds.csv', index_col=False)
+        df_distribuidoras = pd.read_csv(
+            'distribuidoras_cds.csv', index_col=False)
 
-        id_cd = df_cds.index[df_cds['id'] == id].tolist()
-
-        df_cds.drop(id_cd, axis=0, inplace=True)
+        df_cds = df_cds.loc[df_cds['id'] != id]
 
         autores_artistas = df_cds['artista_autor'].to_list()
         distribuidoras = df_cds['distribuidora'].to_list()
 
         if autor_artista not in autores_artistas:
-            id_autor_artista = df_autores_artistas.index[df_autores_artistas['autor_artista'] == autor_artista].tolist(
-            )
-
-            df_autores_artistas.drop(id_autor_artista, axis=0, inplace=True)
+            df_autores_artistas = df_autores_artistas.loc[
+                df_autores_artistas['autor_artista'] != autor_artista]
 
             df_autores_artistas.to_csv('autores_artistas_cds.csv', index=False)
 
         if distribuidora not in distribuidoras:
-            id_distribuidora = df_distribuidoras.index[df_distribuidoras['distribuidora'] == distribuidora].tolist(
-            )
-
-            df_distribuidoras.drop(id_distribuidora, axis=0, inplace=True)
+            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora'] != distribuidora]
 
             df_distribuidoras.to_csv('distribuidoras_cds.csv', index=False)
 
         df_cds.to_csv('cds.csv', index=False)
 
     def pesquisar_livro(self, entrada, campo_pesquisa):
-        df = pd.read_csv('livros.csv')
+        df = pd.read_csv('livros.csv', index_col=False)
 
         if campo_pesquisa == 'Título (Todos)':
             resultado = df.loc[df['titulo'] ==
@@ -812,21 +852,21 @@ class db_manager:
             return resultado
 
     def pesquisar_autor(self, entrada):
-        df = pd.read_csv('autores_livros.csv')
+        df = pd.read_csv('autores_livros.csv', index_col=False)
 
         resultado = df.loc[df['autor'] == entrada].fillna('').values.tolist()
 
         return resultado
 
     def pesquisar_editora(self, entrada):
-        df = pd.read_csv('editoras_livros.csv')
+        df = pd.read_csv('editoras_livros.csv', index_col=False)
 
         resultado = df.loc[df['editora'] == entrada].fillna('').values.tolist()
 
         return resultado
 
     def pesquisar_cd(self, entrada, campo_pesquisa):
-        df = pd.read_csv('cds.csv')
+        df = pd.read_csv('cds.csv', index_col=False)
 
         if campo_pesquisa == 'Título (Todos)':
             resultado = df.loc[df['titulo'] ==
@@ -906,7 +946,7 @@ class db_manager:
             return resultado
 
     def pesquisar_dvd(self, entrada, campo_pesquisa):
-        df = pd.read_csv('dvds.csv')
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         if campo_pesquisa == 'Título (Todos)':
             resultado = df.loc[df['titulo'] ==
@@ -986,7 +1026,7 @@ class db_manager:
             return resultado
 
     def pesquisar_autor_artista_cd(self, entrada):
-        df = pd.read_csv('autores_artistas_cds.csv')
+        df = pd.read_csv('autores_artistas_cds.csv', index_col=False)
 
         resultado = df.loc[df['autor_artista'] ==
                            entrada].fillna('').values.tolist()
@@ -994,14 +1034,14 @@ class db_manager:
         return resultado
 
     def pesquisar_diretor_dvd(self, entrada):
-        df = pd.read_csv('diretores_dvds.csv')
+        df = pd.read_csv('diretores_dvds.csv', index_col=False)
 
         resultado = df.loc[df['diretor'] == entrada].fillna('').values.tolist()
 
         return resultado
 
     def pesquisar_distribuidora_cd(self, entrada):
-        df = pd.read_csv('distribuidoras_cds.csv')
+        df = pd.read_csv('distribuidoras_cds.csv', index_col=False)
 
         resultado = df.loc[df['distribuidora'] ==
                            entrada].fillna('').values.tolist()
@@ -1009,7 +1049,7 @@ class db_manager:
         return resultado
 
     def pesquisar_distribuidora_dvd(self, entrada):
-        df = pd.read_csv('distribuidoras_dvds.csv')
+        df = pd.read_csv('distribuidoras_dvds.csv', index_col=False)
 
         resultado = df.loc[df['distribuidora'] ==
                            entrada].fillna('').values.tolist()
