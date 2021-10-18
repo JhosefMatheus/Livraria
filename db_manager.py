@@ -92,7 +92,7 @@ class db_manager:
 
         df = df.append(new_row, ignore_index=True)
 
-        df.to_csv('livros.csv', index=False)
+        df.loc[:, 'id':'dt_devolucao'].to_csv('livros.csv', index=False)
 
         self.add_autor(autor)
         self.add_editora(editora)
@@ -111,7 +111,7 @@ class db_manager:
 
             df = df.append(new_row, ignore_index=True)
 
-            df.to_csv('autores_livros.csv', index=False)
+            df.loc[:, 'id':'autor'].to_csv('autores_livros.csv', index=False)
 
     def add_editora(self, editora):
         df = pd.read_csv('editoras_livros.csv')
@@ -129,7 +129,8 @@ class db_manager:
 
             df = df.append(new_row, ignore_index=True)
 
-            df.to_csv('editoras_livros.csv', index=False)
+            df.loc[:, 'id':'editora'].to_csv(
+                'editoras_livros.csv', index=False)
 
     def add_dvd(self, titulo, diretor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df = pd.read_csv('dvds.csv', index_col=False)
@@ -152,7 +153,7 @@ class db_manager:
 
         df = df.append(new_row, ignore_index=True)
 
-        df.to_csv('dvds.csv', index=False)
+        df.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
 
         self.add_diretor_dvd(diretor)
         self.add_distribuidora_dvd(distribuidora)
@@ -178,7 +179,7 @@ class db_manager:
 
         df = df.append(new_row, ignore_index=True)
 
-        df.to_csv('cds.csv', index=False)
+        df.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
 
         self.add_autor_artista_cd(artista_autor)
         self.add_distribuidora_cd(distribuidora)
@@ -199,7 +200,7 @@ class db_manager:
 
             df = df.append(new_row, ignore_index=True)
 
-            df.to_csv('diretores_dvds.csv', index=False)
+            df.loc[:, 'id':'diretor'].to_csv('diretores_dvds.csv', index=False)
 
     def add_autor_artista_cd(self, autor_artista):
         df = pd.read_csv('autores_artistas_cds.csv', index_col=False)
@@ -217,7 +218,8 @@ class db_manager:
 
             df = df.append(new_row, ignore_index=True)
 
-            df.to_csv('autores_artistas_cds.csv', index=False)
+            df.loc[:, 'id':'autor_artista'].to_csv(
+                'autores_artistas_cds.csv', index=False)
 
     def add_distribuidora_dvd(self, distribuidora):
         df = pd.read_csv('distribuidoras_dvds.csv', index_col=False)
@@ -235,7 +237,8 @@ class db_manager:
 
             df = df.append(new_row, ignore_index=True)
 
-            df.to_csv('distribuidoras_dvds.csv', index=False)
+            df.loc[:, 'id':'distribuidora'].to_csv(
+                'distribuidoras_dvds.csv', index=False)
 
     def add_distribuidora_cd(self, distribuidora):
         df = pd.read_csv('distribuidoras_cds.csv', index_col=False)
@@ -253,7 +256,8 @@ class db_manager:
 
             df = df.append(new_row, ignore_index=True)
 
-            df.to_csv('distribuidoras_cds.csv', index=False)
+            df.loc[:, 'id':'distribuidora'].to_csv(
+                'distribuidoras_cds.csv', index=False)
 
     def nome_autores(self):
         df = pd.read_csv('autores_livros.csv')
@@ -487,7 +491,7 @@ class db_manager:
         df = pd.read_csv('livros.csv', index_col=False)
 
         titulos = df['titulo'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return titulos
 
@@ -495,7 +499,7 @@ class db_manager:
         df = pd.read_csv('livros.csv', index_col=False)
 
         autores = df['autor'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return autores
 
@@ -503,7 +507,7 @@ class db_manager:
         df = pd.read_csv('livros.csv', index_col=False)
 
         editoras = df['editora'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return editoras
 
@@ -511,7 +515,7 @@ class db_manager:
         df = pd.read_csv('cds.csv', index_col=False)
 
         titulos = df['titulo'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return titulos
 
@@ -519,7 +523,7 @@ class db_manager:
         df = pd.read_csv('cds.csv', index_col=False)
 
         autores_artistas = df['artista_autor'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return autores_artistas
 
@@ -527,7 +531,7 @@ class db_manager:
         df = pd.read_csv('cds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return distribuidoras
 
@@ -535,7 +539,7 @@ class db_manager:
         df = pd.read_csv('dvds.csv', index_col=False)
 
         titulos = df['titulo'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().unique().tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return titulos
 
@@ -543,7 +547,7 @@ class db_manager:
         df = pd.read_csv('dvds.csv', index_col=False)
 
         diretores = df['diretor'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
         return diretores
 
@@ -551,22 +555,22 @@ class db_manager:
         df = pd.read_csv('cds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
         return distribuidoras
 
     def editar_livro(self, id, titulo, autor_selecionado, novo_autor, editora_selecionada, nova_editora, n_pag, situacao, beneficiado, tel, dt_emprestimo, dt_devolucao):
         df_livros = pd.read_csv('livros.csv', index_col=False)
 
-        df_livros.loc[id-1, 'titulo'] = titulo
-        df_livros.loc[id-1, 'autor'] = novo_autor
-        df_livros.loc[id-1, 'editora'] = nova_editora
-        df_livros.loc[id-1, 'n_pag'] = n_pag
-        df_livros.loc[id-1, 'situacao'] = situacao
-        df_livros.loc[id-1, 'beneficiado'] = beneficiado
-        df_livros.loc[id-1, 'telefone'] = tel
-        df_livros.loc[id-1, 'dt_emprestimo'] = dt_emprestimo
-        df_livros.loc[id-1, 'dt_devolucao'] = dt_devolucao
+        df_livros.loc[df_livros['id'] == id, 'titulo'] = titulo
+        df_livros.loc[df_livros['id'] == id, 'autor'] = novo_autor
+        df_livros.loc[df_livros['id'] == id, 'editora'] = nova_editora
+        df_livros.loc[df_livros['id'] == id, 'n_pag'] = n_pag
+        df_livros.loc[df_livros['id'] == id, 'situacao'] = situacao
+        df_livros.loc[df_livros['id'] == id, 'beneficiado'] = beneficiado
+        df_livros.loc[df_livros['id'] == id, 'telefone'] = tel
+        df_livros.loc[df_livros['id'] == id, 'dt_emprestimo'] = dt_emprestimo
+        df_livros.loc[df_livros['id'] == id, 'dt_devolucao'] = dt_devolucao
 
         self.add_autor(novo_autor)
         self.add_editora(nova_editora)
@@ -581,7 +585,8 @@ class db_manager:
             df_autores_livros = df_autores_livros.loc[df_autores_livros['autor']
                                                       != autor_selecionado]
 
-            df_autores_livros.to_csv('autores_livros.csv', index=False)
+            df_autores_livros.loc[:, 'id':'autor'].to_csv(
+                'autores_livros.csv', index=False)
 
         if editora_selecionada not in editoras:
             df_editoras_livros = pd.read_csv(
@@ -590,9 +595,10 @@ class db_manager:
             df_editoras_livros = df_editoras_livros.loc[df_editoras_livros['editora']
                                                         != editora_selecionada]
 
-            df_editoras_livros.to_csv('editoras_livros.csv', index=False)
+            df_editoras_livros.loc[:, 'id':'editora'].to_csv(
+                'editoras_livros.csv', index=False)
 
-        df_livros.to_csv('livros.csv', index=False)
+        df_livros.loc[:, 'id':'dt_devolucao'].to_csv('livros.csv', index=False)
 
     def excluir_livro(self, id, autor_selecionado, editora_selecionada):
         df_livros = pd.read_csv('livros.csv', index_col=False)
@@ -609,53 +615,59 @@ class db_manager:
             df_autores_livros = df_autores_livros.loc[df_autores_livros['autor']
                                                       != autor_selecionado]
 
-            df_autores_livros.to_csv('autores_livros.csv', index=False)
+            df_autores_livros.loc[:, 'id':'autor'].to_csv(
+                'autores_livros.csv', index=False)
 
         if editora_selecionada not in editoras:
             df_editoras_livros = df_editoras_livros.loc[df_editoras_livros['editora']
                                                         != editora_selecionada]
 
-            df_editoras_livros.to_csv('editoras_livros.csv', index=False)
+            df_editoras_livros.loc[:, 'id':'editora'].to_csv(
+                'editoras_livros.csv', index=False)
 
-        df_livros.to_csv('livros.csv', index=False)
+        df_livros.loc[:, 'id':'dt_devolucao'].to_csv('livros.csv', index=False)
 
     def editar_autor_livro(self, id, autor_selecionado, novo_autor):
         df_livros = pd.read_csv('livros.csv', index_col=False)
         df_autores_livros = pd.read_csv('autores_livros.csv', index_col=False)
 
-        df_autores_livros.loc[id - 1, 'autor'] = novo_autor
+        df_autores_livros.loc[df_autores_livros['id']
+                              == id, 'autor'] = novo_autor
 
         df_livros.loc[df_livros['autor'] ==
                       autor_selecionado, 'autor'] = novo_autor
 
-        df_livros.to_csv('livros.csv', index=False)
-        df_autores_livros.to_csv('autores_livros.csv', index=False)
+        df_livros.loc[:, 'id':'dt_devolucao'].to_csv('livros.csv', index=False)
+        df_autores_livros.loc[:, 'id':'autor'].to_csv(
+            'autores_livros.csv', index=False)
 
     def editar_editora_livro(self, id, editora_selecionada, nova_editora):
         df_livros = pd.read_csv('livros.csv', index_col=False)
         df_editoras_livros = pd.read_csv(
             'editoras_livros.csv', index_col=False)
 
-        df_editoras_livros.loc[id - 1, 'editora'] = nova_editora
+        df_editoras_livros.loc[df_editoras_livros['id']
+                               == id, 'editora'] = nova_editora
 
         df_livros.loc[df_livros['editora'] ==
                       editora_selecionada, 'editora'] = nova_editora
 
-        df_livros.to_csv('livros.csv', index=False)
-        df_editoras_livros.to_csv('editoras_livros.csv', index=False)
+        df_livros.loc[:, 'id':'dt_devolucao'].to_csv('livros.csv', index=False)
+        df_editoras_livros.loc[:, 'id':'editora'].to_csv(
+            'editoras_livros.csv', index=False)
 
     def editar_dvd(self, id, titulo, diretor_selecionado, novo_diretor, distribuidora_selecionada, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df_dvds = pd.read_csv('dvds.csv', index_col=False)
 
-        df_dvds.loc[id-1, 'titulo'] = titulo
-        df_dvds.loc[id-1, 'diretor'] = novo_diretor
-        df_dvds.loc[id-1, 'distribuidora'] = nova_distribuidora
-        df_dvds.loc[id-1, 'tempo'] = tempo
-        df_dvds.loc[id-1, 'situacao'] = situacao
-        df_dvds.loc[id-1, 'beneficiado'] = beneficiado
-        df_dvds.loc[id-1, 'telefone'] = telefone
-        df_dvds.loc[id-1, 'dt_emprestimo'] = dt_emprestimo
-        df_dvds.loc[id-1, 'dt_devolucao'] = dt_devolucao
+        df_dvds.loc[df_dvds['id'] == id, 'titulo'] = titulo
+        df_dvds.loc[df_dvds['id'] == id, 'diretor'] = novo_diretor
+        df_dvds.loc[df_dvds['id'] == id, 'distribuidora'] = nova_distribuidora
+        df_dvds.loc[df_dvds['id'] == id, 'tempo'] = tempo
+        df_dvds.loc[df_dvds['id'] == id, 'situacao'] = situacao
+        df_dvds.loc[df_dvds['id'] == id, 'beneficiado'] = beneficiado
+        df_dvds.loc[df_dvds['id'] == id, 'telefone'] = telefone
+        df_dvds.loc[df_dvds['id'] == id, 'dt_emprestimo'] = dt_emprestimo
+        df_dvds.loc[df_dvds['id'] == id, 'dt_devolucao'] = dt_devolucao
 
         self.add_diretor_dvd(novo_diretor)
         self.add_distribuidora_dvd(nova_distribuidora)
@@ -670,7 +682,8 @@ class db_manager:
             df_diretores_dvds = df_diretores_dvds.loc[df_diretores_dvds['diretor']
                                                       != diretor_selecionado]
 
-            df_diretores_dvds.to_csv('diretores_dvds.csv', index=False)
+            df_diretores_dvds.loc[:, 'id':'diretor'].to_csv(
+                'diretores_dvds.csv', index=False)
 
         if distribuidora_selecionada not in distribuidoras:
             df_distribuidoras_dvds = pd.read_csv(
@@ -679,10 +692,38 @@ class db_manager:
             df_distribuidoras_dvds = df_distribuidoras_dvds.loc[
                 df_distribuidoras_dvds['distribuidora'] != distribuidora_selecionada]
 
-            df_distribuidoras_dvds.to_csv(
+            df_distribuidoras_dvds.loc[:, 'id':'distribuidora'].to_csv(
                 'distribuidoras_dvds.csv', index=False)
 
-        df_dvds.to_csv('dvds.csv', index=False)
+        df_dvds.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
+
+    def editar_diretor_dvd(self, diretor_selecionado, novo_diretor):
+        df_dvds = pd.read_csv('dvds.csv')
+        df_diretores = pd.read_csv('diretores_dvds.csv')
+
+        df_diretores.loc[df_diretores['diretor'] ==
+                         diretor_selecionado, 'diretor'] = novo_diretor
+
+        df_dvds.loc[df_dvds['diretor'] ==
+                    diretor_selecionado, 'diretor'] = novo_diretor
+
+        df_dvds.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
+        df_diretores.loc[:, 'id':'diretor'].to_csv(
+            'diretores_dvds.csv', index=False)
+
+    def editar_distribuidora_dvd(self, distribuidora_selecionada, nova_distribuidora):
+        df_dvds = pd.read_csv('dvds.csv')
+        df_distribuidoras = pd.read_csv('distribuidoras_dvds.csv')
+
+        df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
+                              distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
+
+        df_dvds.loc[df_dvds['distribuidora'] ==
+                    distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
+
+        df_dvds.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
+        df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
+            'distribuidoras_dvds.csv', index=False)
 
     def excluir_dvd(self, id, diretor, distribuidora):
         df_dvds = pd.read_csv('dvds.csv', index_col=False)
@@ -698,27 +739,28 @@ class db_manager:
         if diretor not in diretores:
             df_diretores = df_diretores.loc[df_diretores['diretor'] != diretor]
 
-            df_diretores.to_csv('diretores_dvds.csv')
+            df_diretores.loc[:, 'id':'diretor'].to_csv('diretores_dvds.csv')
 
         if distribuidora not in distribuidoras:
             df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora'] != distribuidora]
 
-            df_distribuidoras.to_csv('distribuidoras_dvds.csv')
+            df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
+                'distribuidoras_dvds.csv')
 
-        df_dvds.to_csv('dvds.csv', index=False)
+        df_dvds.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
 
     def editar_cd(self, id, titulo, autor_artista_selecionado, novo_autor_artista, distribuidora_selecionada, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df_cds = pd.read_csv('cds.csv', index_col=False)
 
-        df_cds.loc[id-1, 'titulo'] = titulo
-        df_cds.loc[id-1, 'artista_autor'] = novo_autor_artista
-        df_cds.loc[id-1, 'distribuidora'] = nova_distribuidora
-        df_cds.loc[id-1, 'tempo'] = tempo
-        df_cds.loc[id-1, 'situacao'] = situacao
-        df_cds.loc[id-1, 'beneficiado'] = beneficiado
-        df_cds.loc[id-1, 'telefone'] = telefone
-        df_cds.loc[id-1, 'dt_emprestimo'] = dt_emprestimo
-        df_cds.loc[id-1, 'dt_devolucao'] = dt_devolucao
+        df_cds.loc[df_cds['id'] == id, 'titulo'] = titulo
+        df_cds.loc[df_cds['id'] == id, 'artista_autor'] = novo_autor_artista
+        df_cds.loc[df_cds['id'] == id, 'distribuidora'] = nova_distribuidora
+        df_cds.loc[df_cds['id'] == id, 'tempo'] = tempo
+        df_cds.loc[df_cds['id'] == id, 'situacao'] = situacao
+        df_cds.loc[df_cds['id'] == id, 'beneficiado'] = beneficiado
+        df_cds.loc[df_cds['id'] == id, 'telefone'] = telefone
+        df_cds.loc[df_cds['id'] == id, 'dt_emprestimo'] = dt_emprestimo
+        df_cds.loc[df_cds['id'] == id, 'dt_devolucao'] = dt_devolucao
 
         self.add_autor_artista_cd(novo_autor_artista)
         self.add_distribuidora_cd(nova_distribuidora)
@@ -733,7 +775,8 @@ class db_manager:
             df_autor_artista = df_autor_artista.loc[df_autor_artista['autor_artista']
                                                     != autor_artista_selecionado]
 
-            df_autor_artista.to_csv('autores_artistas_cds.csv', index=False)
+            df_autor_artista.loc[:, 'id':'autor_artista'].to_csv(
+                'autores_artistas_cds.csv', index=False)
 
         if distribuidora_selecionada not in distribuidoras:
             df_distribuidoras = pd.read_csv(
@@ -742,9 +785,38 @@ class db_manager:
             df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora']
                                                       != distribuidora_selecionada]
 
-            df_distribuidoras.to_csv('distribuidoras_cds.csv', index=False)
+            df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
+                'distribuidoras_cds.csv', index=False)
 
-        df_cds.to_csv('cds.csv', index=False)
+        df_cds.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
+
+    def editar_autor_artista_cd(self, autor_artista_selecionado, novo_autor_artista):
+        df_cds = pd.read_csv('cds.csv')
+        df_autor_artista = pd.read_csv('autores_artistas_cds.csv')
+
+        df_autor_artista.loc[df_autor_artista['autor_artista'] ==
+                             autor_artista_selecionado, 'autor_artista'] = novo_autor_artista
+
+        df_cds.loc[df_cds['artista_autor'] == autor_artista_selecionado,
+                   'artista_autor'] = novo_autor_artista
+
+        df_cds.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
+        df_autor_artista.loc[:, 'id':'autor_artista'].to_csv(
+            'autores_artistas_cds.csv', index=False)
+
+    def editar_distribuidora_cd(self, distribuidora_selecionada, nova_distribuidora):
+        df_cds = pd.read_csv('cds.csv')
+        df_distribuidoras = pd.read_csv('distribuidoras_cds.csv')
+
+        df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
+                              distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
+
+        df_cds.loc[df_cds['distribuidora'] == distribuidora_selecionada,
+                   'distribuidora'] = nova_distribuidora
+
+        df_cds.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
+        df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
+            'distribuidoras_cds.csv', index=False)
 
     def excluir_cd(self, id, autor_artista, distribuidora):
         df_cds = pd.read_csv('cds.csv', index_col=False)
@@ -762,14 +834,16 @@ class db_manager:
             df_autores_artistas = df_autores_artistas.loc[
                 df_autores_artistas['autor_artista'] != autor_artista]
 
-            df_autores_artistas.to_csv('autores_artistas_cds.csv', index=False)
+            df_autores_artistas.loc[:, 'id':'autor_artista'].to_csv(
+                'autores_artistas_cds.csv', index=False)
 
         if distribuidora not in distribuidoras:
             df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora'] != distribuidora]
 
-            df_distribuidoras.to_csv('distribuidoras_cds.csv', index=False)
+            df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
+                'distribuidoras_cds.csv', index=False)
 
-        df_cds.to_csv('cds.csv', index=False)
+        df_cds.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
 
     def pesquisar_livro(self, entrada, campo_pesquisa):
         df = pd.read_csv('livros.csv', index_col=False)
@@ -830,19 +904,19 @@ class db_manager:
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
             resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
         elif campo_pesquisa == 'Autor (Empréstimo Expirado)':
             resultado = df.loc[df['autor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
         elif campo_pesquisa == 'Editora (Empréstimo Expirado)':
             resultado = df.loc[df['editora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
@@ -924,19 +998,19 @@ class db_manager:
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
             resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
         elif campo_pesquisa == 'Artista/Autor (Empréstimo Expirado)':
             resultado = df.loc[df['artista_autor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
         elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
             resultado = df.loc[df['distribuidora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
@@ -1004,19 +1078,19 @@ class db_manager:
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
             resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
         elif campo_pesquisa == 'Diretor (Empréstimo Expirado)':
             resultado = df.loc[df['diretor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
         elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
             resultado = df.loc[df['distribuidora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna()).dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
 
             return resultado
 
