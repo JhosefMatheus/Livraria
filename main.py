@@ -8,6 +8,12 @@ from db_manager import db_manager
 
 db = db_manager()
 
+root = Tk()
+root.title('Livraria')
+root.geometry('500x500')
+
+root.iconbitmap('icons/green-book.ico')
+
 
 def carrega_tabelas():
     '''
@@ -2855,7 +2861,7 @@ def muda_opcao_pesquisa_cd(e):
         entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_emprestimo_expirado(
         )
 
-    elif opcao_pesquisa_cd.get() == 'Distribuidoras (Empréstimo Expirado)':
+    elif opcao_pesquisa_cd.get() == 'Distribuidora (Empréstimo Expirado)':
         entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_emprestimo_expirado(
         )
 
@@ -3434,10 +3440,6 @@ def situacao_cd_editar_excluir_on_click(e):
         dt_emprestimo_cd_editar_excluir.configure(state='readonly')
         dt_devolucao_cd_editar_excluir.configure(state='readonly')
 
-
-root = Tk()
-root.title('Livraria')
-root.geometry('500x500')
 
 pesquisa_livro = LabelFrame(
     root,

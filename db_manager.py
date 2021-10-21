@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from datetime import date
 
 
@@ -547,15 +548,15 @@ class db_manager:
         df = pd.read_csv('dvds.csv', index_col=False)
 
         diretores = df['diretor'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return diretores
 
     def distribuidoras_dvds_emprestimo_expirado(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        df = pd.read_csv('dvds.csv', index_col=False)
 
         distribuidoras = df['distribuidora'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
 
         return distribuidoras
 
@@ -631,8 +632,14 @@ class db_manager:
         df_livros = pd.read_csv('livros.csv', index_col=False)
         df_autores_livros = pd.read_csv('autores_livros.csv', index_col=False)
 
-        df_autores_livros.loc[df_autores_livros['id']
-                              == id, 'autor'] = novo_autor
+        autores = df_autores_livros['autor'].to_list()
+
+        if novo_autor in autores:
+            df_autores_livros = df_autores_livros.loc[df_autores_livros['id'] != id]
+
+        else:
+            df_autores_livros.loc[df_autores_livros['id']
+                                  == id, 'autor'] = novo_autor
 
         df_livros.loc[df_livros['autor'] ==
                       autor_selecionado, 'autor'] = novo_autor
@@ -646,8 +653,14 @@ class db_manager:
         df_editoras_livros = pd.read_csv(
             'editoras_livros.csv', index_col=False)
 
-        df_editoras_livros.loc[df_editoras_livros['id']
-                               == id, 'editora'] = nova_editora
+        editoras = df_editoras_livros['editora'].to_list()
+
+        if nova_editora in editoras:
+            df_editoras_livros = df_editoras_livros.loc[df_editoras_livros['id'] != id]
+
+        else:
+            df_editoras_livros.loc[df_editoras_livros['id']
+                                   == id, 'editora'] = nova_editora
 
         df_livros.loc[df_livros['editora'] ==
                       editora_selecionada, 'editora'] = nova_editora
@@ -701,8 +714,15 @@ class db_manager:
         df_dvds = pd.read_csv('dvds.csv')
         df_diretores = pd.read_csv('diretores_dvds.csv')
 
-        df_diretores.loc[df_diretores['diretor'] ==
-                         diretor_selecionado, 'diretor'] = novo_diretor
+        diretores = df_diretores['diretor'].to_list()
+
+        if novo_diretor in diretores:
+            df_diretores = df_diretores.loc[df_diretores['diretor']
+                                            != diretor_selecionado]
+
+        else:
+            df_diretores.loc[df_diretores['diretor'] ==
+                             diretor_selecionado, 'diretor'] = novo_diretor
 
         df_dvds.loc[df_dvds['diretor'] ==
                     diretor_selecionado, 'diretor'] = novo_diretor
@@ -715,8 +735,15 @@ class db_manager:
         df_dvds = pd.read_csv('dvds.csv')
         df_distribuidoras = pd.read_csv('distribuidoras_dvds.csv')
 
-        df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
-                              distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
+        distribuidoras = df_distribuidoras['distribuidora'].to_list()
+
+        if nova_distribuidora in distribuidoras:
+            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora']
+                                                      != distribuidora_selecionada]
+
+        else:
+            df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
+                                  distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
 
         df_dvds.loc[df_dvds['distribuidora'] ==
                     distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
@@ -794,8 +821,15 @@ class db_manager:
         df_cds = pd.read_csv('cds.csv')
         df_autor_artista = pd.read_csv('autores_artistas_cds.csv')
 
-        df_autor_artista.loc[df_autor_artista['autor_artista'] ==
-                             autor_artista_selecionado, 'autor_artista'] = novo_autor_artista
+        autores_artistas = df_autor_artista['autor_artista'].to_list()
+
+        if novo_autor_artista in autores_artistas:
+            df_autor_artista = df_autor_artista.loc[df_autor_artista['autor_artista']
+                                                    != autor_artista_selecionado]
+
+        else:
+            df_autor_artista.loc[df_autor_artista['autor_artista'] ==
+                                 autor_artista_selecionado, 'autor_artista'] = novo_autor_artista
 
         df_cds.loc[df_cds['artista_autor'] == autor_artista_selecionado,
                    'artista_autor'] = novo_autor_artista
@@ -808,8 +842,15 @@ class db_manager:
         df_cds = pd.read_csv('cds.csv')
         df_distribuidoras = pd.read_csv('distribuidoras_cds.csv')
 
-        df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
-                              distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
+        distribuidoras = df_distribuidoras['distribuidora'].to_list()
+
+        if nova_distribuidora in distribuidoras:
+            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora']
+                                                      != distribuidora_selecionada]
+
+        else:
+            df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
+                                  distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
 
         df_cds.loc[df_cds['distribuidora'] == distribuidora_selecionada,
                    'distribuidora'] = nova_distribuidora
@@ -849,81 +890,117 @@ class db_manager:
         df = pd.read_csv('livros.csv', index_col=False)
 
         if campo_pesquisa == 'Título (Todos)':
-            resultado = df.loc[df['titulo'] ==
-                               entrada].fillna('').values.tolist()
+            resultado = df.loc[df['titulo'] == entrada]
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Autor (Todos)':
-            resultado = df.loc[df['autor'] ==
-                               entrada].fillna('').values.tolist()
+            resultado = df.loc[df['autor'] == entrada]
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Editora (Todos)':
-            resultado = df.loc[df['editora'] ==
-                               entrada].fillna('').values.tolist()
+            resultado = df.loc[df['editora'] == entrada]
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Título (Disponíveis)':
             resultado = df.loc[df['titulo'] == entrada].where(
-                df['situacao'] == 'Disponível').dropna(axis=0, how='all').fillna('').values.tolist()
+                df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Autor (Disponíveis)':
             resultado = df.loc[df['autor'] == entrada].where(
-                df['situacao'] == 'Disponível').dropna(axis=0, how='all').fillna('').values.tolist()
+                df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Editora (Disponíveis)':
             resultado = df.loc[df['editora'] == entrada].where(
-                df['situacao'] == 'Disponível').dropna(axis=0, how='all').fillna('').values.tolist()
+                df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Título (Emprestados)':
             resultado = df.loc[df['titulo'] == entrada].where(
-                df['situacao'] == 'Emprestado').dropna().values.tolist()
+                df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Autor (Emprestados)':
             resultado = df.loc[df['autor'] == entrada].where(
-                df['situacao'] == 'Emprestado').dropna().values.tolist()
+                df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Editora (Emprestados)':
             resultado = df.loc[df['editora'] == entrada].where(
-                df['situacao'] == 'Emprestado').dropna().values.tolist()
+                df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
             resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Autor (Empréstimo Expirado)':
             resultado = df.loc[df['autor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Editora (Empréstimo Expirado)':
             resultado = df.loc[df['editora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Beneficiado':
-            resultado = df.loc[df['beneficiado'] == entrada].values.tolist()
+            resultado = df.loc[df['beneficiado'] == entrada]
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+
+            return resultado.values.tolist()
 
     def pesquisar_autor(self, entrada):
         df = pd.read_csv('autores_livros.csv', index_col=False)
@@ -962,62 +1039,82 @@ class db_manager:
 
         elif campo_pesquisa == 'Título (Disponíveis)':
             resultado = df.loc[df['titulo'] ==
-                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Artista/Autor (Disponíveis)':
             resultado = df.loc[df['artista_autor'] ==
-                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Distribuidora (Disponíveis)':
             resultado = df.loc[df['distribuidora'] ==
-                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Título (Emprestados)':
             resultado = df.loc[df['titulo'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+                               entrada].where(df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Artista/Autor (Emprestados)':
             resultado = df.loc[df['artista_autor'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+                               entrada].where(df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Distribuidora (Emprestados)':
             resultado = df.loc[df['distribuidora'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+                               entrada].where(df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
             resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Artista/Autor (Empréstimo Expirado)':
             resultado = df.loc[df['artista_autor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
             resultado = df.loc[df['distribuidora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Beneficiado':
-            resultado = df.loc[df['beneficiado'] == entrada].values.tolist()
+            resultado = df.loc[df['beneficiado'] == entrada]
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
     def pesquisar_dvd(self, entrada, campo_pesquisa):
         df = pd.read_csv('dvds.csv', index_col=False)
@@ -1042,57 +1139,75 @@ class db_manager:
 
         elif campo_pesquisa == 'Título (Disponíveis)':
             resultado = df.loc[df['titulo'] ==
-                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Diretor (Disponíveis)':
             resultado = df.loc[df['diretor'] ==
-                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Distribuidora (Disponíveis)':
             resultado = df.loc[df['distribuidora'] ==
-                               entrada].where(df['situacao'] == 'Disponível').fillna('').values.tolist()
+                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.fillna('').values.tolist()
 
         elif campo_pesquisa == 'Título (Emprestados)':
             resultado = df.loc[df['titulo'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+                               entrada].where(df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Diretor (Emprestados)':
             resultado = df.loc[df['diretor'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+                               entrada].where(df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Distribuidora (Emprestados)':
             resultado = df.loc[df['distribuidora'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna().values.tolist()
+                               entrada].where(df['situacao'] == 'Emprestado').dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
             resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Diretor (Empréstimo Expirado)':
             resultado = df.loc[df['diretor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
             resultado = df.loc[df['distribuidora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().values.tolist()
+                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
 
-            return resultado
+            resultado['id'] = resultado['id'].astype('int64')
+
+            return resultado.values.tolist()
 
         elif campo_pesquisa == 'Beneficiado':
             resultado = df.loc[df['beneficiado'] == entrada].values.tolist()

@@ -1,1 +1,4 @@
 id,titulo,diretor,distribuidora,tempo,situacao,beneficiado,telefone,dt_emprestimo,dt_devolucao
+1,O Último dos Moicanos,Roman Polanski,Telecine,01h52m00s,Disponível,,,,
+2,A Lista de Schindler,Steven Spielberg,Telecine,03h15m00s,Emprestado,Eduardo,84996637412.0,20/10/2021,20/11/2021
+3,O Pianista,Roman Polanski,Telecine,02h30m00s,Emprestado,Eduardo,84996637412.0,03/05/2021,03/08/2021
