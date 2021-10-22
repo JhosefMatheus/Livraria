@@ -1,74 +1,240 @@
+import sqlite3
 import pandas as pd
-import numpy as np
 from datetime import date
 
 
 class db_manager:
     def __init__(self):
-        pass
+        self.db_name = 'livraria_hjm.db'
+
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS livros (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                titulo TEXT NOT NULL,
+                autor TEXT NOT NULL,
+                editora TEXT NOT NULL,
+                n_paginas INTEGER NOT NULL,
+                situacao TEXT NOT NULL,
+                beneficiado TEXT,
+                telefone TEXT,
+                dt_emprestimo TEXT,
+                dt_devolucao TEXT
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS autores (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                autor TEXT NOT NULL
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS editoras (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                editora TEXT NOT NULL
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS cds (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                titulo TEXT NOT NULL,
+                artista TEXT NOT NULL,
+                distribuidora TEXT NOT NULL,
+                duracao TEXT NOT NULL,
+                situacao TEXT NOT NULL,
+                beneficiado TEXT,
+                telefone TEXT,
+                dt_emprestimo TEXT,
+                dt_devolucao TEXT
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS artistas_cds (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                artista TEXT NOT NULL
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS distribuidoras_cds (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                distribuidora TEXT NOT NULL
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS dvds (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                titulo TEXT NOT NULL,
+                diretor TEXT NOT NULL,
+                distribuidora TEXT NOT NULL,
+                duracao TEXT NOT NULL,
+                situacao TEXT NOT NULL,
+                beneficiado TEXT,
+                telefone TEXT,
+                dt_emprestimo TEXT,
+                dt_devolucao TEXT
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS diretores (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                diretor TEXT NOT NULL
+            );
+        ''')
+
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS distribuidoras_dvds (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                distribuidora TEXT NOT NULL
+            );
+        ''')
+
+        cursor.close()
+
+        connection.commit()
+        connection.close()
 
     def get_livros(self):
-        df = pd.read_csv('livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        livros = df.loc[:, 'id':'dt_devolucao'].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM livros'
+
+        livros = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return livros
 
     def get_cds(self):
-        df = pd.read_csv('cds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        cds = df.loc[:, 'id':'dt_devolucao'].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM cds'
+
+        cds = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return cds
 
     def get_dvds(self):
-        df = pd.read_csv('dvds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        dvds = df.loc[:, 'id':'dt_devolucao'].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM dvds'
+
+        dvds = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return dvds
 
     def get_artistas(self):
-        df = pd.read_csv('autores_artistas_cds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        artistas = df.loc[:, 'id':'autor_artista'].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM artistas_cds'
+
+        artistas = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return artistas
 
     def get_autores(self):
-        df = pd.read_csv('autores_livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        autores = df.loc[:, 'id':'autor'].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM autores'
+
+        autores = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return autores
 
     def get_editoras(self):
-        df = pd.read_csv('editoras_livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        editoras = df.loc[:, 'id':'editora'].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM editoras'
+
+        editoras = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return editoras
 
     def get_diretores(self):
-        df = pd.read_csv('diretores_dvds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        diretores = df.loc[:, 'id':'diretor'].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM diretores'
+
+        diretores = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return diretores
 
     def get_distribuidoras_cds(self):
-        df = pd.read_csv('distribuidoras_cds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df.loc[:, 'id':'distribuidora'].fillna(
-            '').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM distribuidoras_cds'
+
+        distribuidoras = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return distribuidoras
 
     def get_distribuidoras_dvds(self):
-        df = pd.read_csv('distribuidoras_dvds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df.loc[:, 'id':'distribuidora'].fillna(
-            '').values.tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT * FROM distribuidoras_dvds'
+
+        distribuidoras = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return distribuidoras
 

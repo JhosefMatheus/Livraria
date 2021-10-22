@@ -12,7 +12,7 @@ root = Tk()
 root.title('Livraria')
 root.geometry('500x500')
 
-root.iconbitmap('icons/green-book.ico')
+# root.iconbitmap(r'icons/green-book.ico')
 
 
 def carrega_tabelas():
