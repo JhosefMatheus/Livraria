@@ -239,65 +239,78 @@ class db_manager:
         return distribuidoras
 
     def add_livro(self, titulo, autor, editora, n_pag, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df = pd.read_csv('livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        id = len(df) + \
-            1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
+        cursor = connection.cursor()
 
-        new_row = {
-            'id': id,
-            'titulo': titulo,
-            'autor': autor,
-            'editora': editora,
-            'n_pag': n_pag,
-            'situacao': situacao,
-            'beneficiado': beneficiado,
-            'telefone': telefone,
-            'dt_emprestimo': dt_emprestimo,
-            'dt_devolucao': dt_devolucao
-        }
+        sql = '''
+        INSERT INTO livros (titulo, autor, editora, n_paginas, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        '''
 
-        df = df.append(new_row, ignore_index=True)
+        values = (titulo, autor, editora, n_pag, situacao,
+                  beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-        df.loc[:, 'id':'dt_devolucao'].to_csv('livros.csv', index=False)
+        cursor.execute(sql, values)
+
+        cursor.close()
+
+        connection.commit()
+
+        connection.close()
 
         self.add_autor(autor)
         self.add_editora(editora)
 
     def add_autor(self, autor):
-        df = pd.read_csv('autores_livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        if autor not in self.nome_autores():
-            id = len(df) + \
-                1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
+        cursor = connection.cursor()
 
-            new_row = {
-                'id': id,
-                'autor': autor
-            }
+        query = 'SELECT autor FROM autores'
 
-            df = df.append(new_row, ignore_index=True)
+        autores = cursor.execute(query).fetchall()
 
-            df.loc[:, 'id':'autor'].to_csv('autores_livros.csv', index=False)
+        if (autor,) not in autores:
+            sql = '''
+            INSERT INTO autores (autor)
+            VALUES (?)
+            '''
+
+            values = (autor,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def add_editora(self, editora):
-        df = pd.read_csv('editoras_livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        editoras = df['editora'].to_list()
+        cursor = connection.cursor()
 
-        if editora not in editoras:
-            id = len(df) + \
-                1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
+        query = 'SELECT editora FROM editoras'
 
-            new_row = {
-                'id': id,
-                'editora': editora
-            }
+        editoras = cursor.execute(query).fetchall()
 
-            df = df.append(new_row, ignore_index=True)
+        if (editora,) not in editoras:
+            sql = '''
+            INSERT INTO editoras (editora)
+            VALUES (?)
+            '''
 
-            df.loc[:, 'id':'editora'].to_csv(
-                'editoras_livros.csv', index=False)
+            values = (editora,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def add_dvd(self, titulo, diretor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
         df = pd.read_csv('dvds.csv', index_col=False)
