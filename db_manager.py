@@ -313,357 +313,744 @@ class db_manager:
         connection.close()
 
     def add_dvd(self, titulo, diretor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        id = len(df) + \
-            1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
+        cursor = connection.cursor()
 
-        new_row = {
-            'id': id,
-            'titulo': titulo,
-            'diretor': diretor,
-            'distribuidora': distribuidora,
-            'tempo': tempo,
-            'situacao': situacao,
-            'beneficiado': beneficiado,
-            'telefone': telefone,
-            'dt_emprestimo': dt_emprestimo,
-            'dt_devolucao': dt_devolucao
-        }
+        sql = '''
+            INSERT INTO dvds (titulo, diretor, distribuidora, duracao, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        '''
 
-        df = df.append(new_row, ignore_index=True)
+        values = (titulo, diretor, distribuidora, tempo, situacao,
+                  beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-        df.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
+        cursor.execute(sql, values)
+
+        cursor.close()
+
+        connection.commit()
+
+        connection.close()
 
         self.add_diretor_dvd(diretor)
         self.add_distribuidora_dvd(distribuidora)
 
+    def add_diretor_dvd(self, diretor):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        query = 'SELECT diretor FROM diretores'
+
+        diretores = cursor.execute(query).fetchall()
+
+        if (diretor,) not in diretores:
+            sql = '''
+                INSERT INTO diretores (diretor)
+                VALUES (?)
+            '''
+
+            values = (diretor,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
+
+    def add_distribuidora_dvd(self, distribuidora):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        query = 'SELECT distribuidora FROM distribuidoras_dvds'
+
+        distribuidoras = cursor.execute(query).fetchall()
+
+        if (distribuidora,) not in distribuidoras:
+            sql = '''
+                INSERT INTO distribuidoras_dvds (distribuidora)
+                VALUES (?)
+            '''
+
+            values = (distribuidora,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
+
     def add_cd(self, titulo, artista_autor, distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        id = len(df) + \
-            1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
+        cursor = connection.cursor()
 
-        new_row = {
-            'id': id,
-            'titulo': titulo,
-            'artista_autor': artista_autor,
-            'distribuidora': distribuidora,
-            'tempo': tempo,
-            'situacao': situacao,
-            'beneficiado': beneficiado,
-            'telefone': telefone,
-            'dt_emprestimo': dt_emprestimo,
-            'dt_devolucao': dt_devolucao
-        }
+        sql = '''
+            INSERT INTO cds (titulo, artista, distribuidora, duracao, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        '''
 
-        df = df.append(new_row, ignore_index=True)
+        values = (titulo, artista_autor, distribuidora, tempo, situacao,
+                  beneficiado, telefone, dt_emprestimo, dt_devolucao)
 
-        df.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
+        cursor.execute(sql, values)
+
+        cursor.close()
+
+        connection.commit()
+
+        connection.close()
 
         self.add_autor_artista_cd(artista_autor)
         self.add_distribuidora_cd(distribuidora)
 
-    def add_diretor_dvd(self, diretor):
-        df = pd.read_csv('diretores_dvds.csv', index_col=False)
-
-        diretores = df['diretor'].to_list()
-
-        if diretor not in diretores:
-            id = len(df) + \
-                1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
-
-            new_row = {
-                'id': id,
-                'diretor': diretor
-            }
-
-            df = df.append(new_row, ignore_index=True)
-
-            df.loc[:, 'id':'diretor'].to_csv('diretores_dvds.csv', index=False)
-
     def add_autor_artista_cd(self, autor_artista):
-        df = pd.read_csv('autores_artistas_cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        autores_artistas = df['autor_artista'].to_list()
+        cursor = connection.cursor()
 
-        if autor_artista not in autores_artistas:
-            id = len(df) + \
-                1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
+        query = 'SELECT artista FROM  artistas_cds'
 
-            new_row = {
-                'id': id,
-                'autor_artista': autor_artista
-            }
+        artistas = cursor.execute(query).fetchall()
 
-            df = df.append(new_row, ignore_index=True)
+        if (autor_artista,) not in artistas:
+            sql = '''
+                INSERT INTO artistas_cds (artista)
+                VALUES (?)
+            '''
 
-            df.loc[:, 'id':'autor_artista'].to_csv(
-                'autores_artistas_cds.csv', index=False)
+            values = (autor_artista,)
 
-    def add_distribuidora_dvd(self, distribuidora):
-        df = pd.read_csv('distribuidoras_dvds.csv', index_col=False)
+            cursor.execute(sql, values)
 
-        distribuidoras = df['distribuidora'].to_list()
+            connection.commit()
 
-        if distribuidora not in distribuidoras:
-            id = len(df) + \
-                1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
+        cursor.close()
 
-            new_row = {
-                'id': id,
-                'distribuidora': distribuidora
-            }
-
-            df = df.append(new_row, ignore_index=True)
-
-            df.loc[:, 'id':'distribuidora'].to_csv(
-                'distribuidoras_dvds.csv', index=False)
+        connection.close()
 
     def add_distribuidora_cd(self, distribuidora):
-        df = pd.read_csv('distribuidoras_cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].to_list()
+        cursor = connection.cursor()
 
-        if distribuidora not in distribuidoras:
-            id = len(df) + \
-                1 if not df['id'].to_list() else df['id'].to_list()[-1] + 1
+        query = 'SELECT distribuidora FROM distribuidoras_cds'
 
-            new_row = {
-                'id': id,
-                'distribuidora': distribuidora
-            }
+        distribuidoras = cursor.execute(query).fetchall()
 
-            df = df.append(new_row, ignore_index=True)
+        if (distribuidora,) not in distribuidoras:
+            sql = '''
+                INSERT INTO distribuidoras_cds (distribuidora)
+                VALUES (?)
+            '''
 
-            df.loc[:, 'id':'distribuidora'].to_csv(
-                'distribuidoras_cds.csv', index=False)
+            values = (distribuidora,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def nome_autores(self):
-        df = pd.read_csv('autores_livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        autores = df['autor'].to_list()
+        cursor = connection.cursor()
+
+        query = 'SELECT autor FROM autores'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        autores = [autor[0] for autor in query_result]
 
         return autores
 
     def nome_editoras(self):
-        df = pd.read_csv('editoras_livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        editoras = df['editora'].to_list()
+        cursor = connection.cursor()
+
+        query = 'SELECT editora FROM editoras'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        editoras = [editora[0] for editora in query_result]
 
         return editoras
 
     def titulo_livros(self):
-        df = pd.read_csv('livros.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].unique().astype(str).tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT DISTINCT titulo FROM livros'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def nome_diretores_dvds(self):
-        df = pd.read_csv('diretores_dvds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        diretores = df['diretor'].to_list()
+        cursor = connection.cursor()
+
+        query = 'SELECT diretor FROM diretores'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        diretores = [diretor[0] for diretor in query_result]
 
         return diretores
 
     def nome_autores_artistas_cds(self):
-        df = pd.read_csv('autores_artistas_cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        autores_artistas = df['autor_artista'].to_list()
+        cursor = connection.cursor()
 
-        return autores_artistas
+        query = 'SELECT artista FROM artistas_cds'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        artistas = [artista[0] for artista in query_result]
+
+        return artistas
 
     def nome_distribuidoras_dvds(self):
-        df = pd.read_csv('distribuidoras_dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].to_list()
+        cursor = connection.cursor()
+
+        query = 'SELECT distribuidora FROM distribuidoras_dvds'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        distribuidoras = [distribuidora[0] for distribuidora in query_result]
 
         return distribuidoras
 
     def nome_distribuidoras_cds(self):
-        df = pd.read_csv('distribuidoras_cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].to_list()
+        cursor = connection.cursor()
+
+        query = 'SELECT distribuidora FROM distribuidoras_cds'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        distribuidoras = [distribuidora[0] for distribuidora in query_result]
 
         return distribuidoras
 
     def titulos_dvds(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].unique().tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT DISTINCT titulo FROM dvds'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def titulos_cds(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].unique().tolist()
+        cursor = connection.cursor()
+
+        query = 'SELECT DISTINCT titulo FROM cds'
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def titulos_livros_disponiveis(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM livros
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def autores_livros_disponiveis(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        autores = df['autor'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT autor
+            FROM livros
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        autores = [autor[0] for autor in query_result]
 
         return autores
 
     def editoras_livros_disponiveis(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        editoras = df['editora'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT editora
+            FROM livros
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        editoras = [editora[0] for editora in query_result]
 
         return editoras
 
     def titulos_livros_emprestados(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM livros
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def autores_livros_emprestados(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        autores = df['autor'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT autor
+            FROM livros
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        autores = [autor[0] for autor in query_result]
 
         return autores
 
     def editoras_livros_emprestados(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        editoras = df['editora'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT editora
+            FROM livros
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        editoras = [editora[0] for editora in query_result]
 
         return editoras
 
     def titulos_cds_disponiveis(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM cds
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def autores_artistas_cds_disponiveis(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        autores_artistas = df['artista_autor'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
 
-        return autores_artistas
+        query = '''
+            SELECT DISTINCT artista
+            FROM cds
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        artistas = [artista[0] for artista in query_result]
+
+        return artistas
 
     def distribuidoras_cds_disponiveis(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT distribuidora
+            FROM cds
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        distribuidoras = [distribuidora[0] for distribuidora in query_result]
 
         return distribuidoras
 
     def titulos_cds_emprestados(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM cds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def autores_artistas_cds_emprestados(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        autores_artistas = df['artista_autor'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
 
-        return autores_artistas
+        query = '''
+            SELECT DISTINCT artista
+            FROM cds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        artistas = [artista[0] for artista in query_result]
+
+        return artistas
 
     def distribuidoras_cds_emprestados(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT distribuidora
+            FROM cds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        distribuidoras = [distribuidora[0] for distribuidora in query_result]
 
         return distribuidoras
 
     def titulos_dvds_disponiveis(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM dvds
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def diretores_dvds_disponiveis(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        diretores = df['diretor'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT diretor
+            FROM dvds
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        diretores = [diretor[0] for diretor in query_result]
 
         return diretores
 
     def distribuidoras_dvds_disponiveis(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].where(
-            df['situacao'] == 'Disponível').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT distribuidora
+            FROM dvds
+            WHERE situacao = 'Disponível'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        distribuidoras = [distribuidora[0] for distribuidora in query_result]
 
         return distribuidoras
 
     def titulos_dvds_emprestados(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM dvds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def diretores_dvds_emprestados(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        diretores = df['diretor'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT diretor
+            FROM dvds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        diretores = [diretor[0] for diretor in query_result]
 
         return diretores
 
     def distribuidoras_dvds_emprestados(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].where(
-            df['situacao'] == 'Emprestado').dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT distribuidora
+            FROM dvds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        distribuidoras = [distribuidora[0] for distribuidora in query_result]
 
         return distribuidoras
 
     def beneficiados_livros(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        beneficiados = df['beneficiado'].dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT beneficiado
+            FROM livros
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        beneficiados = [beneficiado[0] for beneficiado in query_result]
 
         return beneficiados
 
     def beneficiados_cds(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        beneficiados = df['beneficiado'].dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT beneficiado
+            FROM cds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        beneficiados = [beneficiado[0] for beneficiado in query_result]
 
         return beneficiados
 
     def beneficiados_dvds(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        beneficiados = df['beneficiado'].dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT beneficiado
+            FROM dvds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        beneficiados = [beneficiado[0] for beneficiado in query_result]
 
         return beneficiados
 
