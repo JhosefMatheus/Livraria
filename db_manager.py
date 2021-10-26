@@ -1326,66 +1326,117 @@ class db_manager:
         connection.close()
 
     def editar_dvd(self, id, titulo, diretor_selecionado, novo_diretor, distribuidora_selecionada, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df_dvds = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        df_dvds.loc[df_dvds['id'] == id, 'titulo'] = titulo
-        df_dvds.loc[df_dvds['id'] == id, 'diretor'] = novo_diretor
-        df_dvds.loc[df_dvds['id'] == id, 'distribuidora'] = nova_distribuidora
-        df_dvds.loc[df_dvds['id'] == id, 'tempo'] = tempo
-        df_dvds.loc[df_dvds['id'] == id, 'situacao'] = situacao
-        df_dvds.loc[df_dvds['id'] == id, 'beneficiado'] = beneficiado
-        df_dvds.loc[df_dvds['id'] == id, 'telefone'] = telefone
-        df_dvds.loc[df_dvds['id'] == id, 'dt_emprestimo'] = dt_emprestimo
-        df_dvds.loc[df_dvds['id'] == id, 'dt_devolucao'] = dt_devolucao
+        cursor = connection.cursor()
+
+        sql = '''
+            UPDATE dvds
+            SET titulo = ?,
+                diretor = ?,
+                distribuidora = ?,
+                duracao = ?,
+                situacao = ?,
+                beneficiado = ?,
+                telefone = ?,
+                dt_emprestimo = ?,
+                dt_devolucao = ?
+            WHERE id = ?
+        '''
+
+        values = (titulo, novo_diretor, nova_distribuidora, tempo, situacao,
+                  beneficiado, telefone, dt_emprestimo, dt_devolucao, id)
+
+        cursor.execute(sql, values)
+
+        connection.commit()
 
         self.add_diretor_dvd(novo_diretor)
         self.add_distribuidora_dvd(nova_distribuidora)
 
-        diretores = df_dvds['diretor'].to_list()
-        distribuidoras = df_dvds['distribuidora'].to_list()
+        query_1 = 'SELECT diretor FROM dvds'
+        query_2 = 'SELECT distribuidora FROM dvds'
 
-        if diretor_selecionado not in diretores:
-            df_diretores_dvds = pd.read_csv(
-                'diretores_dvds.csv', index_col=False)
+        diretores = cursor.execute(query_1).fetchall()
+        distribuidoras = cursor.execute(query_2).fetchall()
 
-            df_diretores_dvds = df_diretores_dvds.loc[df_diretores_dvds['diretor']
-                                                      != diretor_selecionado]
+        if (diretor_selecionado,) not in diretores:
+            sql = '''
+                DELETE FROM diretores
+                WHERE diretor = ?
+            '''
 
-            df_diretores_dvds.loc[:, 'id':'diretor'].to_csv(
-                'diretores_dvds.csv', index=False)
+            values = (diretor_selecionado,)
 
-        if distribuidora_selecionada not in distribuidoras:
-            df_distribuidoras_dvds = pd.read_csv(
-                'distribuidoras_dvds.csv', index_col=False)
+            cursor.execute(sql, values)
 
-            df_distribuidoras_dvds = df_distribuidoras_dvds.loc[
-                df_distribuidoras_dvds['distribuidora'] != distribuidora_selecionada]
+            connection.commit()
 
-            df_distribuidoras_dvds.loc[:, 'id':'distribuidora'].to_csv(
-                'distribuidoras_dvds.csv', index=False)
+        if (distribuidora_selecionada,) not in distribuidoras:
+            sql = '''
+                DELETE FROM distribuidoras_dvds
+                WHERE distribuidora = ?
+            '''
 
-        df_dvds.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
+            values = (distribuidora_selecionada,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def editar_diretor_dvd(self, diretor_selecionado, novo_diretor):
-        df_dvds = pd.read_csv('dvds.csv')
-        df_diretores = pd.read_csv('diretores_dvds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        diretores = df_diretores['diretor'].to_list()
+        cursor = connection.cursor()
 
-        if novo_diretor in diretores:
-            df_diretores = df_diretores.loc[df_diretores['diretor']
-                                            != diretor_selecionado]
+        query = 'SELECT diretor FROM diretores'
+
+        diretores = cursor.execute(query).fetchall()
+
+        if (novo_diretor,) in diretores:
+            sql = '''
+                DELETE FROM diretores
+                WHERE diretor = ?
+            '''
+
+            values = (diretor_selecionado,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
 
         else:
-            df_diretores.loc[df_diretores['diretor'] ==
-                             diretor_selecionado, 'diretor'] = novo_diretor
+            sql = '''
+                UPDATE diretores
+                SET diretor = ?
+                WHERE diretor = ?
+            '''
 
-        df_dvds.loc[df_dvds['diretor'] ==
-                    diretor_selecionado, 'diretor'] = novo_diretor
+            values = (novo_diretor, diretor_selecionado)
 
-        df_dvds.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
-        df_diretores.loc[:, 'id':'diretor'].to_csv(
-            'diretores_dvds.csv', index=False)
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        sql = '''
+            UPDATE dvds
+            SET diretor = ?
+            WHERE diretor = ?
+        '''
+
+        values = (novo_diretor, diretor_selecionado)
+
+        cursor.execute(sql, values)
+
+        connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def editar_distribuidora_dvd(self, distribuidora_selecionada, nova_distribuidora):
         df_dvds = pd.read_csv('dvds.csv')
