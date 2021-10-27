@@ -1439,159 +1439,314 @@ class db_manager:
         connection.close()
 
     def editar_distribuidora_dvd(self, distribuidora_selecionada, nova_distribuidora):
-        df_dvds = pd.read_csv('dvds.csv')
-        df_distribuidoras = pd.read_csv('distribuidoras_dvds.csv')
+        connection = sqlite3.connect(self.db_name)
+        cursor = connection.cursor()
 
-        distribuidoras = df_distribuidoras['distribuidora'].to_list()
+        query = 'SELECT distribuidora FROM distribuidoras_dvds'
 
-        if nova_distribuidora in distribuidoras:
-            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora']
-                                                      != distribuidora_selecionada]
+        distribuidoras = cursor.execute(query).fetchall()
+
+        if (nova_distribuidora,) in distribuidoras:
+            sql = '''
+                DELETE FROM distribuidoras_dvds
+                WHERE distribuidora = ?
+            '''
+
+            values = (distribuidora_selecionada,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
 
         else:
-            df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
-                                  distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
+            sql = '''
+                UPDATE distribuidoras_dvds
+                SET distribuidora = ?
+                WHERE distribuidora = ?
+            '''
 
-        df_dvds.loc[df_dvds['distribuidora'] ==
-                    distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
+            values = (nova_distribuidora, distribuidora_selecionada)
 
-        df_dvds.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
-        df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
-            'distribuidoras_dvds.csv', index=False)
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        sql = '''
+            UPDATE dvds
+            SET distribuidora = ?
+            WHERE distribuidora = ?
+        '''
+
+        values = (nova_distribuidora, distribuidora_selecionada)
+
+        cursor.execute(sql, values)
+
+        connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def excluir_dvd(self, id, diretor, distribuidora):
-        df_dvds = pd.read_csv('dvds.csv', index_col=False)
-        df_diretores = pd.read_csv('diretores_dvds.csv', index_col=False)
-        df_distribuidoras = pd.read_csv(
-            'distribuidoras_dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
+        cursor = connection.cursor()
 
-        df_dvds = df_dvds.loc[df_dvds['id'] != id]
+        sql = '''
+            DELETE FROM dvds
+            WHERE id = ?
+        '''
 
-        diretores = df_dvds['diretor'].to_list()
-        distribuidoras = df_dvds['distribuidora'].to_list()
+        values = (id,)
 
-        if diretor not in diretores:
-            df_diretores = df_diretores.loc[df_diretores['diretor'] != diretor]
+        cursor.execute(sql, values)
 
-            df_diretores.loc[:, 'id':'diretor'].to_csv('diretores_dvds.csv')
+        connection.commit()
 
-        if distribuidora not in distribuidoras:
-            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora'] != distribuidora]
+        query_1 = 'SELECT diretor FROM dvds'
+        query_2 = 'SELECT distribuidora FROM dvds'
 
-            df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
-                'distribuidoras_dvds.csv')
+        diretores = cursor.execute(query_1).fetchall()
+        distribuidoras = cursor.execute(query_2).fetchall()
 
-        df_dvds.loc[:, 'id':'dt_devolucao'].to_csv('dvds.csv', index=False)
+        if (diretor,) not in diretores:
+            sql = '''
+                DELETE FROM diretores
+                WHERE diretor = ?
+            '''
+
+            values = (diretor,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        if (distribuidora,) not in distribuidoras:
+            sql = '''
+                DELETE FROM distribuidoras_dvds
+                WHERE distribuidora = ?
+            '''
+
+            values = (distribuidora,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def editar_cd(self, id, titulo, autor_artista_selecionado, novo_autor_artista, distribuidora_selecionada, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao):
-        df_cds = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        df_cds.loc[df_cds['id'] == id, 'titulo'] = titulo
-        df_cds.loc[df_cds['id'] == id, 'artista_autor'] = novo_autor_artista
-        df_cds.loc[df_cds['id'] == id, 'distribuidora'] = nova_distribuidora
-        df_cds.loc[df_cds['id'] == id, 'tempo'] = tempo
-        df_cds.loc[df_cds['id'] == id, 'situacao'] = situacao
-        df_cds.loc[df_cds['id'] == id, 'beneficiado'] = beneficiado
-        df_cds.loc[df_cds['id'] == id, 'telefone'] = telefone
-        df_cds.loc[df_cds['id'] == id, 'dt_emprestimo'] = dt_emprestimo
-        df_cds.loc[df_cds['id'] == id, 'dt_devolucao'] = dt_devolucao
+        cursor = connection.cursor()
+
+        sql = '''
+            UPDATE cds
+            SET titulo = ?,
+                artista = ?,
+                distribuidora = ?,
+                duracao = ?,
+                situacao = ?,
+                beneficiado = ?,
+                telefone = ?,
+                dt_emprestimo = ?,
+                dt_devolucao = ?
+            WHERE id = ?
+        '''
+
+        values = (titulo, novo_autor_artista, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao, id)
+
+        cursor.execute(sql, values)
+
+        connection.commit()
 
         self.add_autor_artista_cd(novo_autor_artista)
         self.add_distribuidora_cd(nova_distribuidora)
 
-        autores_artistas = df_cds['artista_autor'].to_list()
-        distribuidoras = df_cds['distribuidora'].to_list()
+        query_1 = 'SELECT artista FROM cds'
+        query_2 = 'SELECT distribuidora FROM cds'
 
-        if autor_artista_selecionado not in autores_artistas:
-            df_autor_artista = pd.read_csv(
-                'autores_artistas_cds.csv', index_col=False)
+        autores_artistas = cursor.execute(query_1).fetchall()
+        distribuidoras = cursor.execute(query_2).fetchall()
 
-            df_autor_artista = df_autor_artista.loc[df_autor_artista['autor_artista']
-                                                    != autor_artista_selecionado]
+        if (autor_artista_selecionado,) not in autores_artistas:
+            sql = '''
+                DELETE FROM artistas_cds
+                WHERE artista = ?
+            '''
 
-            df_autor_artista.loc[:, 'id':'autor_artista'].to_csv(
-                'autores_artistas_cds.csv', index=False)
+            values = (autor_artista_selecionado,)
 
-        if distribuidora_selecionada not in distribuidoras:
-            df_distribuidoras = pd.read_csv(
-                'distribuidoras_cds.csv', index_col=False)
+            cursor.execute(sql, values)
 
-            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora']
-                                                      != distribuidora_selecionada]
+            connection.commit()
 
-            df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
-                'distribuidoras_cds.csv', index=False)
+        if (distribuidora_selecionada,) not in distribuidoras:
+            sql = '''
+                DELETE FROM distribuidoras_cds
+                WHERE distribuidora = ?
+            '''
 
-        df_cds.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
+            values = (distribuidora_selecionada,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def editar_autor_artista_cd(self, autor_artista_selecionado, novo_autor_artista):
-        df_cds = pd.read_csv('cds.csv')
-        df_autor_artista = pd.read_csv('autores_artistas_cds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        autores_artistas = df_autor_artista['autor_artista'].to_list()
+        cursor = connection.cursor()
 
-        if novo_autor_artista in autores_artistas:
-            df_autor_artista = df_autor_artista.loc[df_autor_artista['autor_artista']
-                                                    != autor_artista_selecionado]
+        query = 'SELECT artista FROM artistas_cds'
+
+        autores_artistas = cursor.execute(query).fetchall()
+
+        if (novo_autor_artista,) in autores_artistas:
+            sql = '''
+                DELETE FROM artistas_cds
+                WHERE artista = ?
+            '''
+
+            values = (autor_artista_selecionado,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
 
         else:
-            df_autor_artista.loc[df_autor_artista['autor_artista'] ==
-                                 autor_artista_selecionado, 'autor_artista'] = novo_autor_artista
+            sql = '''
+                UPDATE artistas_cds
+                SET artista = ?
+                WHERE artista = ?
+            '''
 
-        df_cds.loc[df_cds['artista_autor'] == autor_artista_selecionado,
-                   'artista_autor'] = novo_autor_artista
+            values = (novo_autor_artista, autor_artista_selecionado)
 
-        df_cds.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
-        df_autor_artista.loc[:, 'id':'autor_artista'].to_csv(
-            'autores_artistas_cds.csv', index=False)
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        sql = '''
+            UPDATE cds
+            SET artista = ?
+            WHERE artista = ?
+        '''
+
+        values = (novo_autor_artista, autor_artista_selecionado)
+
+        cursor.execute(sql, values)
+
+        connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def editar_distribuidora_cd(self, distribuidora_selecionada, nova_distribuidora):
-        df_cds = pd.read_csv('cds.csv')
-        df_distribuidoras = pd.read_csv('distribuidoras_cds.csv')
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df_distribuidoras['distribuidora'].to_list()
+        cursor = connection.cursor()
 
-        if nova_distribuidora in distribuidoras:
-            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora']
-                                                      != distribuidora_selecionada]
+        query = 'SELECT distribuidora FROM distribuidoras_cds'
+
+        distribuidoras = cursor.execute(query).fetchall()
+
+        if (nova_distribuidora,) in distribuidoras:
+            sql = '''
+                DELETE FROM distribuidoras_cds
+                WHERE distribuidora = ?
+            '''
+
+            values = (distribuidora_selecionada,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
 
         else:
-            df_distribuidoras.loc[df_distribuidoras['distribuidora'] ==
-                                  distribuidora_selecionada, 'distribuidora'] = nova_distribuidora
+            sql = '''
+                UPDATE distribuidoras_cds
+                SET distribuidora = ?
+                WHERE distribuidora = ?
+            '''
 
-        df_cds.loc[df_cds['distribuidora'] == distribuidora_selecionada,
-                   'distribuidora'] = nova_distribuidora
+            values = (nova_distribuidora, distribuidora_selecionada)
 
-        df_cds.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
-        df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
-            'distribuidoras_cds.csv', index=False)
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        sql = '''
+            UPDATE cds
+            SET distribuidora = ?
+            WHERE distribuidora = ?
+        '''
+
+        values = (nova_distribuidora, distribuidora_selecionada)
+
+        cursor.execute(sql, values)
+
+        connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def excluir_cd(self, id, autor_artista, distribuidora):
-        df_cds = pd.read_csv('cds.csv', index_col=False)
-        df_autores_artistas = pd.read_csv(
-            'autores_artistas_cds.csv', index_col=False)
-        df_distribuidoras = pd.read_csv(
-            'distribuidoras_cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        df_cds = df_cds.loc[df_cds['id'] != id]
+        cursor = connection.cursor()
 
-        autores_artistas = df_cds['artista_autor'].to_list()
-        distribuidoras = df_cds['distribuidora'].to_list()
+        sql = '''
+            DELETE FROM cds
+            WHERE id = ?
+        '''
 
-        if autor_artista not in autores_artistas:
-            df_autores_artistas = df_autores_artistas.loc[
-                df_autores_artistas['autor_artista'] != autor_artista]
+        values = (id,)
 
-            df_autores_artistas.loc[:, 'id':'autor_artista'].to_csv(
-                'autores_artistas_cds.csv', index=False)
+        cursor.execute(sql, values)
 
-        if distribuidora not in distribuidoras:
-            df_distribuidoras = df_distribuidoras.loc[df_distribuidoras['distribuidora'] != distribuidora]
+        connection.commit()
 
-            df_distribuidoras.loc[:, 'id':'distribuidora'].to_csv(
-                'distribuidoras_cds.csv', index=False)
+        query_1 = 'SELECT artista FROM cds'
+        query_2 = 'SELECT distribuidora FROM cds'
 
-        df_cds.loc[:, 'id':'dt_devolucao'].to_csv('cds.csv', index=False)
+        autores_artistas = cursor.execute(query_1).fetchall()
+        distribuidoras = cursor.execute(query_2).fetchall()
+
+        if (autor_artista,) not in autores_artistas:
+            sql = '''
+                DELETE FROM artistas_cds
+                WHERE artista = ?
+            '''
+
+            values = (autor_artista,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        if (distribuidora,) not in distribuidoras:
+            sql = '''
+                DELETE FROM distribuidoras_cds
+                WHERE distribuidora = ?
+            '''
+
+            values = (distribuidora,)
+
+            cursor.execute(sql, values)
+
+            connection.commit()
+
+        cursor.close()
+
+        connection.close()
 
     def pesquisar_livro(self, entrada, campo_pesquisa):
         df = pd.read_csv('livros.csv', index_col=False)
