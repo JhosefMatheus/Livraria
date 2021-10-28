@@ -7,8 +7,9 @@ connection = sqlite3.connect(db_name)
 cursor = connection.cursor()
 
 query = '''
-    SELECT DATE('yyyy/mm/dd', dt_devolucao)
+    SELECT DISTINCT titulo
     FROM livros
+    WHERE DATE(dt_devolucao) < DATE('now')
 '''
 
 titulos = cursor.execute(query).fetchall()

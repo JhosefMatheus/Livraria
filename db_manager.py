@@ -1055,74 +1055,191 @@ class db_manager:
         return beneficiados
 
     def titulos_livros_emprestimo_expirado(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM livros
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def autores_livros_emprestimo_expirado(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        autores = df['autor'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT autor
+            FROM livros
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        autores = [autor[0] for autor in query_result]
 
         return autores
 
     def editoras_livros_emprestimo_expirado(self):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        editoras = df['editora'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT editora
+            FROM livros
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        editoras = [editora[0] for editora in query_result]
 
         return editoras
 
     def titulos_cds_emprestimo_expirado(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM cds
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def autores_artistas_cds_emprestimo_expirado(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        autores_artistas = df['artista_autor'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT artista
+            FROM cds
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        autores_artistas = [artista[0] for artista in query_result]
 
         return autores_artistas
 
     def distribuidoras_cds_emprestimo_expirado(self):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT distribuidora
+            FROM cds
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        distribuidoras = [distribuidora[0] for distribuidora in query_result]
 
         return distribuidoras
 
     def titulos_dvds_emprestimo_expirado(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        titulos = df['titulo'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT titulo
+            FROM dvds
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        titulos = [titulo[0] for titulo in query_result]
 
         return titulos
 
     def diretores_dvds_emprestimo_expirado(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        diretores = df['diretor'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT diretor
+            FROM dvds
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        diretores = [diretor[0] for diretor in query_result]
 
         return diretores
 
     def distribuidoras_dvds_emprestimo_expirado(self):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        distribuidoras = df['distribuidora'].where(pd.to_datetime(
-            df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna().unique().tolist()
+        cursor = connection.cursor()
+
+        query = '''
+            SELECT DISTINCT distribuidora
+            FROM dvds
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        query_result = cursor.execute(query).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        distribuidoras = [distribuidora[0] for distribuidora in query_result]
 
         return distribuidoras
 
@@ -1899,13 +2016,52 @@ class db_manager:
             return resultado
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM livros
+                WHERE titulo = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Autor (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM livros
+                WHERE autor = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Editora (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM livros
+                WHERE editora = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Beneficiado':
             sql = '''
@@ -2113,13 +2269,52 @@ class db_manager:
             return resultado
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM cds
+                WHERE titulo = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Artista/Autor (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM cds
+                WHERE artista = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM cds
+                WHERE distribuidora = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Beneficiado':
             sql = '''
@@ -2283,13 +2478,52 @@ class db_manager:
             return resultado
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM dvds
+                WHERE titulo = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Diretor (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM dvds
+                WHERE diretor = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
-            pass
+            sql = '''
+                SELECT * FROM dvds
+                WHERE distribuidora = ? AND DATE(dt_devolucao) < DATE('now')
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Beneficiado':
             sql = '''
