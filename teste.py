@@ -7,7 +7,8 @@ connection = sqlite3.connect(db_name)
 cursor = connection.cursor()
 
 query = '''
-    SELECT titulo FROM livros WHERE situacao = 'Disponível'
+    SELECT DATE('yyyy/mm/dd', dt_devolucao)
+    FROM livros
 '''
 
 titulos = cursor.execute(query).fetchall()

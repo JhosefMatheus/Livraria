@@ -1964,200 +1964,346 @@ class db_manager:
         return resultado
 
     def pesquisar_cd(self, entrada, campo_pesquisa):
-        df = pd.read_csv('cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
 
         if campo_pesquisa == 'Título (Todos)':
-            resultado = df.loc[df['titulo'] ==
-                               entrada].fillna('').values.tolist()
+            sql = '''
+                SELECT * FROM cds
+                WHERE titulo = ?
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
 
             return resultado
 
         elif campo_pesquisa == 'Artista/Autor (Todos)':
-            resultado = df.loc[df['artista_autor'] ==
-                               entrada].fillna('').values.tolist()
+            sql = '''
+                SELECT * FROM cds
+                WHERE artista = ?
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
 
             return resultado
 
         elif campo_pesquisa == 'Distribuidora (Todos)':
-            resultado = df.loc[df['distribuidora'] ==
-                               entrada].fillna('').values.tolist()
+            sql = '''
+                SELECT * FROM cds
+                WHERE distribuidora = ?
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
 
             return resultado
 
         elif campo_pesquisa == 'Título (Disponíveis)':
-            resultado = df.loc[df['titulo'] ==
-                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM cds
+                WHERE titulo = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Artista/Autor (Disponíveis)':
-            resultado = df.loc[df['artista_autor'] ==
-                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM cds
+                WHERE artista = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Distribuidora (Disponíveis)':
-            resultado = df.loc[df['distribuidora'] ==
-                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM cds
+                WHERE distribuidora = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Título (Emprestados)':
-            resultado = df.loc[df['titulo'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM cds
+                WHERE titulo = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Artista/Autor (Emprestados)':
-            resultado = df.loc[df['artista_autor'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM cds
+                WHERE artista = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Distribuidora (Emprestados)':
-            resultado = df.loc[df['distribuidora'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM cds
+                WHERE distribuidora = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
-            resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Artista/Autor (Empréstimo Expirado)':
-            resultado = df.loc[df['artista_autor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
-            resultado = df.loc[df['distribuidora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Beneficiado':
-            resultado = df.loc[df['beneficiado'] == entrada]
+            sql = '''
+                SELECT * FROM cds
+                WHERE beneficiado = ?
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
     def pesquisar_dvd(self, entrada, campo_pesquisa):
-        df = pd.read_csv('dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
 
         if campo_pesquisa == 'Título (Todos)':
-            resultado = df.loc[df['titulo'] ==
-                               entrada].fillna('').values.tolist()
+            sql = '''
+                SELECT * FROM dvds
+                WHERE titulo = ?
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
 
             return resultado
 
         elif campo_pesquisa == 'Diretor (Todos)':
-            resultado = df.loc[df['diretor'] ==
-                               entrada].fillna('').values.tolist()
+            sql = '''
+                SELECT * FROM dvds
+                WHERE diretor = ?
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
 
             return resultado
 
         elif campo_pesquisa == 'Distribuidora (Todos)':
-            resultado = df.loc[df['distribuidora'] ==
-                               entrada].fillna('').values.tolist()
+            sql = '''
+                SELECT * FROM dvds
+                WHERE distribuidora = ?
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
 
             return resultado
 
         elif campo_pesquisa == 'Título (Disponíveis)':
-            resultado = df.loc[df['titulo'] ==
-                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM dvds
+                WHERE titulo = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Diretor (Disponíveis)':
-            resultado = df.loc[df['diretor'] ==
-                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM dvds
+                WHERE diretor = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Distribuidora (Disponíveis)':
-            resultado = df.loc[df['distribuidora'] ==
-                               entrada].where(df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM dvds
+                WHERE distribuidora = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Título (Emprestados)':
-            resultado = df.loc[df['titulo'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM dvds
+                WHERE titulo = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Diretor (Emprestados)':
-            resultado = df.loc[df['diretor'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM dvds
+                WHERE diretor = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Distribuidora (Emprestados)':
-            resultado = df.loc[df['distribuidora'] ==
-                               entrada].where(df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM dvds
+                WHERE distribuidora = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
-            resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Diretor (Empréstimo Expirado)':
-            resultado = df.loc[df['diretor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Distribuidora (Empréstimo Expirado)':
-            resultado = df.loc[df['distribuidora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Beneficiado':
-            resultado = df.loc[df['beneficiado'] == entrada].values.tolist()
+            sql = '''
+                SELECT * FROM dvds
+                WHERE beneficiado = ?
+            '''
+
+            values = (entrada,)
+
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
 
             return resultado
 

@@ -4372,7 +4372,7 @@ Label(
 data_emprestimo = DateEntry(
     livro_register_frame,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -4399,7 +4399,7 @@ Label(
 data_devolucao = DateEntry(
     livro_register_frame,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -4654,7 +4654,7 @@ Label(
 dt_emprestimo_dvd_registro = DateEntry(
     dvd_register_frame,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -4681,7 +4681,7 @@ Label(
 dt_devolucao_dvd_registro = DateEntry(
     dvd_register_frame,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -4893,7 +4893,7 @@ Label(
 dt_emprestimo_cd_registro = DateEntry(
     cd_register_frame,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -4920,7 +4920,7 @@ Label(
 dt_devolucao_cd_registro = DateEntry(
     cd_register_frame,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -5268,7 +5268,7 @@ Label(
 dt_emprestimo_livro_editar_excluir = DateEntry(
     editar_excluir_livro,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -5295,7 +5295,7 @@ Label(
 dt_devolucao_livro_editar_excluir = DateEntry(
     editar_excluir_livro,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -5636,7 +5636,7 @@ Label(
 dt_emprestimo_editar_excluir_dvd = DateEntry(
     editar_excluir_dvd,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -5663,7 +5663,7 @@ Label(
 dt_devolucao_editar_excluir_dvd = DateEntry(
     editar_excluir_dvd,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -5928,7 +5928,7 @@ Label(
 dt_emprestimo_cd_editar_excluir = DateEntry(
     editar_excluir_cd,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
@@ -5955,7 +5955,7 @@ Label(
 dt_devolucao_cd_editar_excluir = DateEntry(
     editar_excluir_cd,
     locale='pt_BR',
-    date_pattern='dd/mm/y',
+    date_pattern='yyyy/mm/dd',
     font='Arial 12',
     state=DISABLED
 )
