@@ -1555,7 +1555,8 @@ class db_manager:
             WHERE id = ?
         '''
 
-        values = (titulo, novo_autor_artista, nova_distribuidora, tempo, situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao, id)
+        values = (titulo, novo_autor_artista, nova_distribuidora, tempo,
+                  situacao, beneficiado, telefone, dt_emprestimo, dt_devolucao, id)
 
         cursor.execute(sql, values)
 
@@ -1749,132 +1750,216 @@ class db_manager:
         connection.close()
 
     def pesquisar_livro(self, entrada, campo_pesquisa):
-        df = pd.read_csv('livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
 
         if campo_pesquisa == 'Título (Todos)':
-            resultado = df.loc[df['titulo'] == entrada]
+            sql = '''
+                SELECT * FROM livros
+                WHERE titulo = ?
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Autor (Todos)':
-            resultado = df.loc[df['autor'] == entrada]
+            sql = '''
+                SELECT * FROM livros
+                WHERE autor = ?
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Editora (Todos)':
-            resultado = df.loc[df['editora'] == entrada]
+            sql = '''
+                SELECT * FROM livros
+                WHERE editora = ?
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Título (Disponíveis)':
-            resultado = df.loc[df['titulo'] == entrada].where(
-                df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM livros
+                WHERE titulo = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Autor (Disponíveis)':
-            resultado = df.loc[df['autor'] == entrada].where(
-                df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM livros
+                WHERE autor = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Editora (Disponíveis)':
-            resultado = df.loc[df['editora'] == entrada].where(
-                df['situacao'] == 'Disponível').dropna(axis=0, how='all')
+            sql = '''
+                SELECT * FROM livros
+                WHERE editora = ? AND situacao = 'Disponível'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.fillna('').values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Título (Emprestados)':
-            resultado = df.loc[df['titulo'] == entrada].where(
-                df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM livros
+                WHERE titulo = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Autor (Emprestados)':
-            resultado = df.loc[df['autor'] == entrada].where(
-                df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM livros
+                WHERE autor = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Editora (Emprestados)':
-            resultado = df.loc[df['editora'] == entrada].where(
-                df['situacao'] == 'Emprestado').dropna()
+            sql = '''
+                SELECT * FROM livros
+                WHERE editora = ? AND situacao = 'Emprestado'
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
         elif campo_pesquisa == 'Título (Empréstimo Expirado)':
-            resultado = df.loc[df['titulo'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Autor (Empréstimo Expirado)':
-            resultado = df.loc[df['autor'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Editora (Empréstimo Expirado)':
-            resultado = df.loc[df['editora'] == entrada].where(pd.to_datetime(
-                df['dt_devolucao'].dropna(), format='%d/%m/%Y').dt.date < date.today()).dropna()
-
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
-
-            return resultado.values.tolist()
+            pass
 
         elif campo_pesquisa == 'Beneficiado':
-            resultado = df.loc[df['beneficiado'] == entrada]
+            sql = '''
+                SELECT * FROM livros
+                WHERE beneficiado = ?
+            '''
 
-            resultado['id'] = resultado['id'].astype('int64')
-            resultado['n_pag'] = resultado['n_pag'].astype('int64')
+            values = (entrada,)
 
-            return resultado.values.tolist()
+            resultado = cursor.execute(sql, values).fetchall()
+
+            cursor.close()
+
+            connection.close()
+
+            return resultado
 
     def pesquisar_autor(self, entrada):
-        df = pd.read_csv('autores_livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        resultado = df.loc[df['autor'] == entrada].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM autores
+            WHERE autor = ?
+        '''
+
+        values = (entrada,)
+
+        resultado = cursor.execute(sql, values).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return resultado
 
     def pesquisar_editora(self, entrada):
-        df = pd.read_csv('editoras_livros.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        resultado = df.loc[df['editora'] == entrada].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM editoras
+            WHERE editora = ?
+        '''
+
+        values = (entrada,)
+
+        resultado = cursor.execute(sql, values).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return resultado
 
@@ -2077,32 +2162,81 @@ class db_manager:
             return resultado
 
     def pesquisar_autor_artista_cd(self, entrada):
-        df = pd.read_csv('autores_artistas_cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        resultado = df.loc[df['autor_artista'] ==
-                           entrada].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM artistas_cds
+            WHERE artista = ?
+        '''
+
+        values = (entrada,)
+
+        resultado = cursor.execute(sql, values).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return resultado
 
     def pesquisar_diretor_dvd(self, entrada):
-        df = pd.read_csv('diretores_dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        resultado = df.loc[df['diretor'] == entrada].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM diretores
+            WHERE diretor = ?
+        '''
+
+        values = (entrada,)
+
+        resultado = cursor.execute(sql, values).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return resultado
 
     def pesquisar_distribuidora_cd(self, entrada):
-        df = pd.read_csv('distribuidoras_cds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        resultado = df.loc[df['distribuidora'] ==
-                           entrada].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM distribuidoras_cds
+            WHERE distribuidora = ?
+        '''
+
+        values = (entrada,)
+
+        resultado = cursor.execute(sql, values).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return resultado
 
     def pesquisar_distribuidora_dvd(self, entrada):
-        df = pd.read_csv('distribuidoras_dvds.csv', index_col=False)
+        connection = sqlite3.connect(self.db_name)
 
-        resultado = df.loc[df['distribuidora'] ==
-                           entrada].fillna('').values.tolist()
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM distribuidoras_dvds
+            WHERE distribuidora = ?
+        '''
+
+        values = (entrada,)
+
+        resultado = cursor.execute(sql, values).fetchall()
+
+        cursor.close()
+
+        connection.close()
 
         return resultado
