@@ -9,7 +9,6 @@ cursor = connection.cursor()
 query = '''
     SELECT DISTINCT titulo
     FROM livros
-    WHERE DATE(dt_devolucao) < DATE('now')
 '''
 
 titulos = cursor.execute(query).fetchall()

@@ -1,10 +1,12 @@
 import sqlite3
-import pandas as pd
-from datetime import date
+# import sys
+# import os
 
 
 class db_manager:
     def __init__(self):
+        # self.app_dir = getattr(
+        #     sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
         self.db_name = 'livraria_hjm.db'
 
         connection = sqlite3.connect(self.db_name)
