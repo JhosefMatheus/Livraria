@@ -757,22 +757,7 @@ def adicionar_novo():
     tabela_distribuidoras_cds.pack_forget()
     tabela_distribuidoras_dvds.pack_forget()
 
-    editar_excluir_livro.pack_forget()
-    botoes_editar_excluir_livro.pack_forget()
-    editar_excluir_autor.pack_forget()
-    botoes_editar_excluir_autor.pack_forget()
-    editar_excluir_editora.pack_forget()
-    botoes_editar_excluir_editora.pack_forget()
-    editar_excluir_dvd.pack_forget()
-    botoes_editar_excluir_dvd.pack_forget()
-    editar_excluir_autor_artista_cd.pack_forget()
-    botoes_editar_excluir_autor_artista_cd.pack_forget()
-    editar_excluir_diretor_dvd.pack_forget()
-    botoes_editar_excluir_diretor_dvd.pack_forget()
-    editar_excluir_distribuidora_cd.pack_forget()
-    botoes_editar_excluir_distribuidora_cd.pack_forget()
-    editar_excluir_distribuidora_dvd.pack_forget()
-    botoes_editar_excluir_distribuidora_dvd.pack_forget()
+    button_frame.pack_forget()
 
     livro_register_frame.pack(
         expand=True,
@@ -888,6 +873,8 @@ def cancelar_registro():
         padx=10,
         pady=10,
     )
+
+    table_frame['text'] = 'Livros'
 
     table_frame.pack(
         expand=True,
@@ -1504,6 +1491,8 @@ def selecionar_livro(event):
             anchor=S
         )
 
+        button_frame.pack_forget()
+
     except IndexError as e:
         pass
 
@@ -1543,6 +1532,8 @@ def selecionar_autor(event):
             pady=10,
             anchor=S
         )
+
+        button_frame.pack_forget()
     except IndexError as e:
         pass
 
@@ -1583,6 +1574,7 @@ def selecionar_editora(event):
             anchor=S
         )
 
+        button_frame.pack_forget()
     except IndexError as e:
         pass
 
@@ -1654,6 +1646,7 @@ def selecionar_dvd(event):
             anchor=S
         )
 
+        button_frame.pack_forget()
     except Exception as e:
         pass
 
@@ -1722,6 +1715,7 @@ def selecionar_cd(event):
             pady=10
         )
 
+        button_frame.pack_forget()
     except Exception as e:
         pass
 
@@ -1754,6 +1748,8 @@ def selecionar_artista_autor_cd(event):
             padx=10,
             pady=10
         )
+
+        button_frame.pack_forget()
     except Exception as e:
         pass
 
@@ -1786,6 +1782,7 @@ def selecionar_diretor_dvd(event):
             pady=10
         )
 
+        button_frame.pack_forget()
     except Exception as e:
         pass
 
@@ -1818,6 +1815,8 @@ def selecionar_distribuidora_cd(event):
             padx=10,
             pady=10
         )
+
+        button_frame.pack_forget()
     except Exception as e:
         pass
 
@@ -1850,6 +1849,8 @@ def selecionar_distribuidora_dvd(event):
             padx=10,
             pady=10
         )
+
+        button_frame.pack_forget()
     except Exception as e:
         pass
 
