@@ -376,6 +376,12 @@ def mudar_tabela(event):
             pady=10
         )
 
+        opcao_pesquisa_livro.current(0)
+
+        entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+        entrada_pesquisa_livro.delete(0, END)
+
     elif drop_down.get() == 'Autores':
         pesquisa_livro.pack_forget()
         pesquisa_editora.pack_forget()
@@ -417,6 +423,10 @@ def mudar_tabela(event):
             padx=10,
             pady=10
         )
+
+        entrada_pesquisa_autor['completevalues'] = db.nome_autores()
+
+        entrada_pesquisa_autor.delete(0, END)
 
     elif drop_down.get() == 'Editoras':
         pesquisa_livro.pack_forget()
@@ -460,6 +470,10 @@ def mudar_tabela(event):
             pady=10
         )
 
+        entrada_pesquisa_editora['completevalues'] = db.nome_editoras()
+
+        entrada_pesquisa_editora.delete(0, END)
+
     elif drop_down.get() == 'DVD\'s':
         pesquisa_livro.pack_forget()
         pesquisa_autor.pack_forget()
@@ -501,6 +515,12 @@ def mudar_tabela(event):
             padx=10,
             pady=10
         )
+
+        opcao_pesquisa_dvd.current(0)
+
+        entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds()
+
+        entrada_pesquisa_dvd.delete(0, END)
 
     elif drop_down.get() == 'CD\'s':
         pesquisa_livro.pack_forget()
@@ -544,6 +564,12 @@ def mudar_tabela(event):
             pady=10
         )
 
+        opcao_pesquisa_cd.current(0)
+
+        entrada_pesquisa_cd['completevalues'] = db.titulos_cds()
+
+        entrada_pesquisa_cd.delete(0, END)
+
     elif drop_down.get() == 'Artistas/Autores CD\'s':
         pesquisa_livro.pack_forget()
         pesquisa_autor.pack_forget()
@@ -585,6 +611,11 @@ def mudar_tabela(event):
             padx=10,
             pady=10
         )
+
+        entrada_pesquisa_artista_autor['completevalues'] = db.nome_autores_artistas_cds(
+        )
+
+        entrada_pesquisa_artista_autor.delete(0, END)
 
     elif drop_down.get() == 'Diretores DVD\'s':
         pesquisa_livro.pack_forget()
@@ -628,6 +659,11 @@ def mudar_tabela(event):
             pady=10
         )
 
+        entrada_pesquisa_diretor_dvd['completevalues'] = db.nome_diretores_dvds(
+        )
+
+        entrada_pesquisa_diretor_dvd.delete(0, END)
+
     elif drop_down.get() == 'Distribuidoras DVD\'s':
         pesquisa_livro.pack_forget()
         pesquisa_autor.pack_forget()
@@ -670,6 +706,11 @@ def mudar_tabela(event):
             pady=10
         )
 
+        entrada_pesquisa_distribuidora_dvd['completevalues'] = db.nome_distribuidoras_dvds(
+        )
+
+        entrada_pesquisa_distribuidora_dvd.delete(0, END)
+
     elif drop_down.get() == 'Distribuidoras CD\'s':
         pesquisa_livro.pack_forget()
         pesquisa_autor.pack_forget()
@@ -711,6 +752,11 @@ def mudar_tabela(event):
             padx=10,
             pady=10
         )
+
+        entrada_pesquisa_distribuidora_cd['completevalues'] = db.nome_distribuidoras_cds(
+        )
+
+        entrada_pesquisa_distribuidora_cd.delete(0, END)
 
     button_frame.pack(
         expand=False,
@@ -897,6 +943,12 @@ def cancelar_registro():
         padx=10,
         anchor=S
     )
+
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro.delete(0, END)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
 
     drop_down_register.current(0)
     drop_down.current(0)
@@ -1985,6 +2037,12 @@ def cancelar_edicao_livro():
         pady=10
     )
 
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
+
     drop_down.current(0)
 
 
@@ -2080,6 +2138,12 @@ def cancelar_edicao_autor():
         pady=10
     )
 
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
+
     drop_down.current(0)
 
 
@@ -2156,6 +2220,12 @@ def cancelar_edicao_editora():
         padx=10,
         pady=10
     )
+
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
 
     drop_down.current(0)
 
@@ -2299,6 +2369,12 @@ def cancelar_edicao_dvd():
         pady=10
     )
 
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
+
     drop_down.current(0)
 
 
@@ -2440,6 +2516,12 @@ def cancelar_edicao_cd():
         pady=10
     )
 
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
+
     drop_down.current(0)
 
 
@@ -2507,6 +2589,12 @@ def cancelar_edicao_artista_autor_cd():
         pady=10
     )
 
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
+
     drop_down.current(0)
 
 
@@ -2570,6 +2658,12 @@ def cancelar_edicao_diretor_dvd():
         padx=10,
         pady=10
     )
+
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
 
     drop_down.current(0)
 
@@ -2637,6 +2731,12 @@ def cancelar_edicao_distribuidora_cd():
         pady=10
     )
 
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
+
     drop_down.current(0)
 
 
@@ -2701,6 +2801,12 @@ def cancelar_edicao_distribuidora_dvd():
         padx=10,
         pady=10
     )
+
+    opcao_pesquisa_livro.current(0)
+
+    entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
+
+    entrada_pesquisa_livro.delete(0, END)
 
     drop_down.current(0)
 
