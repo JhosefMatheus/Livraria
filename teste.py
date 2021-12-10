@@ -1,20 +1,7 @@
-import sqlite3
+from db_manager import db_manager
 
-db_name = 'livraria_hjm.db'
+db = db_manager()
 
-connection = sqlite3.connect(db_name)
+livros_disponiveis = db.get_dvds_emprestimo_expirado()
 
-cursor = connection.cursor()
-
-query = '''
-    SELECT DISTINCT titulo
-    FROM livros
-'''
-
-titulos = cursor.execute(query).fetchall()
-
-cursor.close()
-
-connection.close()
-
-print(titulos)
+print(livros_disponiveis)

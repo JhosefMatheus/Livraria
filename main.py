@@ -2882,143 +2882,2484 @@ def muda_opcao_pesquisa_livro(e):
     if opcao_pesquisa_livro.get() == 'Título (Todos)':
         entrada_pesquisa_livro['completevalues'] = db.titulo_livros()
 
+        livros = db.get_livros()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_livro.get() == 'Autor (Todos)':
         entrada_pesquisa_livro['completevalues'] = db.nome_autores()
 
+        livros = db.get_livros()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_livro.get() == 'Editora (Todos)':
         entrada_pesquisa_livro['completevalues'] = db.nome_editoras()
+
+        livros = db.get_livros()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_livro.get() == 'Título (Disponíveis)':
         entrada_pesquisa_livro['completevalues'] = db.titulos_livros_disponiveis(
         )
 
+        livros = db.get_livros_disponiveis()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_livro.get() == 'Autor (Disponíveis)':
         entrada_pesquisa_livro['completevalues'] = db.autores_livros_disponiveis(
         )
+
+        livros = db.get_livros_disponiveis()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_livro.get() == 'Editora (Disponíveis)':
         entrada_pesquisa_livro['completevalues'] = db.editoras_livros_disponiveis(
         )
 
+        livros = db.get_livros_disponiveis()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_livro.get() == 'Título (Emprestados)':
         entrada_pesquisa_livro['completevalues'] = db.titulos_livros_emprestados(
         )
+
+        livros = db.get_livros_emprestados()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_livro.get() == 'Autor (Emprestados)':
         entrada_pesquisa_livro['completevalues'] = db.autores_livros_emprestados(
         )
 
+        livros = db.get_livros_emprestados()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_livro.get() == 'Editora (Emprestados)':
         entrada_pesquisa_livro['completevalues'] = db.editoras_livros_emprestados(
         )
+
+        livros = db.get_livros_emprestados()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_livro.get() == 'Título (Empréstimo Expirado)':
         entrada_pesquisa_livro['completevalues'] = db.titulos_livros_emprestimo_expirado(
         )
 
+        livros = db.get_livros_emprestimo_expirado()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_livro.get() == 'Autor (Empréstimo Expirado)':
         entrada_pesquisa_livro['completevalues'] = db.autores_livros_emprestimo_expirado(
         )
+
+        livros = db.get_livros_emprestimo_expirado()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_livro.get() == 'Editora (Empréstimo Expirado)':
         entrada_pesquisa_livro['completevalues'] = db.editoras_livros_emprestimo_expirado(
         )
 
+        livros = db.get_livros_emprestimo_expirado()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_livro.get() == 'Beneficiado':
         entrada_pesquisa_livro['completevalues'] = db.beneficiados_livros()
+
+        livros = db.get_livros_emprestados()
+
+        for livro in tabela_livros.get_children():
+            tabela_livros.delete(livro)
+
+        count = 0
+
+        for livro in livros:
+            id = livro[0]
+            titulo = livro[1]
+            autor = livro[2]
+            editora = livro[3]
+            n_paginas = livro[4]
+            situacao = livro[5]
+            beneficiado = livro[6]
+            telefone = livro[7]
+            dt_emprestimo = livro[8]
+            dt_devolucao = livro[9]
+
+            if count % 2 == 0:
+
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_livros.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
 
 def muda_opcao_pesquisa_cd(e):
     if opcao_pesquisa_cd.get() == 'Título (Todos)':
         entrada_pesquisa_cd['completevalues'] = db.titulos_cds()
 
+        cds = db.get_cds()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_cd.get() == 'Artista/Autor (Todos)':
         entrada_pesquisa_cd['completevalues'] = db.nome_autores_artistas_cds()
+
+        cds = db.get_cds()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_cd.get() == 'Distribuidora (Todos)':
         entrada_pesquisa_cd['completevalues'] = db.nome_distribuidoras_cds()
 
+        cds = db.get_cds()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_cd.get() == 'Título (Disponíveis)':
         entrada_pesquisa_cd['completevalues'] = db.titulos_cds_disponiveis()
+
+        cds = db.get_cds_disponiveis()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_cd.get() == 'Artista/Autor (Disponíveis)':
         entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_disponiveis(
         )
 
+        cds = db.get_cds_disponiveis()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_cd.get() == 'Distribuidora (Disponíveis)':
         entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_disponiveis(
         )
 
+        cds = db.get_cds_disponiveis()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_cd.get() == 'Título (Emprestados)':
         entrada_pesquisa_cd['completevalues'] = db.titulos_cds_emprestados()
+
+        cds = db.get_cds_emprestados()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_cd.get() == 'Artista/Autor (Emprestados)':
         entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_emprestados(
         )
 
+        cds = db.get_cds_emprestados()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_cd.get() == 'Distribuidora (Emprestados)':
         entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_emprestados(
         )
+
+        cds = db.get_cds_emprestados()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_cd.get() == 'Título (Empréstimo Expirado)':
         entrada_pesquisa_cd['completevalues'] = db.titulos_cds_emprestimo_expirado(
         )
 
+        cds = db.get_cds_emprestimo_expirado()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_cd.get() == 'Artista/Autor (Empréstimo Expirado)':
         entrada_pesquisa_cd['completevalues'] = db.autores_artistas_cds_emprestimo_expirado(
         )
+
+        cds = db.get_cds_emprestimo_expirado()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_cd.get() == 'Distribuidora (Empréstimo Expirado)':
         entrada_pesquisa_cd['completevalues'] = db.distribuidoras_cds_emprestimo_expirado(
         )
 
+        cds = db.get_cds_emprestimo_expirado()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_cd.get() == 'Beneficiado':
         entrada_pesquisa_cd['completevalues'] = db.beneficiados_cds()
+
+        cds = db.get_cds_emprestados()
+
+        for cd in tabela_cds.get_children():
+            tabela_cds.delete(cd)
+
+        count = 0
+
+        for cd in cds:
+            id = cd[0]
+            titulo = cd[1]
+            autor = cd[2]
+            editora = cd[3]
+            n_paginas = cd[4]
+            situacao = cd[5]
+            beneficiado = cd[6]
+            telefone = cd[7]
+            dt_emprestimo = cd[8]
+            dt_devolucao = cd[9]
+
+            if count % 2 == 0:
+
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_cds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
 
 def muda_opcao_pesquisa_dvd(e):
     if opcao_pesquisa_dvd.get() == 'Título (Todos)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds()
 
+        dvds = db.get_dvds()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_dvd.get() == 'Diretor (Todos)':
         entrada_pesquisa_dvd['completevalues'] = db.nome_diretores_dvds()
+
+        dvds = db.get_dvds()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_dvd.get() == 'Distribuidora (Todos)':
         entrada_pesquisa_dvd['completevalues'] = db.nome_distribuidoras_dvds()
 
+        dvds = db.get_dvds()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_dvd.get() == 'Título (Disponíveis)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_disponiveis()
 
+        dvds = db.get_dvds_disponiveis()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_dvd.get() == 'Diretor (Disponíveis)':
         entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_disponiveis()
+
+        dvds = db.get_dvds_disponiveis()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_dvd.get() == 'Distribuidora (Disponíveis)':
         entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_disponiveis(
         )
 
+        dvds = db.get_dvds_disponiveis()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_dvd.get() == 'Título (Emprestados)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_emprestados()
 
+        dvds = db.get_dvds_emprestados()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_dvd.get() == 'Diretor (Emprestados)':
         entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_emprestados()
+
+        dvds = db.get_dvds_emprestados()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_dvd.get() == 'Distribuidora (Emprestados)':
         entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_emprestados(
         )
 
+        dvds = db.get_dvds_emprestados()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_dvd.get() == 'Título (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.titulos_dvds_emprestimo_expirado(
         )
+
+        dvds = db.get_dvds_emprestimo_expirado()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
     elif opcao_pesquisa_dvd.get() == 'Diretor (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.diretores_dvds_emprestimo_expirado(
         )
 
+        dvds = db.get_dvds_emprestimo_expirado()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_dvd.get() == 'Distribuidora (Empréstimo Expirado)':
         entrada_pesquisa_dvd['completevalues'] = db.distribuidoras_dvds_emprestimo_expirado(
         )
+
+        dvds = db.get_dvds_emprestimo_expirado()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
+
     elif opcao_pesquisa_dvd.get() == 'Beneficiado':
         entrada_pesquisa_dvd['completevalues'] = db.beneficiados_dvds()
+
+        dvds = db.get_dvds_emprestados()
+
+        for dvd in tabela_dvds.get_children():
+            tabela_dvds.delete(dvd)
+
+        count = 0
+
+        for dvd in dvds:
+            id = dvd[0]
+            titulo = dvd[1]
+            autor = dvd[2]
+            editora = dvd[3]
+            n_paginas = dvd[4]
+            situacao = dvd[5]
+            beneficiado = dvd[6]
+            telefone = dvd[7]
+            dt_emprestimo = dvd[8]
+            dt_devolucao = dvd[9]
+
+            if count % 2 == 0:
+
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('evenrow',)
+                )
+
+            else:
+                tabela_dvds.insert(
+                    '',
+                    END,
+                    values=(
+                        id,
+                        titulo,
+                        autor,
+                        editora,
+                        n_paginas,
+                        situacao,
+                        beneficiado,
+                        telefone,
+                        dt_emprestimo,
+                        dt_devolucao
+                    ),
+                    tags=('oddrow',)
+                )
+
+            count += 1
 
 
 def pesquisar_livros():

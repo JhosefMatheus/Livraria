@@ -2622,3 +2622,165 @@ class db_manager:
         connection.close()
 
         return resultado
+
+    def get_livros_disponiveis(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM livros
+            WHERE situacao = 'Disponível'
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
+
+    def get_livros_emprestados(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM livros
+            WHERE situacao = 'Emprestado'
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
+
+    def get_livros_emprestimo_expirado(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM livros 
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
+
+    def get_cds_disponiveis(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM cds
+            WHERE situacao = 'Disponível'
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
+
+    def get_cds_emprestados(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM cds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
+
+    def get_cds_emprestimo_expirado(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM cds
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
+
+    def get_dvds_disponiveis(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM dvds
+            WHERE situacao = 'Disponível'
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
+
+    def get_dvds_emprestados(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM dvds
+            WHERE situacao = 'Emprestado'
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
+
+    def get_dvds_emprestimo_expirado(self):
+        connection = sqlite3.connect(self.db_name)
+
+        cursor = connection.cursor()
+
+        sql = '''
+            SELECT * FROM dvds
+            WHERE DATE(dt_devolucao) < DATE('now')
+        '''
+
+        resultado = cursor.execute(sql).fetchall()
+
+        cursor.close()
+
+        connection.close()
+
+        return resultado
